@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBCSUCDPP0086Mapper">
+    <select id="getAccountObject" parameterType="IFHMBCSUCDPP0086Dto" resultType="IFHMBCSUCDPP0086Dto">
+        select 
+            pac.firstname||pac.lastname as name
+            , pac.cpf__c as personCPF
+            , pac.row_id as contactId
+            , pac.personmobilephone as personCell
+            , psr.protocol__c as protocol
+            , count(psr.protocol__c) as qtdProtocol
+        from
+            process.account pac
+        left join
+            process.service_request psr
+        on
+            pac.row_id = psr.contact_row_id__c 
+        where
+            case when char_length(#{phoneNumber}) <![CDATA[<]]> 14 then (pac.personhomephone = #{phoneNumber} or pac.companyphone__pc = #{phoneNumber} or pac.personmobilephone = #{phoneNumber})
+                when char_length(#{phoneNumber}) <![CDATA[>]]> 14 then pac.personmobilephone = #{phoneNumber}
+            end
+        group by pac.firstname||pac.lastname, pac.cpf__c, pac.row_id, pac.personmobilephone, psr.protocol__c
+        limit 1
+    </select>
+</mapper>

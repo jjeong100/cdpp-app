@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0023Mapper">
+
+    <insert id="insertObject" parameterType="EmpAvailabInDto"  useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_mntsrvc_manage_emp_avail
+        (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , "source"
+            , employee_cpf
+            , dealer_code
+        )values(
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{source}
+            , #{employeeCPF}
+            , #{dealerCode}
+        )
+    </insert>
+
+    <insert id="insertDay" parameterType="EmpAvailabInDto">
+        insert into landing.if_mntsrvc_manage_emp_avail_day
+        (
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , day_name
+            , period1_start
+            , period1_end
+            , period2_start
+            , period2_end
+            , period3_start
+            , period3_end
+        )values
+        <foreach collection="listOfDays" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.dayName}
+                , #{item.period1Start}
+                , #{item.period1End}
+                , #{item.period2Start}
+                , #{item.period2End}
+                , #{item.period3Start}
+                , #{item.period3End}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_mntsrvc_mng_emp_avail(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+    
+</mapper>

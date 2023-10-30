@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSMARTERSCDPP0036Mapper">
+    
+    <insert id="insertServiceRequestChatInput" parameterType="IFHMBSMARTERSCDPP0036Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_service_request_chat_ws(
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , ownedbyid
+            , protocol
+            , reason
+            , level1
+            , level2
+            , level3
+            , level4
+            , source
+            , method
+            , description
+            , status
+            , priority
+            , solution
+            , serialnumber
+            , anonymousflag
+            , contactid
+            , accountid
+            , tendency
+            , satisfaction
+            , dealerid
+            , causingarea
+            , imobilizationdate
+            , relatedmodel
+            , quotedescription
+            , enginetransmission
+            , version
+            , versionprice
+            , color
+            , colorprice
+            , finalprice
+            , carreplacementintention
+            , roadservicerequest
+            , integrationid
+            , tdconfirmed
+            , tdtime
+            , tddate
+            , salesrepid
+            , pneflag
+            , campaignid
+            , sourcetag
+            , estoque
+            , medium
+            , content
+            , campaign
+            , additionalcomments
+            , causingperson
+            , custrepresentative
+            , custrepresentativerel
+            , diagnosisdifficultyflg
+            , diagnosispendingflg
+            , dlrdescription
+            , dlrfup
+            , dlrpending
+            , dlrretractionflg
+            , dlrreversal
+            , hotlineflg
+            , hotlinenum
+            , hotlineopendt
+            , purchaseproposalnum
+            , pwaflg
+            , pwanum
+            , pwaopendt
+            , recurrenceflg
+            , recurrencenum
+            , vehicledeliverydt
+            , vehicledeliveryflg
+            , wantsloan
+            , loantype
+            , installmentsamt
+            , downpayment
+            , usedcarasdownpaymnt
+            , dlrtemperature
+        )
+        values
+        (
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{serviceRequestChatInput.ownedById}
+            , #{serviceRequestChatInput.protocol}
+            , #{serviceRequestChatInput.reason}
+            , #{serviceRequestChatInput.level1}
+            , #{serviceRequestChatInput.level2}
+            , #{serviceRequestChatInput.level3}
+            , #{serviceRequestChatInput.level4}
+            , #{serviceRequestChatInput.source}
+            , #{serviceRequestChatInput.method}
+            , #{serviceRequestChatInput.description}
+            , #{serviceRequestChatInput.status}
+            , #{serviceRequestChatInput.priority}
+            , #{serviceRequestChatInput.solution}
+            , #{serviceRequestChatInput.serialNumber}
+            , #{serviceRequestChatInput.anonymousFlag}
+            , #{serviceRequestChatInput.contactId}
+            , #{serviceRequestChatInput.accountId}
+            , #{serviceRequestChatInput.tendency}
+            , #{serviceRequestChatInput.satisfaction}
+            , #{serviceRequestChatInput.dealerId}
+            , #{serviceRequestChatInput.causingArea}
+            , #{serviceRequestChatInput.imobilizationDate}
+            , #{serviceRequestChatInput.relatedModel}
+            , #{serviceRequestChatInput.quoteDescription}
+            , #{serviceRequestChatInput.engineTransmission}
+            , #{serviceRequestChatInput.version}
+            , #{serviceRequestChatInput.versionPrice}
+            , #{serviceRequestChatInput.color}
+            , #{serviceRequestChatInput.colorPrice}
+            , #{serviceRequestChatInput.finalPrice}
+            , #{serviceRequestChatInput.carReplacementIntention}
+            , #{serviceRequestChatInput.roadserviceRequest}
+            , #{serviceRequestChatInput.integrationId}
+            , #{serviceRequestChatInput.tdConfirmed}
+            , #{serviceRequestChatInput.tdTime}
+            , #{serviceRequestChatInput.tdDate}
+            , #{serviceRequestChatInput.salesrepId}
+            , #{serviceRequestChatInput.pneFlag}
+            , #{serviceRequestChatInput.campaignId}
+            , #{serviceRequestChatInput.sourceTag}
+            , #{serviceRequestChatInput.estoque}
+            , #{serviceRequestChatInput.medium}
+            , #{serviceRequestChatInput.content}
+            , #{serviceRequestChatInput.campaign}
+            , #{serviceRequestChatInput.additionalComments}
+            , #{serviceRequestChatInput.causingPerson}
+            , #{serviceRequestChatInput.custRepresentative}
+            , #{serviceRequestChatInput.custRepresentativeRel}
+            , #{serviceRequestChatInput.diagnosisDifficultyFlg}
+            , #{serviceRequestChatInput.diagnosisPendingFlg}
+            , #{serviceRequestChatInput.dlrDescription}
+            , #{serviceRequestChatInput.dlrFup}
+            , #{serviceRequestChatInput.dlrPending}
+            , #{serviceRequestChatInput.dlrRetractionFlg}
+            , #{serviceRequestChatInput.dlrReversal}
+            , #{serviceRequestChatInput.hotlineFlg}
+            , #{serviceRequestChatInput.hotlineNum}
+            , #{serviceRequestChatInput.hotlineOpenDt}
+            , #{serviceRequestChatInput.purchaseProposalNum}
+            , #{serviceRequestChatInput.pwaFlg}
+            , #{serviceRequestChatInput.pwaNum}
+            , #{serviceRequestChatInput.pwaOpenDt}
+            , #{serviceRequestChatInput.recurrenceFlg}
+            , #{serviceRequestChatInput.recurrenceNum}
+            , #{serviceRequestChatInput.vehicleDeliveryDt}
+            , #{serviceRequestChatInput.vehicleDeliveryFlg}
+            , #{serviceRequestChatInput.wantsLoan}
+            , #{serviceRequestChatInput.loanType}
+            , #{serviceRequestChatInput.installmentsAmt}
+            , #{serviceRequestChatInput.downPayment}
+            , #{serviceRequestChatInput.usedCarAsDownPaymnt}
+            , #{serviceRequestChatInput.dlrTemperature}
+        )
+    </insert>
+
+    <insert id="insertChat" parameterType="ServiceRequestChatInputDto">
+        insert into landing.if_service_request_chat_ws_chat(
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , chatcode
+            , date
+            , source
+            , operator
+        )values       
+        (
+            #{rowId}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{chat.chatCode}
+            , #{chat.date}
+            , #{chat.source}
+            , #{chat.operator}
+        )        
+    </insert>
+    
+    <insert id="insertMessage" parameterType="ChatDto">
+        insert into landing.if_service_request_chat_ws_message(
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , msgcode
+            , date
+            , sentby
+            , msg
+            , msgstatus
+        )values
+        <foreach collection="listOfMessage" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.msgCode}
+                , #{item.date}
+                , #{item.sentBy}
+                , #{item.msg}
+                , #{item.msgStatus}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_svc_req_chat_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <select id="getPocessData" parameterType="IFHMBSMARTERSCDPP0036Dto" resultType="IFHMBSMARTERSCDPP0036Dto">
+        select 
+            row_id as ownedById 
+            , protocol__c as processProtocol
+        from
+            process.service_request
+        where 
+            external_id__c = cast(#{rowId} as text)
+    </select>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call "replica".if_svc_req_chat_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+</mapper>

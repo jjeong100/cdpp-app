@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0032Mapper">
+    
+    <select id="getSearchContact" parameterType="IFHMBINNOCEANCDPP0032Dto" resultType="SearchContactTDDto">
+        select 
+            a.row_id as contactId
+            , a.firstname as firstName
+            , a.lastname as lastName
+            , a.cpf__c as cpf
+            , a.gender__pc as genre
+            , a.personbirthdate as birthDate
+            , a.personmobilephone as cellularPhone
+            , a.personhomephone as homePhone
+            , a.personemail as emailAddress
+            , a.companyphone__pc as workPhone
+            , a.row_id as rowId
+            , a.x_printed_card__c as hmbPrintedCard
+            , a.emailoptyn__pc as suppressAllEmails
+            , a.blockedsms__c as suppressAllSMS
+            , c.x_amount_friends__c as amountFriends
+            , c.x_amount_children__c as amountChildren
+            , a.loyaltyexpirationdate__c as cnhexpirationDate
+            , a.loyaltyactivationdate__c as loyaltyActivationDate
+            , c.x_loyalty_exp_dt__c as loyaltyExpirationDate
+            , c.x_loyalty_engagement__c as loyaltyEngagementIndex
+            , c.x_loyalty_satisfaction__c as loyaltySatisfactionLevel
+            , c.x_loyalty_crm_index__c as loyaltyCRMIndex
+            , c.x_seg_life_cycle__c as loyaltyLifeCycle
+            , c.x_loyalty_satisfaction__c as loyaltyTierLevel
+            , a.loyaltystatus__c as loyaltyStatus
+            , c.x_loyalty_optin_flg__c as loyaltyOPTINFla
+            , a.billingpostalcode as postalCode
+            , a.billingstreet as street
+            , a.billingstreet_2__c as number
+            , a.billingstreet_3__c as complement
+            , a.billingcountry as county
+            , a.billingcity as city
+            , a.billingstate as state
+            , a.billingcountry as country
+        from
+            process.account a
+        left join
+            process.contact c
+        on
+            a.row_id = c.account_row_id
+        where 
+            a.row_id = #{contactId}
+        or
+            a.cpf__c = #{cpf}
+        limit 1
+    </select>
+
+    <select id="getServiceRequest" parameterType="IFHMBINNOCEANCDPP0032Dto" resultType="ServiceRequestTD">
+        select 
+            sr.protocol__c as protocol
+            , sr.status as status
+            , sr.dealercode__c as dealer
+            , sr.relatedmodel__c as model
+            , a.firstname as salesRepFirstName
+            , a.lastname as salesRepLastName
+            , sr.date_test_drive__c as testDriveDate
+            , sr.testdrive_time__c as testDriveTime
+            , sr.testdrive_confirmed__c as testDriveConfirmed
+            , sr.voc_class as area
+        from
+            process.account a
+        join 
+            process.service_request sr
+        on
+            a.row_id = sr.contact_row_id__c
+        where
+            a.row_id = #{contactId}
+        or
+            a.cpf__c = #{cpf};
+    </select>
+    
+</mapper>

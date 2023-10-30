@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0046Mapper">
+    
+    <select id="getAccRowIdByDealercode" parameterType="IFHMBINNOCEANCDPP0046Dto" resultType="string">
+        select 
+            row_id as parRowId
+        from             
+            process.account 
+      where 
+            dealercode__c = #{dealerCode}
+    </select>
+
+    <delete id="deleteList" parameterType="IFHMBINNOCEANCDPP0046Dto">
+        delete from 
+            landing.if_mntsrvc_manage_dlr_svc_service 
+        where 
+            par_row_id = #{parRowId}
+    </delete>
+
+    <insert id="insertObject" parameterType="IFHMBINNOCEANCDPP0046Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_mntsrvc_manage_dlr_svc
+        (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , dealer_code
+            , "source"
+        )
+        values
+        (
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{dealerCode}
+            , #{source}
+        )
+    </insert>
+    
+    <insert id="insertList" parameterType="IFHMBINNOCEANCDPP0046Dto">
+        insert into landing.if_mntsrvc_manage_dlr_svc_service
+        (
+            par_row_id
+            , service_type
+            , service_length
+            , created_by
+            , created
+            , last_upd_by
+            , last_upd
+        )values 
+        <foreach collection="listOfServices" item="item" separator=",">
+            (
+                #{parRowId}
+                , #{item.service_type}
+                , #{item.service_length}
+                , 'interface'
+                , now()
+                , 'interface'
+                , now()
+            )
+        </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_mntsrvc_manage_dlr_svc(#{PARROW_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_mntsrvc_manage_dlr_svc(#{PARROW_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+    
+</mapper>

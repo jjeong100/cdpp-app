@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBZICARDCDPP0007Mapper">
+    
+    <select id="getCustomerVehicleId" parameterType="IFHMBZICARDCDPP0007Dto" resultType="String">    
+        select 
+            row_id as getCustomerVehicleId
+        from 
+            process.customer_vehicle
+        where 
+            account_id = #{contactId}
+        and
+            asset_id = #{assetId}
+    </select>  
+
+    <insert id="insertObject" parameterType="IFHMBZICARDCDPP0007Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_asset_contact_upsert_ws 
+            (
+                assetid
+                , contactid
+                , relationship
+                , hkmeretaildate
+                , created
+                , created_by
+                , last_upd
+                , last_upd_by
+            )
+        values 
+            (
+                #{assetId}
+                , #{contactId}
+                , #{relationShip}
+                , to_date(#{hkmeRetailDate}, 'YYYY-MM-DD')
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+            );
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_asset_contact_upsert_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{PROC_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_asset_contact_upsert_ws(#{PROC_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+</mapper>

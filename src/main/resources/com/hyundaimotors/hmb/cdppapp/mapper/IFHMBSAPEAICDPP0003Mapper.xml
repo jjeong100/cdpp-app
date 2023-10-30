@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPEAICDPP0003Mapper">
+    
+    <insert id="insertObject" parameterType="IFHMBSAPEAICDPP0003Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_product_in_wf
+        (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , name
+            , source
+            , type
+            , part
+            , advdesc
+            , modelyear
+            , chassimodel
+            , bodystyle
+            , hmbcylindercapacity
+            , engine
+            , enginedesc
+            , versiondesc
+            , transmissiondesc
+            , transmission
+            , fuel
+            , doorsamnt
+            , suggestedprice    
+            , description
+            , producttypecode        
+        )
+        values
+        (
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{name}
+            , #{source}
+            , #{type}
+            , #{part}
+            , #{advdesc}
+            , #{modelYear}
+            , #{chassiModel}
+            , #{bodyStyle}
+            , #{hmbCylindercapacity}
+            , #{engine}
+            , #{engineDesc}
+            , #{versionDesc}
+            , #{transmissionDesc}
+            , #{transmission}
+            , #{fuel}
+            , #{doorsAmnt}
+            , #{suggestedPrice}          
+            , #{description}
+            , #{productTypeCode}  
+        )
+        ;
+    </insert>    
+
+    <select id="getProductRowId" parameterType="IFHMBSAPEAICDPP0003Dto" resultType="String">
+        select 
+            row_id as processProductId
+        from 
+            process.product
+        where
+            "name" = #{name} 
+    </select>
+
+    
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_product_in_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_product_in_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{PRODUCT_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+</mapper>
+
+
+				

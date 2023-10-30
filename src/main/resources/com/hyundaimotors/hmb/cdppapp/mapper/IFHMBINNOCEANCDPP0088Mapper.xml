@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0088Mapper">
+
+    <select id="getProcId" parameterType="IFHMBINNOCEANCDPP0088Dto" resultType="String">
+        select
+            row_id as getProcId
+        from 
+            process.amaro
+        where 
+            integration_id = concat(#{source}||#{integrationId})
+    </select>
+
+    <insert id="insertAmaroCSISurvey" parameterType="IFHMBINNOCEANCDPP0088Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_amaro_csi_survey_ws(
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , integrationid
+            , assetId
+            , contactId
+            , accountId
+            , dealerId
+            , researchDate
+            , researchName
+            , source
+            , status
+            , substatus
+            , ratingAll
+            , ratingAttendant
+            , ratingMechanic
+            , snaCode
+            , snaDate
+            , snaType
+            , snaComment
+            , srProtocol
+            , serialNumber
+        )values(
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{integrationId}
+            , #{assetId}
+            , #{contactId}
+            , #{accountId}
+            , #{dealerId}
+            , to_date(#{researchDate}, 'YYYY-MM-DD')
+            , #{researchName}
+            , #{source}
+            , #{status}
+            , #{substatus}
+            , #{ratingAll}
+            , #{ratingAttendant}
+            , #{ratingMechanic}
+            , #{snaCode}
+            , to_date(#{snaDate}, 'YYYY-MM-DD')
+            , #{snaType}
+            , #{snaComment}
+            , #{srProtocol}
+            , #{serialNumber}
+        )
+    </insert>
+
+    <insert id="insertAmaroCSISurveyAnswer" parameterType="IFHMBINNOCEANCDPP0088Dto">
+        insert into landing.if_amaro_csi_survey_answer_ws (
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , questionid
+            , questioncode
+            , questioncomments
+            , answerdescription
+            , answervalue
+            , answercomplement
+            , integrationid
+        )values
+        <foreach collection="listOfAmaroCSISurveyAnswer" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.questionId}
+                , #{item.questionCode}
+                , #{item.questionComments}
+                , #{item.answerDescription}
+                , #{item.answerValue}
+                , #{item.answerComplement}
+                , concat(#{source}||#{integrationId})
+            )
+        </foreach>
+    </insert>
+    
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_amaro_csi_survey_ws(#{param_id}, #{checkcu});
+    </insert>
+    
+</mapper>

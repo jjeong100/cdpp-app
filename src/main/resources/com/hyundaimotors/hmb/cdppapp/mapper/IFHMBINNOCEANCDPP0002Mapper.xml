@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0002Mapper">
+    
+    <select id="foundContactIdbyCpf" parameterType="IFHMBINNOCEANCDPP0002Dto" resultType="String">
+        select 
+            row_id as foundContactIdByCpf
+        from
+            process.account
+        where 
+            cpf__c = #{cpf}
+        limit 1
+    </select>
+    <select id="foundContactId" parameterType="IFHMBINNOCEANCDPP0002Dto" resultType="String">
+        select 
+            row_id as foundContactId
+        from
+            process.account
+        where 
+            firstname = #{firstName}
+        and
+            lastname = #{lastName}
+        and
+            personemail = #{emailAddress}
+        order by
+            row_id desc
+        limit 1
+    </select>
+    <insert id="insertObject" parameterType="IFHMBINNOCEANCDPP0002Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_in_contact_inf_wf
+        (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , integrationid
+            , cpf
+            , firstname
+            , lastname
+            , birthdate            
+            , gender   
+            , source
+            , homephone
+            , workphone
+            , cellphone
+            , emailaddress
+            , wayofcontact
+            , occupation            
+            , maritalstatus
+            , income
+            , carofinterest
+            , calledby
+            , literacy
+            , behavioralsegment            
+            , valuesegment            
+            , googlesegment
+            , facebooksegment
+            , lifecyclesegment            
+            , interestsegment            
+            , contactoptin
+            , streetaddress
+            , streetaddress2
+            , streetaddress3
+            , country
+            , city
+            , state
+            , postalcode
+            , suppressallcalls
+            , suppressallmailings
+            , suppressallemails
+            , suppressallsms
+            , suppressallvideocall
+            , suppressallwhatsapp
+            , suppressallmobile
+            , printedcard
+            , already_customer    
+            , favorite_dealer                   
+        )values(
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{integrationId}
+            , #{cpf}
+            , #{firstName}
+            , #{lastName}
+            , to_date(#{birthDate},'YYYY-MM-DD')
+            , #{gender}
+            , #{source}
+            , #{homePhone}
+            , #{workPhone}
+            , #{cellPhone}
+            , #{emailAddress}
+            , #{wayOfContact}
+            , #{occupation}
+            , #{maritalStatus}
+            , #{income}
+            , #{carOfInterest}
+            , #{calledBy}
+            , #{literacy}
+            , #{behavioralSegment}
+            , #{valueSegment}
+            , #{googleSegment}
+            , #{facebookSegment}
+            , #{lifeCycleSegment}
+            , #{interestSegment}
+            , #{contactOptIn}
+            , #{streetAddress}
+            , #{streetAddress2}
+            , #{streetAddress3}
+            , #{county}
+            , #{city}
+            , #{state}
+            , #{postalCode}
+            , #{suppressAllCalls}
+            , #{suppressAllMailings}
+            , #{suppressAllEmails}
+            , #{suppressAllSMS}
+            , #{suppressAllVideoCall}
+            , #{suppressAllWhatsapp}
+            , #{suppressAllMobile}
+            , #{printedCard}
+            , #{alreadyCustomer}
+            , #{favorite_dealer}
+        )
+    </insert>
+    <insert id="insertCar" parameterType="IFHMBINNOCEANCDPP0002Dto">
+        insert into landing.if_in_contact_inf_wf_car 
+        (
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , name
+            , yearmodel
+            , intentiontochange
+            , iscurrent
+            , carmodel
+            , mileage
+            , clientexpectedvalue
+        ) VALUES 
+        <foreach collection="ListOfCurrentCars" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'      
+                , #{item.name}
+                , #{item.yearModel}
+                , #{item.intentionToChange}
+                , #{item.isCurrent}
+                , #{item.carModel}
+                , #{item.mileage}
+                , #{item.clientExpectedValue}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertApp" parameterType="IFHMBINNOCEANCDPP0002Dto">
+        insert into landing.if_in_contact_inf_wf_app 
+        (
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , name
+            , startdate            
+            , status   
+        ) VALUES 
+        <foreach collection="ListOfApps" item="item" separator=",">
+        (
+            #{rowId}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'      
+            , #{item.name}
+            , to_date(#{item.startDate}, 'YYYY-MM-DD')
+            , #{item.status}
+        )
+        </foreach>
+    </insert>
+    
+    <insert id="insertSocialmedia" parameterType="IFHMBINNOCEANCDPP0002Dto">
+        insert into landing.if_in_contact_inf_wf_socialmedia 
+        (
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by     
+            , name
+            , "user"
+            , joindate
+            , likehmb                 
+        ) VALUES 
+        <foreach collection="ListOfSocialMedia" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'      
+                , #{item.name}
+                , #{item.user}
+                , to_date(#{item.joinDate}, 'YYYY-MM-DD')
+                , case when lower(#{item.likeHMB}) = 'false' then 'N' else 'Y' end 
+            )
+        </foreach>
+    </insert>
+            
+    <insert id="insertHobby" parameterType="IFHMBINNOCEANCDPP0002Dto">
+        insert into landing.if_in_contact_inf_wf_hobby 
+        (
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by   
+            , description   
+        ) VALUES 
+        <foreach collection="ListOfHobby" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'      
+                , #{item.description}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSoccerteam" parameterType="IFHMBINNOCEANCDPP0002Dto">
+        insert into landing.if_in_contact_inf_wf_soccerteam 
+        (
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , name      
+        ) VALUES 
+        <foreach collection="ListOfSoccerTeam" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'      
+                , #{item.name}
+            )
+        </foreach>
+    </insert>
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_in_contact_inf_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN}, #{CONTACT_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call Replica.if_in_contact_inf_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN}, #{CONTACT_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>    
+</mapper>

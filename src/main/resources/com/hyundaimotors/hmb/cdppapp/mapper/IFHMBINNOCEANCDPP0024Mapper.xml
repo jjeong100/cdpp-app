@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0024Mapper">
+
+    <insert id="insertObject" parameterType="IFHMBINNOCEANCDPP0024Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_mntsrvc_manage_emp_avail_excp(
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , operation
+            , excp_id
+            , employee_cpf
+            , dealer_code
+            , excp_start_date
+            , excp_end_date
+            , absence_period
+            , period1_start
+            , period1_end
+            , period2_start
+            , period2_end
+            , period3_start
+            , period3_end
+            , excp_desc
+            , "source"
+        )values(
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{operation}
+            , #{excpId}
+            , #{employeeCPF}
+            , #{dealerCode}
+            , to_date(#{excpStartDate},'YYYY-MM-DD')
+            , to_date(#{excpEndDate},'YYYY-MM-DD')
+            , #{absencePeriod}
+            , #{period1Start}
+            , #{period1End}
+            , #{period2Start}
+            , #{period2End}
+            , #{period3Start}
+            , #{period3End}
+            , #{excpDesc}
+            , #{source}
+        )
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_mntsrvc_mng_emp_avail_excp(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+</mapper>

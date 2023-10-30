@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPEAICDPP0006Mapper">
+    
+    <insert id="insertAction" parameterType="IFHMBSAPEAICDPP0006Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_action_in_ws_wf(
+            created
+            , created_by
+            , last_upd 
+            , last_upd_by
+            , integrationid
+            , "result"
+            , answer
+            , status
+            , hotlineid
+            , hotlinecreation
+            , pwaid
+            , pwacreation
+            , roid
+            , rocreation
+            , mobisid
+            , mobisstatus
+            , expecteddelivery
+            , purchasepurposeid
+            , "type"
+            , srprotocol
+            , priority
+            , "owner"
+            , description
+            , contactid
+            , dealercode
+            , serialnumber
+            , creationdate
+            , planneddt
+            , ordernum
+            , dpuser
+            , estoque
+        )values(    
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{integrationId}
+            , #{result}
+            , #{answer}
+            , #{status}
+            , #{hotlineId}
+            , to_date(#{hotlineCreation},'YYYY-MM-DD')
+            , #{pwaId}
+            , #{pwaCreation}
+            , #{roId}
+            , to_date(#{roCreation},'YYYY-MM-DD')
+            , #{mobisId}
+            , #{mobisStatus}
+            , to_date(#{expectedDelivery},'YYYY-MM-DD')
+            , #{purchasePurposeId}
+            , #{type}
+            , #{srProtocol}
+            , #{priority}
+            , #{owner}
+            , #{description}
+            , #{contactId}
+            , #{dealerCode}
+            , #{serialNumber}
+            , #{creationDate}::timestamp(0)
+            , #{plannedDt}::timestamp(0)
+            , #{orderNum}
+            , #{dpUser}
+            , #{estoque}
+        )
+    </insert>
+
+    <insert id="insertActionNote" parameterType="IFHMBSAPEAICDPP0006Dto">
+        insert into landing.if_action_in_ws_wf_note(
+            par_row_id 
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , noteType
+            , noteDate
+            , noteDescription
+            , noteCreator
+        )values
+        <foreach collection="actionNote" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.noteType}
+                , to_timestamp(#{item.noteDate},'yyyy-mm-dd hh12:mi:ss AM')
+                , #{item.noteDescription}
+                , #{item.noteCreator}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertActionProducts" parameterType="IFHMBSAPEAICDPP0006Dto">
+        insert into landing.if_action_in_ws_wf_products(
+            par_row_id 
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , partid
+            , partqty
+        )values
+        <foreach collection="actionProducts" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.partId}
+                , #{item.partQty}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertSynergyActionAudit" parameterType="IFHMBSAPEAICDPP0006Dto">
+        insert into landing.if_action_in_ws_wf_synergyactionaudit(
+            par_row_id 
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , fieldname
+            , fieldvalue
+        )values
+        <foreach collection="synergyActionAudit" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.fieldName}
+                , #{item.fieldValue}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_action_in_ws_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_action_in_ws_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <select id="getTaskRowId" parameterType="IFHMBSAPEAICDPP0006Dto" resultType="String">
+        select
+            row_id as actionId
+        from
+            process.task
+        where
+            active_row_id = #{rowId}
+    </select>
+
+    <select id="getActionRowId" parameterType="IFHMBSAPEAICDPP0006Dto" resultType="String">
+        select 
+            row_id as actionRowId
+        from 
+            process.service_event_act
+        where 
+            external_id__c = cast(#{rowId} as TEXT)
+    </select>
+</mapper>

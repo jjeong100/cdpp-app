@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0034Mapper">
+    
+    <insert id="insertServiceRequest" parameterType="IFHMBINNOCEANCDPP0034Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_service_request_ws_wf(
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , protocol
+            , reason
+            , level1
+            , level2
+            , level3
+            , level4
+            , source
+            , method
+            , description
+            , status
+            , priority
+            , solution
+            , serialnumber
+            , anonymousflag
+            , contactid
+            , accountid
+            , tendency
+            , satisfaction
+            , dealerid
+            , causingarea
+            , imobilizationdate
+            , relatedmodel
+            , quotedescription
+            , enginetransmission
+            , version
+            , versionprice
+            , color
+            , colorprice
+            , finalprice
+            , carreplacementintention
+            , roadservicerequest
+            , integrationid
+            , tdconfirmed
+            , tdtime
+            , tddate
+            , salesrepid
+            , pneflag
+            , campaignid
+            , sourcetag
+            , estoque
+            , medium
+            , content
+            , campaign
+            , additionalcomments
+            , causingperson
+            , custrepresentative
+            , custrepresentativerel
+            , diagnosisdifficultyflg
+            , diagnosispendingflg
+            , dlrdescription
+            , dlrfup
+            , dlrpending
+            , dlrretractionflg
+            , dlrreversal
+            , hotlineflg
+            , hotlinenum
+            , hotlineopendt
+            , purchaseproposalnum
+            , pwaflg
+            , pwanum
+            , pwaopendt
+            , recurrenceflg
+            , recurrencenum
+            , vehicledeliverydt
+            , vehicledeliveryflg
+            , wantsloan
+            , loantype
+            , installmentsamt
+            , downpayment
+            , usedcarasdownpaymnt
+            , dlrtemperature
+            , paymnt_date
+            , paymnt_method 
+            , paymnt_status 
+            , reservation_amount 
+            , form 
+            , sched_dt
+            , sched_type 
+            , used_brand 
+            , used_chassi 
+            , used_color 
+            , used_km 
+            , used_max_price 
+            , used_med_price 
+            , used_min_price 
+            , used_model 
+            , used_plate 
+            , used_version 
+            , used_year 
+        )values(    
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{protocol}
+            , #{reason}
+            , #{level1}
+            , #{level2}
+            , #{level3}
+            , #{level4}
+            , #{source}
+            , #{method}
+            , #{description}
+            , #{status}
+            , #{priority}
+            , #{solution}
+            , #{serialNumber}
+            , #{anonymousFlag}
+            , #{contactId}
+            , #{accountId}
+            , #{tendency}
+            , #{satisfaction}
+            , #{dealerId}
+            , #{causingArea}
+            , #{imobilizationDate}
+            , #{relatedModel}
+            , #{quoteDescription}
+            , #{engineTransmission}
+            , #{version}
+            , #{versionPrice}
+            , #{color}
+            , #{colorPrice}
+            , #{finalPrice}
+            , #{carReplacementIntention}
+            , #{roadserviceRequest}
+            , #{integrationId}
+            , #{tdConfirmed}
+            , #{tdTime}
+            , #{tdDate}
+            , #{salesrepId}
+            , #{pneFlag}
+            , #{campaignId}
+            , #{sourceTag}
+            , #{estoque}
+            , #{medium}
+            , #{content}
+            , #{campaign}
+            , #{additionalComments}
+            , #{causingPerson}
+            , #{custRepresentative}
+            , #{custRepresentativeRel}
+            , #{diagnosisDifficultyFlg}
+            , #{diagnosisPendingFlg}
+            , #{dlrDescription}
+            , #{dlrFup}
+            , #{dlrPending}
+            , #{dlrRetractionFlg}
+            , #{dlrReversal}
+            , #{hotlineFlg}
+            , #{hotlineNum}
+            , #{hotlineOpenDt}
+            , #{purchaseProposalNum}
+            , #{pwaFlg}
+            , #{pwaNum}
+            , #{pwaOpenDt}
+            , #{recurrenceFlg}
+            , #{recurrenceNum}
+            , #{vehicleDeliveryDt}
+            , #{vehicleDeliveryFlg}
+            , #{wantsLoan}
+            , #{loanType}
+            , #{installmentsAmt}
+            , #{downPayment}
+            , #{usedCarAsDownPaymnt}
+            , #{dlrTemperature}
+            , #{paymntDate}
+            , #{paymntMethod}
+            , #{paymntStatus}
+            , #{reservationAmount}
+            , #{form}
+            , #{schedDt}
+            , #{schedType}
+            , #{usedBrand}
+            , #{usedChassi}
+            , #{usedColor}
+            , #{usedKm}
+            , #{usedMaxPrice}
+            , #{usedMedPrice}
+            , #{usedMinPrice}
+            , #{usedModel}
+            , #{usedPlate}
+            , #{usedVersion}
+            , #{usedYear}
+        )    
+    </insert>
+    
+    <insert id="insertAccessory" parameterType="IFHMBINNOCEANCDPP0034Dto">
+        insert into landing.if_service_request_ws_wf_accessory(
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , accessory
+            , accessoryPrice
+        )values
+        <foreach collection="listOfAccessories" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.accessory}
+                , #{item.accessoryPrice}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertPart" parameterType="IFHMBINNOCEANCDPP0034Dto">
+        insert into landing.if_service_request_ws_wf_part(
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , backOrderDate
+            , backOrderFlg
+            , backOrderNum
+            , backOrderStatus
+            , partCode
+            , partDescription
+        )values
+        <foreach collection="listOfParts" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.backOrderDate}
+                , #{item.backOrderFlg}
+                , #{item.backOrderNum}
+                , #{item.backOrderStatus}
+                , #{item.partCode}
+                , #{item.partDescription}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_svc_req_ws_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call "replica".if_svc_req_ws_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <select id="getProtocalTestDrive" parameterType="IFHMBINNOCEANCDPP0034Dto" resultType="String">
+        select 
+            row_id as protocalResult
+        from
+            process.testdrivehistory__c
+        where 
+            external_id__c = cast(#{rowId} as text)
+    </select>
+
+    <select id="getProtocalQuotation" parameterType="IFHMBINNOCEANCDPP0034Dto" resultType="String">
+        select 
+            row_id as protocalResult
+        from
+            process.quotehistory__c
+        where 
+            external_id__c = cast(#{rowId} as text)
+    </select>
+
+    <select id="getProtocalCase" parameterType="IFHMBINNOCEANCDPP0034Dto" resultType="String">
+        select 
+            row_id as protocalResult
+        from
+            process.case
+        where 
+            external__c = cast(#{rowId} as text)
+    </select>
+
+    <select id="getprotocolID" parameterType="IFHMBINNOCEANCDPP0034Dto" resultType="String">
+        select
+            protocol__c as protocolID
+        from
+            process.service_request
+        where 
+            external_id__c = CAST(#{rowId} AS TEXT)
+    </select>
+</mapper>

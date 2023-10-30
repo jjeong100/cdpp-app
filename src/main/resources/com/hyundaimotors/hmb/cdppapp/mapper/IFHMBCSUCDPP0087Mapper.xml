@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBCSUCDPP0087Mapper">
+    
+    <select id="getContactList" parameterType="IFHMBCSUCDPP0087Dto" resultType="SearchContactOutputDto">
+        select 
+            pac.loyaltyexpirationdate__c as cnhExpirationDate
+            , pac.row_id as contactId
+            , pac.firstname as firstName
+            , pac.lastname  as lastName
+            , pac.personbirthdate as birthDate
+            , pac.gender__pc as gender
+            , pac.personhomephone as homePhone
+            , pac.companyphone__pc as workPhone
+            , pac.personmobilephone as cellPhone
+            , pac.personemail as emailAddress
+            , pac.amount_friends as amountFriends
+            , pac.amount_children as amountChildren
+            , pac.optinflag__c as loyaltyOPTINFla
+            , pac.loyaltyactivationdate__c as loyaltyActivationDate
+            , pac.loyaltyexpirationtodate__c as loyaltyExpirationDate
+            , pac.loyaltyengagementindex__c as loyaltyEngagementIndex
+            , pac.satisficationlevel__c as loyaltySatisfactionLevel
+            , pac.loyaltylifecycle__c as loyaltyLifeCycle
+            , pac.crmindex__c as loyaltyCRMIndex
+            , pac.satisficationlevel__c as loyaltyTierLevel
+            , pac.loyaltystatus__c as loyaltyStatus
+            , pac.billingstreet as streetAddress
+            , pac.billingstreet_2__c as streetAddress2
+            , pac.billingstreet_3__c as streetAddress3
+            , pac.billingcountry as county
+            , pac.billingcity as city
+            , pac.billingstate as state
+            , pac.billingpostalcode as postalCode
+            , pac.numeric_row_id as numericRowId
+            , pac.emailoptyn__pc as suppressAllEmails
+            , pac.blockedsms__c as suppressAllSMS
+            , pac.x_printed_card__c as printedCard
+        from
+            process.account pac 
+        where 
+            pac.row_id = #{contactId}
+    </select>
+
+    <select id="getVehicleList" parameterType="IFHMBCSUCDPP0087Dto" resultType="SearchAutoVehicleDto">
+        select
+            pas.row_id as vehicleId
+            , pcvp.relation_type_cd as relationship
+            , pas.renavam_code__c as hmbRenavamCode
+            , pas.latestmileage__c as currenMileage
+            , pas.carregistrationnumber__c as vehicleLicenseNumber
+            , pas.serialnumber as serialNumber
+            , pas.name as fscOcn
+            , pas.manufacturedate as manufactureYear
+            , pas.modelname__c as model
+            , pas.modelyear__c as modelYear
+            , pas.vehicleinternalcolor__c as internalColorCode
+            , pas.vehiclecolor__c as externalColorCode
+            , pas.hexawarrantyflag__c as hexaWarrantyFlag
+            , pas.account_row_id__c as dealerId
+            , pas.dealercode__c as retailDt
+            , (select corporaterepresentativename__c from process.account where row_id = account_row_id__c) as salesRepId
+            , (select lastname from process.account where row_id = contact_row_id__c) as salesRepLastName
+            , (select firstname from process.account where row_id = contact_row_id__c) as salesReFirstName
+            , pci.val as operatingStatus
+        from
+            process.asset pas
+        join
+            process.customer_vehicle pcvp
+        on
+            pas.row_id = pcvp.asset_id and pcvp.cv_type = 'Person'
+        left join 
+            process.color_information pci
+        on
+            pci.name_code = pas.oper_status_cd__c and pci.type = 'OPERATING_STATUS' and pci.lang_id__c = 'PTB'
+        where 
+            pas.serialnumber = #{serialNumber}
+    </select>
+
+    <select id="getCampaignList" parameterType="IFHMBCSUCDPP0087Dto" resultType="SearchCampaignDto">
+        select 
+            pcp.row_id as campaignId
+            , pcp.type__c as type
+            , pcp.name as campaignName
+        from
+            process.campaign pcp
+        where 
+            pcp.name = #{campaignName}
+    </select>
+
+    <select id="getCSISurveyList" parameterType="IFHMBCSUCDPP0087Dto" resultType="SearchCSISurveyDto">
+        select
+            pam.integration_id as integrationId
+            , pam.asset_id as assetId
+            , pas.serialnumber
+            , (select dealercode__c from process.account where row_id = pam.dealer_id) as dealerCustomerSap
+            , pam.research_date as date
+            , pam.status as status
+            , pam.research_name as description
+            , pam.sra_sr_id as spId
+            , pas.serialnumber as srNumber
+        from 
+            process.amaro pam
+        left join
+            process.asset pas
+        on
+            pam.asset_id = pas.row_id 
+        where 
+            pas.serialnumber = #{serialNumber}
+    </select>
+</mapper>

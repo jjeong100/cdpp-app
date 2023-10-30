@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBRECLAMEAQUICDPP0097Mapper">
+
+    <insert id="inserBluelink" parameterType="VehicleBluelinkDto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_auto_vehicle_bluelink_ws(
+            chassi
+            , latestMileage
+            , integrationId
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , activationDate
+            , firstActivation
+            , type
+        )values(                 
+            #{setChassi}
+            , #{setLatestMileage}
+            , #{integrationId}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{activationDate}
+            , #{firstActivation}
+            , #{type}
+        )
+    </insert>
+    
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_auto_vehicle_bl_ws(#{param_id});
+    </insert>
+
+    
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_auto_vehicle_bl_ws(#{param_id});
+    </insert>
+    
+</mapper>

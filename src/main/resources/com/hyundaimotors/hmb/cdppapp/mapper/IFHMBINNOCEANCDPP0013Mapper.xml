@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0013Mapper">
+
+    <select id="getRowId" parameterType="IFHMBINNOCEANCDPP0013Dto" resultType="String">
+        select 
+            row_id as getRowId
+        from 
+            process.account 
+        where 
+            "name" = #{name} 
+        and 
+            dealercode__c = #{dealerCode}
+        limit 1
+    </select>
+
+    <select id="getContactIdByCpf" parameterType="ListOfContactsDto" resultType="String">
+        select
+            row_id as getContactIdByCpf
+        from
+            process.contact
+        where  
+            cpf__c = #{cpf}   
+        and
+            account_row_id = #{accntRowId}
+        limit 1                     
+    </select>
+
+    <select id="getContactId" parameterType="ListOfContactsDto" resultType="String">
+        select
+            row_id as getContactId
+        from
+            process.contact
+            where 
+            firstname = #{firstName}
+        and
+            lastname = #{lastName}
+        and
+            email = #{emailAddress}  
+        and
+            account_row_id = #{accntRowId}   
+        limit 1                
+    </select>
+
+    <insert id="insertBusinessAccount" parameterType="IFHMBINNOCEANCDPP0013Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into 
+            landing.if_in_channel_partner_inf_wf
+                (
+                    integrationid
+                    , cnpj
+                    , "name"
+                    , nickname
+                    , accountstatus
+                    , reasonstatus
+                    , dealertype
+                    , dealercode
+                    , mainphone
+                    , fax
+                    , mainemailaddress
+                    , workemailaddress
+                    , salesdealerflag
+                    , servicedealerflag
+                    , partnerstartdate
+                    , partnerenddate
+                    , region
+                    , workinghours
+                    , facebookpage
+                    , homepage
+                    , streetaddress
+                    , streetaddress2
+                    , streetaddress3
+                    , county
+                    , city
+                    , state
+                    , latitude
+                    , longitude
+                    , postalcode
+                    , dealergroup
+                    , salesgroup
+                    , salesmanager
+                    , servicemanager
+                    , servicewhatsappnumber
+                    , saleswhatsappnumber
+                    , salesdistrict
+                    , salesoffice
+                    , division
+                    , created
+                    , created_by
+                    , last_upd
+                    , last_upd_by
+        )values(
+                    #{integrationId}
+                    , #{cnpj}
+                    , #{name}
+                    , #{nickname}
+                    , #{accountStatus}
+                    , #{reasonStatus}
+                    , #{dealerType}
+                    , #{dealerCode}
+                    , #{mainPhone}
+                    , #{fax}
+                    , #{mainEmailAddress}
+                    , #{workEmailAddress}
+                    , #{salesDealerFlag}
+                    , #{serviceDealerFlag}
+                    , to_date(#{partnerStartDate},'YYYY-MM-DD')
+                    , to_date(#{partnerEndDate},'YYYY-MM-DD')
+                    , #{region}
+                    , #{workingHours}
+                    , #{facebookPage}
+                    , #{homepage}
+                    , #{streetAddress}
+                    , #{streetAddress2}
+                    , #{streetAddress3}
+                    , #{county}
+                    , #{city}
+                    , #{state}
+                    , #{latitude}
+                    , #{longitude}
+                    , #{postalCode}
+                    , #{dealerGroup}
+                    , #{salesGroup}
+                    , #{salesManager}
+                    , #{serviceManager}
+                    , #{serviceWhatsAppNumber}
+                    , #{salesWhatsAppNumber}
+                    , #{salesDistrict}
+                    , #{salesOffice}
+                    , #{division}
+                    , now()
+                    , 'interface'
+                    , now()
+                    , 'interface'
+                )
+    </insert>
+
+    <insert id="insertPersonAccount" parameterType="ListOfContactsDto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into 
+            landing.if_in_channel_partner_inf_wf_dlrcontact
+            (
+                integrationid
+                , cpf
+                , firstname
+                , lastname
+                , email
+                , homephone
+                , workphone
+                , cellphone
+                , jobtitle
+                , notes
+                , status
+                , par_row_id
+                , account_row_id
+                , created
+                , created_by
+                , last_upd
+                , last_upd_by
+        )values        
+            (    
+                #{integrationId}
+                , #{cpf}
+                , #{firstName}
+                , #{lastName}
+                , #{emailAddress}
+                , #{homePhone}
+                , #{workPhone}
+                , #{cellPhone}
+                , #{jobTitle}
+                , #{notes}
+                , #{status}
+                , Cast(#{parRowId} as Integer)
+                , #{accntRowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+            )  
+    </insert>
+
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_in_channel_partner_inf_wf(#{PARAM_ID}, #{PROC_ACC_ID}, #{CON_ROWID}, #{checkcu});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_in_channel_partner_inf_wf(#{PROC_ACC_ID}, #{PROC_CON_ID}, #{checkcu});
+    </insert>
+
+</mapper>

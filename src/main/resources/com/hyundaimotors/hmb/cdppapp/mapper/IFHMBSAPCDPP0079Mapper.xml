@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPCDPP0079Mapper">
+    <insert id="insertRepair" parameterType="IFHMBSAPCDPP0079Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_in_repair_order(
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , soid
+            , dealercode
+            , vincode
+            , mileage
+            , model
+            , zyear
+            , plate
+            , status
+            , quicksrv
+            , consult_cpf
+            , consult_name
+            , opendt
+            , closedt
+            , canceldt
+            , deliverydt
+            , schedulingdt
+            , comments
+            , filesentdt
+            , total_worked_hours
+            , total_sold_hours
+            , total_value
+            , partner
+            , firstname
+            , lastname
+            , cpf
+            , city
+            , postl_cod1
+            , street
+            , house_no
+            , country
+            , region
+            , taxjurcode
+            , email
+            , tel_number
+            , mob_number
+            , blockcontact
+            , queried
+            , ernam
+            , erdat
+            , erzet
+            , aenam
+            , aedat
+            , aezet	
+        )values(
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{repair.soid}
+            , #{repair.dealercode}
+            , #{repair.vincode}
+            , #{repair.mileage}
+            , #{repair.model}
+            , #{repair.zyear}
+            , #{repair.plate}
+            , #{repair.status}
+            , #{repair.quicksrv}
+            , #{repair.consultCpf}
+            , #{repair.consultName}
+            , #{repair.opendt}
+            , #{repair.closedt}
+            , #{repair.canceldt}
+            , #{repair.deliverydt}
+            , #{repair.schedulingdt}
+            , #{repair.comments}
+            , #{repair.filesentdt}
+            , #{repair.totalWorkedHours}
+            , #{repair.totalSoldHours}
+            , #{repair.totalValue}
+            , #{repair.partner}
+            , #{repair.firstname}
+            , #{repair.lastname}
+            , #{repair.cpf}
+            , #{repair.city}
+            , #{repair.postlCod1}
+            , #{repair.street}
+            , #{repair.houseNo}
+            , #{repair.country}
+            , #{repair.region}
+            , #{repair.taxjurcode}
+            , #{repair.email}
+            , #{repair.telNumber}
+            , #{repair.mobNumber}
+            , #{repair.blockcontact}
+            , #{repair.queried}
+            , #{repair.ernam}
+            , #{repair.erdat}::date
+            , #{repair.erzet}::time
+            , #{repair.aenam}
+            , #{repair.aedat}::date
+            , #{repair.aezet}::time
+        )
+    </insert>
+    <insert id="insertRepairService" parameterType="IFHMBSAPCDPP0079Dto">
+        insert into landing.if_in_repair_order_service(
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , soid
+            , dealercode
+            , vincode
+            , itmnum
+            , sotype
+            , codsrc
+            , zdesc
+            , zqty
+            , unit
+            , value
+            , total_value
+            , ernam
+            , erdat
+            , erzet
+            , aenam
+            , aedat
+            , aezet
+        )values
+        <foreach collection="repair.listOfService" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.soid}
+                , #{item.dealercode}
+                , #{item.vincode}
+                , #{item.itmnum}
+                , #{item.sotype}
+                , #{item.codsrc}
+                , #{item.zdesc}
+                , #{item.zqty}
+                , #{item.unit}
+                , #{item.value}
+                , #{item.totalValue}
+                , #{item.ernam}
+                , #{item.erdat}::date
+                , #{item.erzet}::time
+                , #{item.aenam}
+                , #{item.aedat}::date
+                , #{item.aezet}::time
+            )
+        </foreach>
+    </insert>
+    <insert id="insertRepairPart" parameterType="IFHMBSAPCDPP0079Dto">
+        insert into landing.if_in_repair_parts(
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , soid
+            , dealercode
+            , vincode
+            , itmnum
+            , sotype
+            , pncode
+            , zdesc
+            , zqty
+            , unit
+            , value
+            , total_value
+            , ernam
+            , erdat
+            , erzet
+            , aenam
+            , aedat
+            , aezet    
+        )values
+        <foreach collection="repair.listOfParts" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.soid}
+                , #{item.dealercode}
+                , #{item.vincode}
+                , #{item.itmnum}
+                , #{item.sotype}
+                , #{item.pncode}
+                , #{item.zdesc}
+                , #{item.zqty}
+                , #{item.unit}
+                , #{item.value}
+                , #{item.totalValue}
+                , #{item.ernam}
+                , #{item.erdat}::date
+                , #{item.erzet}::time
+                , #{item.aenam}
+                , #{item.aedat}::date
+                , #{item.aezet}::time
+            )
+        </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_in_repair_order(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+</mapper>

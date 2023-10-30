@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPEAICDPP0038Mapper">
+
+    <insert id="insertLead" parameterType="IFHMBSAPEAICDPP0038Dto"  useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_update_lead_ws(
+            protocol
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , "result"
+            , integrationid
+            , salesstatus
+            , salecpf
+            , status
+            , firstinterationdate
+            , salereason
+            , enddate
+            , dlrreceivedate
+            , dlrresponsetime
+            , pcd
+            , "source"
+            , schedvisit
+            , visitdate
+            , visitstat
+        )values(
+            #{protocol}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{result}
+            , #{ntegrationId}
+            , #{salesStatus}
+            , #{saleCPF}
+            , #{status}
+            , to_timestamp(#{firstInteractionDate}, 'YYYY-MM-DD hh24:mi:ss')
+            , #{saleReason}
+            , to_timestamp(#{endDate}, 'YYYY-MM-DD hh24:mi:ss')
+            , to_timestamp(#{dlrReceiveDate}, 'YYYY-MM-DD hh24:mi:ss')
+            , to_timestamp(#{dlrResponseTime}, 'YYYY-MM-DD hh24:mi:ss')
+            , #{pcd}
+            , #{source}
+            , to_timestamp(#{schedvisit}, 'YYYY-MM-DD hh24:mi:ss')
+            , to_timestamp(#{visitdate}, 'YYYY-MM-DD hh24:mi:ss')
+            , #{visitstat}
+        )
+    </insert>
+
+    <insert id="insertTemperature" parameterType="IFHMBSAPEAICDPP0038Dto">
+        insert into landing.if_update_lead_ws_temperature(
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , temperaturenum
+            , temperature
+        )values
+        <foreach collection="listOfTemperature" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.temperatureNum}
+                , #{item.temperature}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertInteraction" parameterType="IFHMBSAPEAICDPP0038Dto">
+        insert into landing.if_update_lead_ws_interation(
+            par_row_id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , interactionnum
+            , description
+            , "date"
+            , contactcustomer
+        )values
+        <foreach collection="listOfInteraction" item="item" separator=",">
+            (
+                #{rowId}
+                , now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{item.interactionNum}
+                , #{item.description}
+                , to_date(#{item.date}, 'YYYY-MM-DD')
+                , #{item.contactCustomer}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_update_lead_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_update_lead_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+</mapper>

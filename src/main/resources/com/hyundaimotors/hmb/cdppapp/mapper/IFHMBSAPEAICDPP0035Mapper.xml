@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPEAICDPP0035Mapper">
+
+    <insert id="insertObject" parameterType="IFHMBSAPEAICDPP0035Dto"  useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_service_request_attachment
+        (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , url
+            , srnumber            
+        )values(
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{url}
+            , #{srNumber}            
+        );
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_service_request_attachment(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+</mapper>

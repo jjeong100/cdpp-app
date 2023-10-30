@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBRECLAMEAQUICDPP0096Mapper">
+
+    <insert id="insertAllTicketList" parameterType="RetrieveTicketIdDto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_reclaimaqui_retrieve_ticket_by_id(
+            id
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , source_external_id
+            , back_doing_business
+            , comments_count
+            , company
+            , company_consideration
+            <if test="companyConsiderationDate != null">, company_consideration_date</if>
+            , complaint_content
+            , complaint_title
+            , consumer_consideration
+            <if test="consumerConsiderationDate != null">, consumer_consideration_date</if>
+            <if test="creationDate != null">, creation_date</if>
+            , customer
+            , frozen
+            <if test="lastReplicaDate != null">, last_replica_date</if>
+            , moderation
+            , personalized_fields
+            , public_treatment_time
+            , reclame_aqui
+            , ra_feeling
+            , ra_reason
+            , ra_status
+            , rafone
+            , rating_without_response
+            , request_evaluation
+            , request_moderation
+            , resolved_issue
+            , ticket_moderations_count
+            , assignment_count
+            , can_like
+            , company_interactions_count
+            , customer_interactions_count
+            , favorable_assessment
+            , feed_type
+            , filed
+            , historical
+            , hugme_status
+            , hugme_ticket_type
+            , information_source
+            , interactions_count
+            , interactions_not_readed_count
+            <if test="lastModificationDate != null">, last_modification_date</if>
+            , private_treatment_time
+            , redistributions_count
+            , redistributions_reason
+            , source
+            , tags
+            , ticket_detail_type_id
+            , ticket_interaction_type
+            , ticket_messages_count
+            , last_feeling 
+            , moderation_status 
+            , moderation_reason 
+            , moderation_request_date 
+            , moderation_response_date 
+            , replicas_count
+            , source_id
+            , source_name 
+            , deactivation_date 
+            , deactivation_reason 
+            , internal_process 
+            , blackfriday 
+            , username 
+            , userassignmentdate 
+            , account
+            , rafone_expiration_date 
+            , rafone_status_id 
+            , rafone_status_name 
+            , commentary
+            <if test="insertionDate != null">, insertion_date</if>
+            <if test="closedDate != null">, closed_date</if>
+            , complaint_response_content
+            <if test="complaintResponseDate != null">, complaint_response_date</if>
+            , rating_time
+            , rating
+            <if test="ratingDate != null">, rating_date</if>
+            , contact_us
+            , rule_id 
+            , active 
+            , ra_moderation_request_message
+            , customerId
+            , moderationstatus
+            , moderationreason
+            <if test="moderationRequestDate != null">, moderationrequestdate</if>
+            <if test="moderationResponseDate != null">, moderationresponsedate</if>
+            , birthday
+            , cpf
+            , rg
+            , gender
+            , email
+            , phonenumbers
+            , firstname
+            , lastname
+        )values(                 
+            #{id}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{sourceExternalId}
+            , #{backDoingBusiness}
+            , #{commentsCount}
+            , #{company}
+            , #{companyConsideration}
+            <if test="companyConsiderationDate != null">, #{companyConsiderationDate}::timestamp</if>
+            , #{complaintContent}
+            , #{complaintTitle}
+            , #{consumerConsideration}
+            <if test="consumerConsiderationDate != null">, #{consumerConsiderationDate}::timestamp</if>
+            <if test="creationDate != null">, #{creationDate}::timestamp</if>
+            , #{customer}
+            , #{frozen}
+            <if test="lastReplicaDate != null">, #{lastReplicaDate}::timestamp</if>
+            , #{moderation}
+            , #{personalizedFields}
+            , #{publicTreatmentTime}
+            , #{reclameAqui}
+            , #{raFeeling}
+            , #{raReason}
+            , #{raStatus}
+            , #{rafone}
+            , #{ratingWithoutResponse}
+            , #{requestEvaluation}
+            , #{requestModeration}
+            , #{resolvedIssue}
+            , #{ticketModerationsCount}
+            , #{assignmentCount}
+            , #{canLike}
+            , #{companyInteractionsCount}
+            , #{customerInteractionsCount}
+            , #{favorableAssessment}
+            , #{feedType}
+            , #{filed}
+            , #{historical}
+            , #{hugmeStatus}
+            , #{hugmeTicketType}
+            , #{informationSource}
+            , #{interactionsCount}
+            , #{interactionsNotReadedCount}
+            <if test="lastModificationDate != null">, #{lastModificationDate}::timestamp</if>
+            , #{privateTreatmentTime}
+            , #{redistributionsCount}
+            , #{redistributionsReason}
+            , #{source}
+            , #{tags}
+            , #{ticketDetailTypeId}
+            , #{ticketInteractionType}
+            , #{ticketMessagesCount}
+            , #{lastFeeling}
+            , #{moderationStatus}
+            , #{moderationReason}
+            , #{moderationRequestDate}
+            , #{moderationResponseDate}
+            , #{replicasCount}
+            , #{sourceId}
+            , #{sourceName}
+            , #{deactivationDate}
+            , #{deactivationReason}
+            , #{internalProcess}
+            , #{blackFriday}
+            , #{userName}
+            , #{userAssignmentDate}
+            , #{account}
+            , #{rafoneExpirationDate}
+            , #{rafoneStatusId}
+            , #{rafoneStatusName}
+            , #{commentary}
+            <if test="insertionDate != null">, #{insertionDate}::timestamp</if>
+            <if test="closedDate != null">, #{closedDate}::timestamp</if>
+            , #{complaintResponseContent}
+            <if test="complaintResponseDate != null">, #{complaintResponseDate}::timestamp</if>
+            , #{ratingTime}
+            , #{rating}
+            <if test="ratingDate != null">, #{ratingDate}::timestamp</if>
+            , #{contactUs}
+            , #{ruleId}
+            , #{active}
+            , #{message}
+            , #{customerId}
+            , #{moderationStatus}
+            , #{moderationReason}
+            <if test="moderationRequestDate != null">, #{moderationRequestDate}::timestamp</if>
+            <if test="moderationResponseDate != null">, #{moderationResponseDate}::timestamp</if>
+            , #{birthday}::date
+            , #{cpf}
+            , #{rg}
+            , #{gender}
+            , #{email}
+            , #{phoneNumbers}
+            , #{firstName}
+            , #{lastName}
+        )
+    </insert>
+    
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_reclaimaqui_retrieve_ticket_by_id(#{param_id});
+    </insert>
+
+    <select id="getProcessRowIds" parameterType="list" resultType="string">
+        select 
+            pc.row_id
+        from
+            landing.if_reclaimaqui_retrieve_ticket_by_id lirr
+        join
+            process.case pc
+        on
+            lirr.source_external_id = pc.reclame_aqui_external_id__c
+        where 
+            lirr.row_id in
+            <foreach collection="paramList" item="item" index="index" open="(" close=")" separator=",">
+                CAST(#{item} AS INTEGER)
+            </foreach>
+    </select>
+    
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_reclaimaqui_retrieve_ticket_by_id(#{param_id});
+    </insert>
+    
+</mapper>

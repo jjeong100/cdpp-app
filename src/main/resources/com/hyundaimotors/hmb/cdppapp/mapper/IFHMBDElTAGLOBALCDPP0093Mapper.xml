@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBDElTAGLOBALCDPP0093Mapper">
+    <insert id="insertRental" parameterType="RentalResultDto"  useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_in_rental_car_rq_rs(
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , name
+            , rental_status
+            , confirmedmodelofrentalcar
+            , confirmedrentalstartdate
+            , confirmedrentalenddate
+        )values(
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{name}
+            , #{rentalStatus}
+            , #{confirmedModelofRentalCar}
+            , to_date(#{confirmedRentalStartDate},'YYYY-MM-DD')
+            , to_date(#{confirmedRentalEndDate},'YYYY-MM-DD')
+        )
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_in_rental_car_rq_rs(#{param_id});
+    </insert>
+
+    <select id="getProcessRowIds" parameterType="list" resultType="string">
+        select
+            prt.row_id
+        from
+            landing.if_in_rental_car_rq_rs iircrr
+        join
+            process.rental prt
+        on
+            iircrr.name = prt.name
+        where
+            iircrr.row_id in
+            <foreach collection="paramList" item="item" index="index" open="(" close=")" separator=",">
+                CAST(#{item} AS INTEGER)
+            </foreach>
+    </select>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_in_rental_car_rq_rs(#{param_id});
+    </insert>
+</mapper>

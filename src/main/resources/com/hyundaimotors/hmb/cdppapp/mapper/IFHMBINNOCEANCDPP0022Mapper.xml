@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0022Mapper">
+
+    <select id="getCheckHoliDay" parameterType="IFHMBINNOCEANCDPP0022Dto" resultType="IFHMBINNOCEANCDPP0022Dto">
+        select
+            a.row_id as accntRowId
+            , d.row_id as holyRowId
+        from
+            process.dealerholiday d
+        join
+            process.account a
+        on
+            a.row_id  = d.par_row_id__c
+        where    
+            a.dealercode__c = #{dealerCode}
+        and
+            d.holiday_date__c = to_date(#{holidayDate},'YYYY-MM-DD')
+        and
+            d.type__c = 'Dealer Local Holiday'
+        order by d.createddate desc
+    </select>
+        
+    <insert id="insertObject" parameterType="IFHMBINNOCEANCDPP0022Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_mntsrvc_manage_dlr_holiday
+        (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , source
+            , holiday_description
+            , holiday_date            
+            , dealer_code
+            , operation                     
+        )
+        VALUES 
+        (   
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{source}
+            , #{holidayDescription}
+            , to_date(#{holidayDate}, 'YYYY-MM-DD')
+            , #{dealerCode}
+            , #{operation}            
+        );
+    </insert>
+
+    
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_mntsrvc_manage_dlr_holiday(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{PROC_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call Replica.if_mntsrvc_manage_dlr_holiday(#{PROC_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPEAICDPP0026Mapper">
+    
+    
+
+    <insert id="insertProductList" parameterType="ListOfProductDto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_product_list_in_wf_product
+        (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , name
+            , source
+            , type
+            , suggestedprice
+            )
+        values
+            (
+                now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{name}
+                , #{source}
+                , #{type}
+                , cast(#{suggestedPrice} as Integer)
+            )        
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_product_list_in_wf(#{PARAM_ID});
+    </insert>
+
+    <select id="getProcIdList" parameterType="hashMap" resultType="String">
+        select
+            row_id
+        from
+            process.product 
+        where
+            "name" in 
+            <foreach collection="NAME_LIST" item="item" index="idx" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+    </select>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_product_list_in_wf(#{PROC_ID});
+    </insert>
+</mapper>

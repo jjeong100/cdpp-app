@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0019Mapper">
+    
+    <select id="getList" parameterType="IFHMBINNOCEANCDPP0019Dto" resultType="IFHMBINNOCEANCDPP0019Dto">
+        select
+            to_char(pdh.holiday_date__c, 'DD') as description
+            , pma.absence_period as available
+        from 
+            process.dealerholiday pdh
+        join
+            process.maintenanceable_availability pma
+        on
+            pma.dealer_code = (select pc.dealercode__c from process.dealerholiday pdh join process.account pc on pdh.par_row_id__c = pc.row_id where pc.dealercode__c = #{dealerCode} limit 1)
+        where 
+            pdh.holiday_date__c <![CDATA[ > ]]> date_trunc('month', to_date(concat(#{year}||'-'||#{month}||'-'||'01'), 'YYYY-MM-DD'))::date and pdh.holiday_date__c <![CDATA[ < ]]> date_trunc('month',to_date(concat(#{year}||'-'||#{month}||'-'||'01'), 'YYYY-MM-DD') + interval '1 months')::date - 1
+        and
+            to_date(pma.period1_start, 'YYYY-MM-DD') = pdh.holiday_date__c
+        and
+            pma.dealer_code = #{dealerCode}
+        group by to_char(pdh.holiday_date__c, 'DD'), pma.absence_period
+    </select>
+</mapper>

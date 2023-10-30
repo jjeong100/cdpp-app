@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPCDPP0031Mapper">
+    
+    <select id="getServiceRequestTD" parameterType="IFHMBSAPCDPP0031Dto" resultType="SearchServiceRequestDto">
+        select 
+            ptc.testdriverequestdate__c as testDriveDate
+            , ptc.testdriverequesttime__c as testDriveTime
+            , (case when ptc.testdriveconfirmed__c = 't' then 'Y' when ptc.testdriveconfirmed__c = 'f' then 'N' end) as testDriveConfirmed
+            , ptc.legacy_created as created
+            , ptc.legacy_created_by as createdBy
+            , ptc.legacy_last_upd as updated
+            , ptc.legacy_last_upd_by as updatedBy
+            , pa.firstname as salesRepFirstName
+            , pa.lastname as salesRepLastName
+            , ptc.dealercode__c as dealer
+            , ptc.conflict_id as conflictId
+            , ptc.protocolid__c as protocol
+            , ptc.status__c as status
+            , ptc.relatedmodel__c as model
+            , pa.row_id as contactId
+            , ptc.level2__c as area
+            , pa.cpf__c as cpf
+            , ptc."SourceTag__c" as origem
+            , ptc.row_id as srId
+            , ptc.dealercode__c as selectedSRRoutingDealerCode
+        from
+            process.testdrivehistory__c ptc 
+        join
+            process.account pa
+        on
+            ptc.contact_id__c = pa.row_id
+        where
+        ptc.integrationid__c notnull
+            <if test='created == "N"'>
+                and
+                    ptc.legacy_last_upd = to_date(#{dateInput}, 'YYYY-MM-DD')
+            </if>
+            <if test='created == "Y"'>
+                and
+                    ptc.legacy_created = to_date(#{dateInput}, 'YYYY-MM-DD')
+            </if>
+    </select>
+</mapper>

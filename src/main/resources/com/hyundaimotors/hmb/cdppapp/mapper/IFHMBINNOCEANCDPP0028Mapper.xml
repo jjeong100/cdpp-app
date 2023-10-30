@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0028Mapper">
+    
+    <select id="getProcRowId" parameterType="IFHMBINNOCEANCDPP0028Dto" resultType="String">
+        select
+            row_id as getProcRowId
+        from
+            process.loyalty_program pl
+        where
+            pl.person_account_id = #{contactId}
+    </select>
+
+    <insert id="insertObject" parameterType="IFHMBINNOCEANCDPP0028Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_register_loyalty_bnf_used_ws
+            (
+                created_by
+                , created
+                , last_upd_by
+                , last_upd
+                , contactid
+                , partnername
+                , partnercnpj
+                , partnerexternalid
+                , benefitname
+                , benefiturl
+                , appsource
+        )values(
+                'interface'
+                , now()
+                , 'interface'
+                , now()
+                , #{contactId}
+                , #{partnerName}
+                , #{partnerCNPJ}
+                , #{partnerExternalId}
+                , #{benefitName}
+                , #{benefitURL}
+                , #{appSource}
+        );
+    </insert>
+
+   
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_register_loyalty_bnf_used_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{PROC_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_register_loyalty_bnf_used_ws(#{PROC_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+    
+
+
+</mapper>

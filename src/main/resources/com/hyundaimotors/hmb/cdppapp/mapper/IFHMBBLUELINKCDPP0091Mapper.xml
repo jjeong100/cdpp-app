@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBBLUELINKCDPP0091Mapper">
+    <select id="getBluelinkList" parameterType="IFHMBBLUELINKCDPP0091Dto" resultType="GetBluelinkDto">
+        select 
+            chassi__c as assetNum
+            , assetdate__c::timestamp as assetDate
+            , type__c as type
+            , firstactivation__c as firstActivation
+            , eventdate__c as eventDate
+        from
+            process.bluelink
+        where
+            1=1
+        <if test="dateInput != null and !dateInput.equals('')">
+            and
+                created = to_date(#{dateInput}, 'YYYY-MM-DD')
+        </if>
+        <if test="vin != null and !vin.equals('')">
+            and
+                chassi__c = #{vin}
+        </if>
+    </select>
+</mapper>

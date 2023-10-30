@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBDMSCDPP0004Mapper">
+    
+    <select id="getContact" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+        select 
+            le.partneraccountid as rowId
+        from 
+            process.lead le 
+        where
+            le.created = to_date(#{date},'YYYY-MM-DD')
+        <if test="statusLead != null and statusLead != ''">
+            and
+                le.state = #{statusLead}
+        </if>    
+    </select>
+
+    <select id="contactInfoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+        select 
+            pac.firstname as nome
+            , pac.lastname as sobrenome
+            , pac.gender__pc as genero
+            , pac.personbirthdate as dataNascimento
+            , pac.age__c as idade
+            , pac.personmobilephone as telefone
+            , pac.personemail as email
+            , pac.cpf__c as cpf
+            , pac.billingpostalcode as cep
+            , pac.billingstreet as endereco
+            , pac.row_id as idconnex
+            , psr.quote_replace_intention__c as dataPrevistaCarroNovo
+        from 
+            process.account pac
+        join
+            process.service_request psr  
+        on
+            pac.row_id = psr.contact_row_id__c
+        where
+            pac.row_id = #{rowId}
+    </select>
+    
+    <select id="veiculoInfoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+        select
+            pac.modelname__c as modelo
+            , pac.enginetype__c as motor
+            , pac.latestmileage__c as transmissao
+            , pac.x_license_plate__c as versao
+            , pac.vehiclecolor__c as cor
+            , pac.purchaseprice__c as preco
+        from 
+            process.asset pac 
+        where 
+            pac.contact_row_id__c = #{rowId}
+
+    </select>
+
+    <select id="opvInfoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+        select 
+            le.row_id as rowId
+            , le.sr_num__c as protocolo
+            , le.dealercode__c as codigoConcessionaria
+            , le.sourcechannelcategory__c as origem
+            , le.sourcechannelItem__c as metodo
+            , le.act_open_dt__c as dataAbertura
+            , le.sr_stat_id__c as status
+            , le.sr_sev_cd__c as prioridade
+            , le.x_pne_flg__c as identificacaoPCD
+            , le.customertype__c as tipoContato
+            , le.x_already_customer__c as clienteHyundai
+            , le.x_opv_usedcar_paymnt__c as usadoNaTroca
+            <!--, le.ATTRIB_13 as optInCotacao-->
+            , le.calloptin__c as optInContato
+            , le.company as nomeConcessionaria
+            , le.cust_stat_cd__c as statusConcessionaria
+            , le.description as comentario
+            , le.sourcechannelItem__c as metodoContato
+            , le.desc_text__c as observacoesContato
+            , le.x_camp_id__c as dadosCampanha
+        from 
+            process.lead le
+        where 
+            le.partneraccountid = #{rowId}
+    </select>
+    <select id="financiamentoopvList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+        select 
+            le.x_opv_wants_loan__c as querFinanciar
+            , le.x_opv_loan_type__c as tipoFinanciamento
+            , le.x_opv_down_paymnt__c as valorEntradaFinanciamento
+            , le.x_opv_installments_amt__c as qtdParcelaFinanciamento
+        from 
+            process.lead le
+        where 
+            le.partneraccountid = #{rowId}
+    </select>
+    
+</mapper>

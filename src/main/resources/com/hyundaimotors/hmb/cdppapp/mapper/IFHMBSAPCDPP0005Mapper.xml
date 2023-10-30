@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPCDPP0005Mapper">
+
+    <select id="foundAccountIdbyCnpj" parameterType="IFHMBSAPCDPP0005Dto" resultType="String">
+        select
+            row_id as foundAccountIdbyCnpj
+        from
+            process.account
+        where
+            corporateregistrationnumber__c = #{cnpjNumber}
+    </select>
+
+    <select id="foundAccountId" parameterType="IFHMBSAPCDPP0005Dto" resultType="String">
+        select
+            row_id as foundAccountId
+        from
+            process.account
+        where
+            lower(trim(name)) = lower(trim(#{name}))
+    </select>
+    
+    <insert id="insertObject" parameterType="IFHMBSAPCDPP0005Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_account_ws_wf
+            (
+                created
+                , created_by
+                , last_upd
+                , last_upd_by
+                , integrationid
+                , cnpjnumber
+                , name
+                , nickname
+                , parentaccountname
+                , agencycode
+                , fleetacconttype
+                , industrytrend
+                , numberofemployee
+                , totalfleetsize
+                , contractedsince
+                , source
+                , organizationtype
+                , mainphonenumber
+                , mainfaxnumber
+                , mainemailaddress
+                , homepage
+                , streetaddress
+                , streetaddress2
+                , Streetaddress3
+                , country
+                , city
+                , state
+                , postalcode
+                , description
+            )
+        values
+            (
+                now()
+                , 'interface'
+                , now()
+                , 'interface'
+                , #{integrationId}
+                , #{cnpjNumber}
+                , #{name}
+                , #{nickname}
+                , #{parentAccountName}
+                , #{agencyCode}
+                , #{fleetAccontType}
+                , #{industryTrend}
+                , #{numberOfEmployee}
+                , #{totalFleetSize}
+                , to_date(#{contractedSince}, 'YYYY-MM-DD')
+                , #{source}
+                , #{organizationType}
+                , #{mainPhoneNumber}
+                , #{mainFaxNumber}
+                , #{mainEmailAddress}
+                , #{homepage}
+                , #{streetAddress}
+                , #{streetAddress2}
+                , #{streetAddress3}
+                , #{county}
+                , #{city}
+                , #{state}
+                , #{postalCode}
+                , #{description}
+                
+            );
+    </insert>   
+    
+    <insert id="insertProcessAccount" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_account_ws_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN},#{PROC_ACC_ID,jdbcType=VARCHAR,mode=IN},#{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+
+    <insert id="insertReplicaAccount" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_account_ws_wf(#{PROC_ACC_ID,jdbcType=VARCHAR,mode=IN},#{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+</mapper>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPEAICDPP0010Mapper">
+    <select id="getProcAssetId" parameterType="IFHMBSAPEAICDPP0010Dto" resultType="String">
+        select 
+            row_id as getProcAssetId
+        from
+            process.asset
+        where            
+            serialnumber = #{serialNumber}
+    </select>
+
+    <select id="getProcInvoiceId" parameterType="IFHMBSAPEAICDPP0010Dto" resultType="String">
+        select 
+            row_id as getProcInvoiceId
+        from
+            process.invoiceinfo
+        where            
+            name = #{serialNumber}
+        <if test="contactId != null">
+        and 
+            contact_row_id__c = #{contactId}
+        </if>
+    </select>
+
+    <select id="getProcCustVehicleId" parameterType="IFHMBSAPEAICDPP0010Dto" resultType="String">
+        select 
+            pv.row_id
+        from
+            process.customer_vehicle pv
+        join
+            process.asset pa
+        on
+            pv.asset_id = pa.row_id
+        where  
+            pa.serialnumber = #{serialNumber}
+            <if test="account != null">
+                and 
+                pv.account_id in 
+                <foreach collection="account" item="item" index="idx" open="(" close=")" separator=","> 
+                    #{item.connexAccountId}
+                </foreach>
+            </if>
+            <if test="contact != null">
+                or 
+                pv.account_id in 
+                <foreach collection="contact" item="item" index="idx" open="(" close=")" separator=","> 
+                    #{item.connexContactId}
+                </foreach>
+            </if>      
+        
+            
+    </select>
+
+    <insert id="insertAutoVehicle" parameterType="IFHMBSAPEAICDPP0010Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_auto_vehicle_ws_wf (
+            integrationid
+            , status
+            , serialnumber
+            , renavamcode
+            , enginenumber
+            , vehiclelicensenumber
+            , fsc_ocn
+            , modelName
+            , internalcolorcode
+            , externalcolorcode
+            , fuel
+            , purchaseprice
+            , manufactureyear
+            , modelyear
+            , mileage
+            , saleTodealerdate
+            , warrantystartdate
+            , billingdate
+            , delivertocustomerdate
+            , sellingdealercode
+            , negotiationtype
+            , subscriptiontype
+            , fiscalReceipt
+            , salesrepid
+            , salesrepfirstname
+            , salesreplastname
+            , urlphoto
+            , urlphotodate
+            , urlauthpublication
+            , vehiclelicensedate
+            , digitalsales
+            , deliveryathome
+            , tdathome
+            , ccs_flg
+            , created
+            , created_by
+            , last_upd
+            , last_upd_by
+        ) values (
+            #{integrationId}
+            , #{status}
+            , #{serialNumber}
+            , #{renavamCode}
+            , #{engineNumber}
+            , #{vehicleLicenseNumber}
+            , #{fscOcn}
+            , #{modelName}
+            , #{internalColorCode}
+            , #{externalColorCode}
+            , #{fuel}
+            , #{purchasePrice}
+            , #{manufactureYear}
+            , #{modelYear}
+            , #{mileage}
+            , to_date(#{saleToDealerDate}, 'YYYY-MM-DD')
+            , to_date(#{warrantyStartDate}, 'YYYY-MM-DD')
+            , to_date(#{billingDate}, 'YYYY-MM-DD')
+            , to_date(#{deliverToCustomerDate}, 'YYYY-MM-DD')
+            , #{sellingDealerCode}
+            , #{negotiationType}
+            , #{subscriptionType}
+            , #{fiscalReceipt}
+            , #{salesrepId}
+            , #{salesrepFirstName}
+            , #{salesrepLastName}
+            , #{urlPhoto}
+            , to_date(#{urlphotoDate}, 'YYYY-MM-DD')
+            , #{urlauthPublication}
+            , to_date(#{vehicleLicenseDate}, 'YYYY-MM-DD')
+            , #{digitalSales}
+            , #{deliveryatHome}
+            , #{tdatHome}
+            , #{ccs_flg}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'
+        );
+    </insert>
+    
+    <insert id="insertContactList" parameterType="AutoVehicleWebserviceWFContactDto" useGeneratedKeys="true" keyProperty="conRowId" keyColumn="row_id">
+        insert into landing.if_auto_vehicle_ws_wf_contact (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , connexcontactid
+            , "type"
+            , status
+            , employee
+            , serialnumber
+            , par_row_id
+        ) values         
+        (
+            now()
+            , 'interface'
+            , now()
+            , 'interface'   
+            , #{connexContactId}     
+            , #{contactType}     
+            , #{contactStatus}     
+            , #{employee}  
+            , #{serialNumber}
+            , CAST(#{parRowId} as Integer)
+        )
+    </insert>
+
+    <insert id="insertAccountList" parameterType="AutoVehicleWebserviceWFAccountDto" useGeneratedKeys="true" keyProperty="accntRowId" keyColumn="row_id">
+        insert into landing.if_auto_vehicle_ws_wf_account(
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , connexaccountid
+            , "type"
+            , status
+            , serialnumber
+            , par_row_id
+        ) values        
+        (
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{connexAccountId}
+            , #{accountType}
+            , #{accountStatus}
+            , #{serialNumber}
+            , CAST(#{parRowId} as Integer)
+        )       
+    </insert>
+    
+    
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_auto_vehicle_ws_wf(#{PARAM_ID}, #{PROC_ASSET_ID}, #{PROC_INVOICE_ID}, #{account_rowid}, #{contact_rowid});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call Replica.if_auto_vehicle_ws_wf(#{PROC_ASSET_ID},  #{PROC_INVOICE_ID}, #{PROC_CUSTVEHICLE_ID});
+    </insert>
+</mapper>

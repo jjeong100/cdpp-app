@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSELFBICDPP0062Mapper">
+    
+    <select id="getLead" parameterType="IFHMBSELFBICDPP0062Dto" resultType="TotalLeadDto">
+        select 
+            psr.protocol__c as protocol
+            , psr.reason__c as reason
+            , psr.origin as origin
+            , psr.method as method
+            , psr.legacycreateddate__c as openDate
+            , psr.close_date__c as closeDate
+            , psr.status as status
+            , psr.voctype__c as level1
+            , psr.voc_class as level2
+            , psr.voc_level_2__c as level3
+            , psr.voc_level_3__c as level4
+            , psr.predictive_temp__c as predictiveTemp
+            , bpac.dealercode__c as dealerCode
+            , bpac.corporaterepresentativename__c as dealerNick
+            , psr.relatedmodel__c as relatedModel
+            , psr.quotetransmission__c as quoteTransmission
+            , psr.version__c as quoteVersion
+            , psr.source_tag__c as sourceTag
+            , psr.medium_tag__c as mediumTag
+            , psr.content_tag__c as contentTag
+            , psr.campaignid__c as campaignTag
+            , psr.form__c as form
+            , psr.testdrive_confirmed__c as tdConfirmed
+            , (case when psr.status = 'Closed' and psr.testdrive_confirmed__c = 'Y' then 'Y' else 'N' end) as tdCompleted
+            , psr.legacy_last_upd_by as updated
+            , psr.relatedmodel__c as tdModel
+            , psr.reserve_amount__c as reserveAmount
+            , psr.payment_date__c as paymentDate
+            , psr.payment_method__c as paymentMethod
+            , psr.payment_status__c as paymentStatus
+            , pas.description__c as tdVersion
+            , psr.description as description
+            , psr.usedcar_brand__c as usadoMarca
+            , psr.usedcar_model__c as usadoModelo
+            , psr.usedcar_chassi__c as usadoChassi
+            , psr.usedcar_color__c as usadocor
+            , psr.usedcar_km__c as usadoQuilometragem
+            , psr.usedcar_max_price__c as usadoprecoMaximo
+            , psr.usedcar_mid_price__c as usadoprecoMedio
+            , psr.usedcar_min_price__c as usadoprecoMinimo
+            , psr.usedcar_plate__c as usadoPlaca
+            , psr.usedcar_version__c as usadoVersao
+            , psr.usedcar_year__c as usadoAno
+            , psr.quote_color__c as quoteColor
+            , psr.quote_color_price__c as quoteColorPrice
+            , psr.quote_version_price__c as quoteVersionPrice
+            , psr.quote_price__c as quotePrice
+            , psr.quote_replace_intention__c as quoteReplaceIntention
+            , psr.contact_row_id__c as contactRowId
+        from
+            process.service_request psr 
+        left join
+            process.account bpac
+        on
+            psr.account_row_id__c = bpac.row_id 
+        left join 
+            process.asset pas
+        on
+            psr.serialnumber = pas.serialnumber 
+        where
+            psr.legacycreateddate__c::date = to_date(#{date}, 'YYYY-MM-DD')
+        and
+            psr.protocol__c = #{lead}
+        <choose>
+            <when test='created == "TestDrive"'>
+                and
+                    psr.reason__c = 'Information'
+                and
+                    psr.voctype__c = 'Sales'
+                and
+                    psr.voc_class = 'Test drive'
+            </when>
+            <when test='created == "RequestaQuote"'>
+                and
+                    psr.reason__c = 'Sales opportunity'
+                and
+                    psr.voctype__c = 'Sales'
+                and
+                    psr.voc_class = 'Request a quote'
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+    </select>
+    
+    <select id="getContact" parameterType="String" resultType="TotalContactDto">
+        select 
+            pc.personbirthdate as birthDate
+            , pc.gender__pc as gender
+            , pc.pcd__c as pcd
+            , pc.calloptyn__pc as suppressAllCalls
+            , pc.emailoptyn__pc as suppressAllEmails
+            , pc.directmailoptyn__pc as suppressAllMailings
+            , pc.blockedmobile__c as suppressAllMobilePhone
+            , pc.blockedsms__c as suppressAllSMS
+            , pc.x_printed_card__c as suppressAllVideoCall
+            , pc.blockedwhatsapp__c as suppressAllWhatsapp
+        from
+            process.account pc 
+        where
+            pc.row_id = #{contactRowId}
+    </select>
+
+    <select id="getAction" parameterType="String" resultType="TotalActionDto">
+        select 
+            psea.first_interaction as fstInteraction
+            , psea.get_lead_date as getLead
+            , psea.status as Status
+            , psea.planned_date as dtEnvio
+            , psea.closing_date as dt_fechamento
+            , psea.visit_conducted_date as visitconducted
+            , psea.visit_scheduled_date as visitsched
+            , psea.visit_status as visitstat
+        from
+            process.service_event_act psea
+        where 
+            psea.protocol__c = #{protocol}
+        order by legacy_created desc
+        limit 1
+    </select>
+</mapper>

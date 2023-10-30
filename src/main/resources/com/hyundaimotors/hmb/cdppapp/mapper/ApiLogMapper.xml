@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.ApiLogMapper">
+    <insert id="insertObject" parameterType="ApiLogDto" useGeneratedKeys="true" keyProperty="seqNo" keyColumn="seq_no">
+        INSERT INTO process.if_info_logs
+        (
+            if_id
+            , if_request_at
+            , if_req_json
+            , if_tr_id
+        ) VALUES (
+            #{ifId}
+            , #{ifRequestAt}
+            , #{ifReqJson}
+            , #{ifTrId}
+        )
+    </insert>
+    <update id="updateObject" parameterType="ApiLogDto">
+        UPDATE process.if_info_logs
+        <set>
+            <if test="ifResponseAt != null">if_response_at = #{ifResponseAt},</if>
+            <if test="ifStep1At != null">if_step1_at = #{ifStep1At},</if>
+            <if test="ifStep2At != null">if_step2_at = #{ifStep2At},</if>
+            <if test="ifStep3At != null">if_step3_at = #{ifStep3At},</if>
+            <if test="ifResJson != null">if_res_json = #{ifResJson},</if>
+            <if test="ifErrFlag != null">if_err_flag = #{ifErrFlag},</if>
+            <if test="ifErrMsg != null">if_err_msg = #{ifErrMsg},</if>
+            last_mod_at = now()
+        </set>
+        WHERE
+            seq_no = #{seqNo}
+    </update>
+    <select id="selectSeqNo" parameterType="String" resultType="int">
+        SELECT seq_no FROM process.if_info_logs WHERE if_tr_id = #{ifTrId}
+    </select>
+</mapper>

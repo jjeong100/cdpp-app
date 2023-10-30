@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBMAPFRECDPP0009Mapper">
+    
+    <select id="getRSAId" parameterType="IFHMBMAPFRECDPP0009Dto" resultType="String">
+        select
+            row_id as getRSAId
+        from
+            process.road_side_assistant
+        where 
+            integration_id = #{claimId}
+    </select>
+
+    <delete id="deleteList" parameterType="IFHMBMAPFRECDPP0009Dto">
+        delete from
+            landing.if_auto_vehicle_rsa_claim_ws_rsaservice
+        where
+            par_row_id = CAST(#{rowId} as INTEGER)
+    </delete>
+
+    <insert id="insertObject" parameterType="IFHMBMAPFRECDPP0009Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_auto_vehicle_rsa_claim_ws
+        (
+            created_by
+            , created
+            , last_upd_by
+            , last_upd
+            , claimid
+            , source
+            , requesterfirstname
+            , requesterlastname
+            , requesterdocument
+            , requesterrelationship
+            , createdate
+            , reason
+            , breakdowndescription
+            , breakdowncode
+            , breakdownnature
+            , claimstatus
+            , serialnumber
+            , effectivestartdate
+            , effectiveenddate
+            , exchangedate
+            , vehicleplate
+            , vehiclemileage
+        )values(
+            'interface'
+            , now()
+            , 'interface'
+            , now()            
+            , #{claimId}
+            , #{source}
+            , #{requesterFirstName}
+            , #{requesterLastName}
+            , #{requesterDocument}
+            , #{requesterRelationship}
+            , to_date(#{createDate},'YYYY-MM-DD')
+            , #{reason}
+            , #{breakdownDescription}
+            , #{breakdownCode}
+            , #{breakdownNature}
+            , #{claimStatus}
+            , #{serialNumber}
+            , to_date(#{effectiveStartDate},'YYYY-MM-DD')
+            , to_date(#{effectiveEndDate},'YYYY-MM-DD')
+            , to_date(#{exchangeDate},'YYYY-MM-DD')
+            , #{vehiclePlate}
+            , #{vehicleMileage}
+        );
+    </insert>
+
+    <insert id="insertResSetvice" parameterType="IFHMBMAPFRECDPP0009Dto">
+        insert into landing.if_auto_vehicle_rsa_claim_ws_rsaservice
+            (
+                created_by
+                , created
+                , last_upd_by
+                , last_upd
+                , par_row_id
+                , serviceid
+                , createdate
+                , servicecode
+                , specialty
+                , provider
+                , vehicleproblem
+                , problemdescription
+                , tmcpredicted
+                , important
+                , requeststatus
+                , actuationstatus
+                , addressname
+                , addressnumber
+                , addresscomplement
+                , county
+                , city
+                , state
+                , latitude
+                , longitude
+                , reference
+                , zipcode
+                , dealername
+                , dealernickname
+                , expense
+            )values
+            <foreach collection="listOfRSASetvice" item="item" separator=",">
+                (
+                    'interface'
+                    , now()
+                    , 'interface'
+                    , now()
+                    , CAST(#{rowId} as INTEGER)
+                    , #{item.serviceId}
+                    , to_date(#{item.createDate},'YYYY-MM-DD')
+                    , #{item.serviceCode}
+                    , #{item.specialty}
+                    , #{item.provider}
+                    , #{item.vehicleProblem}
+                    , #{item.problemDescription}
+                    , #{item.tmcPredicted}
+                    , #{item.important}
+                    , #{item.requestStatus}
+                    , #{item.actuationStatus}
+                    , #{item.addressName}
+                    , #{item.addressNumber}
+                    , #{item.addressComplement}
+                    , #{item.county}
+                    , #{item.city}
+                    , #{item.state}
+                    , #{item.latitude}
+                    , #{item.longitude}
+                    , #{item.reference}
+                    , #{item.zipCode}
+                    , #{item.dealerName}
+                    , #{item.dealerNickname}
+                    , #{item.expense}
+                )
+            </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_auto_vehicle_rsa_claim_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{PROC_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_auto_vehicle_rsa_claim_ws(#{PROC_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+</mapper>

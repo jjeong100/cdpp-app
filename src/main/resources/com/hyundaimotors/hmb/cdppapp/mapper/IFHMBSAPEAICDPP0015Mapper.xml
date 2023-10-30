@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPEAICDPP0015Mapper">
+
+    <insert id="insertObject" parameterType="IFHMBSAPEAICDPP0015Dto"  useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+        insert into landing.if_in_color_ws_color
+        (
+            created
+            , created_by
+            , last_upd
+            , last_upd_by
+            , type
+            , code            
+            , description_em            
+            , description_pt            
+            , color_type            
+            , color_description            
+        )values
+        <foreach collection="listOfColor" item="item" separator=",">
+        (
+            now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{item.type}
+            , #{item.code}            
+            , #{item.descriptionEM}            
+            , #{item.descriptionPT}            
+            , #{item.colorType}            
+            , #{item.colorDescription}            
+        )
+        </foreach>
+    </insert>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_in_color(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_in_color(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+</mapper>

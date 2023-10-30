@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0021Mapper">
+    
+    <select id="getObject" parameterType="IFHMBINNOCEANCDPP0021Dto" resultType="ListOfDealers">
+        select 
+            pa.dealercode__c as dealerCode
+        from 
+            process.dealerservice pd
+        join
+            process.account pa 
+        on
+            pa.row_id = pd.par_row_id__c 
+        where 
+            pd.dlr_srvc_type__c = #{serviceName}
+        and
+            pa.dealercode__c notnull
+    </select>
+</mapper>

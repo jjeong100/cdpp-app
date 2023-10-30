@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBCSUCDPP0085Mapper">
+    
+    <select id="getDealerId" parameterType="IFHMBCSUCDPP0085Dto" resultType="String">
+        select process.if_in_cl_dl_ws(#{param_id}, #{saleorservice})
+    </select>
+    
+    <select id="getChannelObject" parameterType="IFHMBCSUCDPP0085Dto" resultType="ChannelPartnerCSUDto">
+        select 
+            pac.integrationid as integrationId
+            , pac."name" as name
+            , pac.corporaterepresentativename__c as nickName
+            , pac.dealercode__c as dealerCode
+            , pac.phone as mainPhone
+            , pac.whatsappphone__c as whatsappPhoneNumber
+            , pac.billingstreet as streetAddress
+            , pac.billingstreet_2__c as streetAddress2
+            , pac.billingstreet_3__c as streetAddress3
+            , pac.billingcity as city
+            , pac.billingstate as state
+            , pac.billingcountry as neighborhood
+            , pac.billingpostalcode as zipCode
+        from 
+            process.account pac
+        where
+             pac.row_id = #{objectSpcId}
+    </select>
+</mapper>

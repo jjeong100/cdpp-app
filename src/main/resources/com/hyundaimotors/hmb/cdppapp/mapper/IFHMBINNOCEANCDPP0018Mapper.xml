@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0018Mapper">
+    
+    <select id="getList" parameterType="IFHMBINNOCEANCDPP0018Dto" resultType="IFHMBINNOCEANCDPP0018Dto">
+        select 
+            pc.protocol__c as protocolNum
+            , pc.status as protocolStatus
+            , pdah.srvc_type as serviceType
+            , pdah.srvc_arrival_date as serviceArrivaldate
+            , pdah.srvc_start_date as serviceStartdate
+            , pdah.srvc_duration as serviceDuration
+            , pdah.srvc_delivery_date as serviceDeliverydate
+            , pc.status_date__c as serviceStatus
+            , pac.dealercode__c as dealerCode
+            , pac.corporaterepresentativename__c as dealerName
+            , pas.carregistrationnumber__c as vehiclePlate
+            , pp.chassi_model__c as vehicleModel
+            , pas.modelyear__c as vehicleModelyear
+            , pas.manufacturedate as vehicleManufacyear
+            , pas.vehiclecolor__c as vehicleExtcolor
+            , pas.serialnumber as vehicleChassi
+            , concat(pac.firstname || pac.lastname) as consultantName
+            , concat(pac.firstname || pac.lastname) as technicianName
+        from 
+            process.case pc
+        join
+            process.dealer_appointment_history pdah
+        on
+            pc.external__c = pdah.par_row_id
+        join 
+            process.account pac
+        on
+            pc.contact_row_id__c = pac.row_id
+        left join 
+            process.asset pas
+        on
+            pc.asset_id = pas.row_id 
+        left join 
+            process.product pp
+        on
+            pas.prod_id = pp.int_x_par_row_id
+        where 
+            pac.cpf__c = #{cpf}
+
+    </select>
+    
+</mapper>
