@@ -88,6 +88,7 @@
             , rule_id 
             , active 
             , ra_moderation_request_message
+            , ra_moderation_response_message
             , customerId
             , moderationstatus
             , moderationreason
@@ -101,6 +102,11 @@
             , phonenumbers
             , firstname
             , lastname
+            , city
+            , address_state
+            , attach_detail_description
+            , attach_name
+            <if test="attachCreationDate != null">, attach_creation_date</if>
         )values(                 
             #{id}
             , now()
@@ -185,7 +191,8 @@
             , #{contactUs}
             , #{ruleId}
             , #{active}
-            , #{message}
+            , #{raModerationRequestMessage}
+            , #{raModerationResponseMessage}
             , #{customerId}
             , #{moderationStatus}
             , #{moderationReason}
@@ -199,6 +206,11 @@
             , #{phoneNumbers}
             , #{firstName}
             , #{lastName}
+            , #{city}
+            , #{addressState}
+            , #{detailDescription}
+            , #{attachName}
+            <if test="attachCreationDate != null">, #{attachCreationDate}::timestamp</if>
         )
     </insert>
     

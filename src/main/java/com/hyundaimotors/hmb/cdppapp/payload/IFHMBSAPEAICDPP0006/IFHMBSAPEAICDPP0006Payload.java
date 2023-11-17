@@ -1,10 +1,9 @@
 package com.hyundaimotors.hmb.cdppapp.payload.IFHMBSAPEAICDPP0006;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -28,27 +27,26 @@ public class IFHMBSAPEAICDPP0006Payload {
         private String status;
         @Schema(description = "Action inbound interface", example = "123")
         private String hotlineId;
-        @Schema(description = "Action inbound interface", example = "2014-08-18")
+        @Schema(description = "Action inbound interface", example = "2023-10-20T15:14:33-0300")
         private String hotlineCreation;
         @Schema(description = "Action inbound interface", example = "1235469845")
         private String pwaId;
-        @Schema(description = "Created for Call Report", example = "1-19FJ8")
+        @Schema(description = "Created for Call Report", example = "2023-10-20T15:14:33-0300")
         private String pwaCreation;
         @Schema(description = "Action inbound interface", example = "123456")
         private String roId;
-        @Schema(description = "Action inbound interface", example = "2014-08-18")
+        @Schema(description = "Action inbound interface", example = "2023-10-20T15:14:33-0300")
         private String roCreation;
         @Schema(description = "Action inbound interface", example = "123456")
         private String mobisId;
         @Schema(description = "Action inbound interface", example = "em faturamento")
         private String mobisStatus;
-        @Schema(description = "Action inbound interface", example = "2014-08-18")
+        @Schema(description = "Action inbound interface", example = "2023-10-20T15:14:33-0300")
         private String expectedDelivery;
         @Schema(description = "Action inbound interface", example = "123456")
         private String purchasePurposeId;
         @Schema(description = "Action Type", example = "E-mail - Sa 00EDda")
-        @NotNull
-        @NotEmpty
+        @NotNull @NotBlank @NotEmpty
         private String type;
         @Schema(description = "Protocol Numer", example = "HMB8761468242")
         private String srProtocol;
@@ -66,7 +64,7 @@ public class IFHMBSAPEAICDPP0006Payload {
         private String serialNumber;
         @Schema(description = "Action Created", example = "2023-10-20T15:14:33-0300")
         private String creationDate;
-        @Schema(description = "Follow-up Date", example = "2012-10-15T06:52:26-0300")
+        @Schema(description = "Follow-up Date", example = "2023-10-20T15:14:33-0300")
         private String plannedDt;
         @Schema(description = "Action Order Numero", example = "1-19FJ6")
         private String orderNum;
@@ -75,12 +73,12 @@ public class IFHMBSAPEAICDPP0006Payload {
         @Schema(description = "stock", example = "stock")
         private String estoque;
 
-        @JsonProperty("ListOfNotes")
-        List<ActionNote> actionNote;
-        @JsonProperty("ListOfProducts")
-        List<ActionProducts> actionProducts;
-        @JsonProperty("ListOfFields")
-        List<SynergyActionAudit> synergyActionAudit;
+        @JsonProperty("actionNote")
+        ActionNote actionNote;
+        @JsonProperty("actionProducts")
+        ActionProducts actionProducts;
+        @JsonProperty("synergyActionAudit")
+        SynergyActionAudit synergyActionAudit;
     }
 
     @Schema(name = "IFHMBSAPEAICDPP0006Payload.Response")

@@ -2,10 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBBLUELINKCDPP0053Mapper">
 
-    <insert id="inserBluelink" parameterType="VehicleBluelinkDto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+    <insert id="inserBluelink" parameterType="BluelinkDto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
         insert into landing.if_auto_vehicle_bluelink_ws(
             chassi
-            , latestMileage
             , integrationId
             , created
             , created_by
@@ -16,7 +15,6 @@
             , type
         )values(                 
             #{setChassi}
-            , #{setLatestMileage}
             , #{integrationId}
             , now()
             , 'interface'
@@ -41,13 +39,9 @@
             process.bluelink pbc 
         on
             libl.chassi = pbc.chassi__c 
+        and
+            libl."type" = pbc.type__c
         where
-            libl.integrationid = pbc.integrationid__c 
-        and 
-            libl.activationdate = pbc.activationdate__c
-        and 
-            libl.firstactivation = pbc.firstactivation__c
-        and 
             libl.row_id in
             <foreach collection="paramList" item="item" index="index" open="(" close=")" separator=",">
                 CAST(#{item} AS INTEGER)

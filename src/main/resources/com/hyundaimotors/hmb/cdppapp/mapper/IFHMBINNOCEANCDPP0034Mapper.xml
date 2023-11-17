@@ -122,7 +122,7 @@
             , #{satisfaction}
             , #{dealerId}
             , #{causingArea}
-            , #{imobilizationDate}
+            , #{imobilizationDate}::timestamp
             , #{relatedModel}
             , #{quoteDescription}
             , #{engineTransmission}
@@ -136,7 +136,7 @@
             , #{integrationId}
             , #{tdConfirmed}
             , #{tdTime}
-            , #{tdDate}
+            , #{tdDate}::timestamp
             , #{salesrepId}
             , #{pneFlag}
             , #{campaignId}
@@ -158,14 +158,14 @@
             , #{dlrReversal}
             , #{hotlineFlg}
             , #{hotlineNum}
-            , #{hotlineOpenDt}
+            , #{hotlineOpenDt}::timestamp
             , #{purchaseProposalNum}
             , #{pwaFlg}
             , #{pwaNum}
-            , #{pwaOpenDt}
+            , #{pwaOpenDt}::timestamp
             , #{recurrenceFlg}
             , #{recurrenceNum}
-            , #{vehicleDeliveryDt}
+            , #{vehicleDeliveryDt}::timestamp
             , #{vehicleDeliveryFlg}
             , #{wantsLoan}
             , #{loanType}
@@ -173,12 +173,12 @@
             , #{downPayment}
             , #{usedCarAsDownPaymnt}
             , #{dlrTemperature}
-            , #{paymntDate}
+            , #{paymntDate}::timestamp
             , #{paymntMethod}
             , #{paymntStatus}
             , #{reservationAmount}
             , #{form}
-            , #{schedDt}
+            , #{schedDt}::timestamp
             , #{schedType}
             , #{usedBrand}
             , #{usedChassi}
@@ -238,7 +238,7 @@
                 , 'interface'
                 , now()
                 , 'interface'
-                , #{item.backOrderDate}
+                , #{item.backOrderDate}::timestamp
                 , #{item.backOrderFlg}
                 , #{item.backOrderNum}
                 , #{item.backOrderStatus}
@@ -260,7 +260,7 @@
         select 
             row_id as protocalResult
         from
-            process.testdrivehistory__c
+            process.testdrivehistory
         where 
             external_id__c = cast(#{rowId} as text)
     </select>
@@ -269,7 +269,7 @@
         select 
             row_id as protocalResult
         from
-            process.quotehistory__c
+            process.quotehistory
         where 
             external_id__c = cast(#{rowId} as text)
     </select>

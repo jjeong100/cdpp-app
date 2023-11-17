@@ -11,7 +11,8 @@ public class IFHMBINNOCEANCDPP0089Dto {
     
     private String startDate;
     private String endDate;
-    private String ErrorSpcCode;
-    private String ErrorSpcMessage;
+
+    private String errorSpcCode;
+    private String errorSpcMessage;
     List<SatisfactionSurveyDto> listOfSatisfactionSurvey;
 }

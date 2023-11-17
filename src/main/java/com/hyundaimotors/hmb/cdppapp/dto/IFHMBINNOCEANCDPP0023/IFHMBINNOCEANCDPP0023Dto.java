@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class IFHMBINNOCEANCDPP0023Dto {
-    EmpAvailabInDto EmpAvailabIn;
+    EmpAvailabInDto empAvailabIn;
     private int dayRowId;
     private String errorSpcCode;
     private String errorSpcMessage;

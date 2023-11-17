@@ -25,7 +25,9 @@ public class HMBVehicle {
     @JsonProperty("ModelYear")
     private String modelYear;
     private String vehicleLicenseNumber;
+    @JsonProperty("internalColor")
     private String internalColorCode;
+    @JsonProperty("externalColor")
     private String externalColorCode;
     @JsonProperty("Fuel")
     private String fuel;

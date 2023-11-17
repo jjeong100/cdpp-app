@@ -28,13 +28,13 @@
             , psr.form__c as form
             , psr.testdrive_confirmed__c as tdConfirmed
             , (case when psr.status = 'Closed' and psr.testdrive_confirmed__c = 'Y' then 'Y' else 'N' end) as tdCompleted
-            , psr.legacy_last_upd_by as updated
+            , psr.legacy_last_upd as updated
             , psr.relatedmodel__c as tdModel
             , psr.reserve_amount__c as reserveAmount
             , psr.payment_date__c as paymentDate
             , psr.payment_method__c as paymentMethod
             , psr.payment_status__c as paymentStatus
-            , pas.description__c as tdVersion
+            , pas.description as tdVersion
             , psr.description as description
             , psr.usedcar_brand__c as usadoMarca
             , psr.usedcar_model__c as usadoModelo
@@ -64,11 +64,10 @@
         on
             psr.serialnumber = pas.serialnumber 
         where
-            psr.legacycreateddate__c::date = to_date(#{date}, 'YYYY-MM-DD')
-        and
-            psr.protocol__c = #{lead}
+            1=1
+       <if test="lead != null and lead != ''"> and psr.protocol__c = #{lead}</if>
         <choose>
-            <when test='created == "TestDrive"'>
+            <when test='voc == "TestDrive"'>
                 and
                     psr.reason__c = 'Information'
                 and
@@ -76,7 +75,7 @@
                 and
                     psr.voc_class = 'Test drive'
             </when>
-            <when test='created == "RequestaQuote"'>
+            <when test='voc == "RequestaQuote"'>
                 and
                     psr.reason__c = 'Sales opportunity'
                 and
@@ -88,6 +87,21 @@
 
             </otherwise>
         </choose>
+
+        <choose>
+            <when test='created == "Y"'>
+                and
+                    psr.legacycreateddate__c::date = to_date(#{date}, 'YYYY-MM-DD')
+            </when>
+            <when test='created == "N"'>
+                and
+                    psr.legacy_last_update__c::date = to_date(#{date}, 'YYYY-MM-DD')
+            </when>
+            <otherwise>
+
+            </otherwise>
+        </choose>
+
     </select>
     
     <select id="getContact" parameterType="String" resultType="TotalContactDto">
@@ -110,19 +124,40 @@
 
     <select id="getAction" parameterType="String" resultType="TotalActionDto">
         select 
-            psea.first_interaction as fstInteraction
+            psea.interactionstartdate__c as fstInteraction
             , psea.get_lead_date as getLead
-            , psea.status as Status
-            , psea.planned_date as dtEnvio
-            , psea.closing_date as dt_fechamento
-            , psea.visit_conducted_date as visitconducted
-            , psea.visit_scheduled_date as visitsched
-            , psea.visit_status as visitstat
+            , psea.status__c as Status
+            , psea.plannedenddt__c as dtEnvio
+            , psea.completeddatetime as dt_fechamento
+            , psea.visitdate__c as visitconducted
+            , psea.visitscheduled__c as visitsched
+            , psea.visitstatus__c as visitstat
         from
             process.service_event_act psea
         where 
             psea.protocol__c = #{protocol}
         order by legacy_created desc
         limit 1
+    </select>
+
+    <select id="getTemperature" parameterType="String" resultType="TotalTemperatureDto">
+        select 
+            '0' as name
+            , predictive_temp__c as temperature 
+            , createddate as created
+        from
+            process.opportunity
+        where 
+            protocol__c = #{protocol}
+        union all
+        select 
+            temperaturenumber__c as name 
+            ,predictivetemp__c as temperature
+            , createddate as created
+        FROM
+            process.sales_consult_history
+        where
+            protocol__c = #{protocol}
+        order by name asc
     </select>
 </mapper>

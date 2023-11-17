@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +26,7 @@ public class IFHMBINNOCEANCDPP0013Payload {
         private String cnpj;
         @Schema(description = "Company name", example = "Motonet Comercio de Veiculos M")
         @JsonProperty("Name")
-        @NotNull
+        @NotNull @NotBlank @NotEmpty
         private String name;
         @Schema(description = "Company nickname", example = "Abr00E3o Reze - Sorocaba")
         @JsonProperty("Nickname")
@@ -40,7 +42,7 @@ public class IFHMBINNOCEANCDPP0013Payload {
         private String dealerType;
         @Schema(description = "Dealer Code", example = "B05AM23007")
         @JsonProperty("DealerCode")
-        @NotNull
+        @NotNull @NotBlank @NotEmpty
         private String dealerCode;
         @Schema(description = "Main phone.", example = "551530349000")
         @JsonProperty("MainPhone")

@@ -58,7 +58,7 @@
             , pas.vehiclecolor__c as externalColorCode
             , pas.hexawarrantyflag__c as hexaWarrantyFlag
             , pas.account_row_id__c as dealerId
-            , pas.dealercode__c as retailDt
+            , pcvp.retail_date as retailDt
             , (select corporaterepresentativename__c from process.account where row_id = account_row_id__c) as salesRepId
             , (select lastname from process.account where row_id = contact_row_id__c) as salesRepLastName
             , (select firstname from process.account where row_id = contact_row_id__c) as salesReFirstName

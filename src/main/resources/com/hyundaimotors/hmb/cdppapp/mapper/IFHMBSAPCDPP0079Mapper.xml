@@ -11,93 +11,25 @@
             , dealercode
             , vincode
             , mileage
-            , model
-            , zyear
-            , plate
-            , status
-            , quicksrv
-            , consult_cpf
-            , consult_name
+            , cpf
             , opendt
             , closedt
-            , canceldt
-            , deliverydt
-            , schedulingdt
-            , comments
-            , filesentdt
-            , total_worked_hours
-            , total_sold_hours
+            , status
             , total_value
-            , partner
-            , firstname
-            , lastname
-            , cpf
-            , city
-            , postl_cod1
-            , street
-            , house_no
-            , country
-            , region
-            , taxjurcode
-            , email
-            , tel_number
-            , mob_number
-            , blockcontact
-            , queried
-            , ernam
-            , erdat
-            , erzet
-            , aenam
-            , aedat
-            , aezet	
         )values(
             now()
             , 'interface'
             , now()
             , 'interface'
-            , #{repair.soid}
-            , #{repair.dealercode}
-            , #{repair.vincode}
-            , #{repair.mileage}
-            , #{repair.model}
-            , #{repair.zyear}
-            , #{repair.plate}
-            , #{repair.status}
-            , #{repair.quicksrv}
-            , #{repair.consultCpf}
-            , #{repair.consultName}
-            , #{repair.opendt}
-            , #{repair.closedt}
-            , #{repair.canceldt}
-            , #{repair.deliverydt}
-            , #{repair.schedulingdt}
-            , #{repair.comments}
-            , #{repair.filesentdt}
-            , #{repair.totalWorkedHours}
-            , #{repair.totalSoldHours}
-            , #{repair.totalValue}
-            , #{repair.partner}
-            , #{repair.firstname}
-            , #{repair.lastname}
-            , #{repair.cpf}
-            , #{repair.city}
-            , #{repair.postlCod1}
-            , #{repair.street}
-            , #{repair.houseNo}
-            , #{repair.country}
-            , #{repair.region}
-            , #{repair.taxjurcode}
-            , #{repair.email}
-            , #{repair.telNumber}
-            , #{repair.mobNumber}
-            , #{repair.blockcontact}
-            , #{repair.queried}
-            , #{repair.ernam}
-            , #{repair.erdat}::date
-            , #{repair.erzet}::time
-            , #{repair.aenam}
-            , #{repair.aedat}::date
-            , #{repair.aezet}::time
+            , #{soid}
+            , #{dealercode}
+            , #{vincode}
+            , #{mileage}
+            , #{cpf}
+            , #{opendt}
+            , #{closedt}
+            , #{status}
+            , #{totalValue}
         )
     </insert>
     <insert id="insertRepairService" parameterType="IFHMBSAPCDPP0079Dto">
@@ -115,17 +47,13 @@
             , codsrc
             , zdesc
             , zqty
-            , unit
             , value
-            , total_value
-            , ernam
             , erdat
             , erzet
-            , aenam
             , aedat
             , aezet
         )values
-        <foreach collection="repair.listOfService" item="item" separator=",">
+        <foreach collection="listOfService" item="item" separator=",">
             (
                 #{rowId}
                 , now()
@@ -140,13 +68,9 @@
                 , #{item.codsrc}
                 , #{item.zdesc}
                 , #{item.zqty}
-                , #{item.unit}
                 , #{item.value}
-                , #{item.totalValue}
-                , #{item.ernam}
                 , #{item.erdat}::date
                 , #{item.erzet}::time
-                , #{item.aenam}
                 , #{item.aedat}::date
                 , #{item.aezet}::time
             )
@@ -167,17 +91,13 @@
             , pncode
             , zdesc
             , zqty
-            , unit
             , value
-            , total_value
-            , ernam
             , erdat
             , erzet
-            , aenam
             , aedat
-            , aezet    
+            , aezet
         )values
-        <foreach collection="repair.listOfParts" item="item" separator=",">
+        <foreach collection="listOfParts" item="item" separator=",">
             (
                 #{rowId}
                 , now()
@@ -192,13 +112,9 @@
                 , #{item.pncode}
                 , #{item.zdesc}
                 , #{item.zqty}
-                , #{item.unit}
                 , #{item.value}
-                , #{item.totalValue}
-                , #{item.ernam}
                 , #{item.erdat}::date
                 , #{item.erzet}::time
-                , #{item.aenam}
                 , #{item.aedat}::date
                 , #{item.aezet}::time
             )

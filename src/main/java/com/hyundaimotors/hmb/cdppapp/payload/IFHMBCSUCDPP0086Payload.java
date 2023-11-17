@@ -3,6 +3,9 @@ package com.hyundaimotors.hmb.cdppapp.payload;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +16,7 @@ public class IFHMBCSUCDPP0086Payload {
     @Setter
     public static class Request{
         @Schema(description = "Phone number with format: +PaísDDDNumber", example = "+551130675420")
+        @NotNull @NotBlank @NotEmpty
         @JsonProperty("PhoneNumber")
         private String phoneNumber;
     }

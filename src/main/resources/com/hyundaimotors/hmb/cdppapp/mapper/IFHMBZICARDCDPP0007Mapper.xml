@@ -30,7 +30,7 @@
                 #{assetId}
                 , #{contactId}
                 , #{relationShip}
-                , to_date(#{hkmeRetailDate}, 'YYYY-MM-DD')
+                , #{hkmeRetailDate}::timestamp
                 , now()
                 , 'interface'
                 , now()

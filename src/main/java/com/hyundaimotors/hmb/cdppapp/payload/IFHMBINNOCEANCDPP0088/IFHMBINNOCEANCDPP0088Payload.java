@@ -5,6 +5,10 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +19,7 @@ public class IFHMBINNOCEANCDPP0088Payload {
     @Setter
     public static class Request{
         @Schema(description = "Unique code for the survey record to be added.A numeric sequence can be used. Connex will automatically concatenate the field source as prefix in this field, to avoid duplicated records from different partners.", example = "0000544697")
+        @NotNull @NotBlank @NotEmpty
         private String integrationId;
         @Schema(description = "Connex asset Id associated with the survey.   Must be a valid Connex id.", example = "1-2R8M-518")
         private String assetId;
@@ -27,8 +32,10 @@ public class IFHMBINNOCEANCDPP0088Payload {
         @Schema(description = "Survey date.Format: YYYY-MM-DD", example = "2014-05-16")
         private String researchDate;
         @Schema(description = "Survey name.", example = "Vendas")
+        @NotNull @NotBlank @NotEmpty
         private String researchName;
         @Schema(description = "External source.", example = "AMARO")
+        @NotNull @NotBlank @NotEmpty
         private String source;
         @Schema(description = "Survey status.", example = "Pesquisado")
         private String status;
@@ -52,7 +59,7 @@ public class IFHMBINNOCEANCDPP0088Payload {
         private String srProtocol;
         @Schema(description = "Serial Number", example = "9BHBG51DADP011621")
         private String serialNumber;
-        @JsonProperty("ListOfAmaroCSISurveyAnswer")
+        @Valid @JsonProperty("ListOfAmaroCSISurveyAnswer")
         List<AmaroCSISurveyAnswer> listOfAmaroCSISurveyAnswer;
     }
 

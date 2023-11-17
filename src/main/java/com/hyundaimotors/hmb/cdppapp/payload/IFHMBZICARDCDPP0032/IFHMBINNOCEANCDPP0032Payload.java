@@ -18,15 +18,11 @@ public class IFHMBINNOCEANCDPP0032Payload {
     @Setter
     public static class Request{
         @Schema(description = "cpfNumber", example = "21955839832")
-        @NotNull
-        @NotEmpty
-        @NotBlank
+        @NotNull @NotBlank @NotEmpty
         private String cpf;
 
         @Schema(description = "ContactId", example = "proc00236829361")
-        @NotNull
-        @NotEmpty
-        @NotBlank
+        @NotNull @NotBlank @NotEmpty
         private String contactId;
     }
 

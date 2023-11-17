@@ -2,20 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBDMSCDPP0004Mapper">
     
-    <select id="getContact" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+    <select id="getLeadInfoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
         select 
-            le.partneraccountid as rowId
+            sr.contact_row_id__c as rowId
+            , sr.protocol__c as protocol
+            , sr.status as status
         from 
-            process.lead le 
+            process.service_request sr
+        join
+            process.account pa
+        on
+            sr.account_row_id__c = pa.row_id 
+        join
+            process.opportunity po
+        on
+            sr.protocol__c = po.protocol__c
         where
-            le.created = to_date(#{date},'YYYY-MM-DD')
+            sr.legacycreateddate__c::date = #{date}::date
         <if test="statusLead != null and statusLead != ''">
             and
-                le.state = #{statusLead}
-        </if>    
+                sr.status = #{statusLead}
+        </if>
+        <if test="dealerCode != null and dealerCode != ''">
+            and
+                pa.dealercode__c = #{dealerCode}
+        </if>
+        <if test="apiKey != null and apiKey != ''">
+            and
+                pa.apikey__c = #{apiKey}
+        </if>
+        group by sr.contact_row_id__c, sr.protocol__c, sr.status
     </select>
 
-    <select id="contactInfoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+    <select id="getContactInfo" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeadContactDto">
         select 
             pac.firstname as nome
             , pac.lastname as sobrenome
@@ -28,18 +47,14 @@
             , pac.billingpostalcode as cep
             , pac.billingstreet as endereco
             , pac.row_id as idconnex
-            , psr.quote_replace_intention__c as dataPrevistaCarroNovo
+            <!--, psr.quote_replace_intention__c as dataPrevistaCarroNovo-->
         from 
             process.account pac
-        join
-            process.service_request psr  
-        on
-            pac.row_id = psr.contact_row_id__c
         where
             pac.row_id = #{rowId}
     </select>
     
-    <select id="veiculoInfoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+    <select id="getVeiculoInfoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeadVeiculo">
         select
             pac.modelname__c as modelo
             , pac.enginetype__c as motor
@@ -51,46 +66,139 @@
             process.asset pac 
         where 
             pac.contact_row_id__c = #{rowId}
-
     </select>
 
-    <select id="opvInfoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+    <select id="getOpvInfo" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeadOpvDto">
         select 
-            le.row_id as rowId
-            , le.sr_num__c as protocolo
-            , le.dealercode__c as codigoConcessionaria
-            , le.sourcechannelcategory__c as origem
-            , le.sourcechannelItem__c as metodo
-            , le.act_open_dt__c as dataAbertura
-            , le.sr_stat_id__c as status
-            , le.sr_sev_cd__c as prioridade
-            , le.x_pne_flg__c as identificacaoPCD
-            , le.customertype__c as tipoContato
-            , le.x_already_customer__c as clienteHyundai
-            , le.x_opv_usedcar_paymnt__c as usadoNaTroca
-            <!--, le.ATTRIB_13 as optInCotacao-->
-            , le.calloptin__c as optInContato
-            , le.company as nomeConcessionaria
-            , le.cust_stat_cd__c as statusConcessionaria
-            , le.description as comentario
-            , le.sourcechannelItem__c as metodoContato
-            , le.desc_text__c as observacoesContato
-            , le.x_camp_id__c as dadosCampanha
-        from 
-            process.lead le
+            sr.protocol__c as protocolo
+            , pc.dealercode__c as codigoConcessionaria
+            , sr.origin as origem
+            , sr.method as metodo
+            , sr.legacy_created as dataAbertura
+            , pc.firstname||' '||pc.lastname as nomeResponsavel
+            , sr.status as status
+            , 'high' as prioridade
+            , 'Y' as identificacaoPCD
+            , pc.type as tipoContato
+            , 'Y' as clienteHyundai
+            , sr.usedcar_as_down_payment__c as usadoNaTroca
+            , pc.corporaterepresentativename__c as nomeConcessionaria
+            , pc.cust_stat_cd__c as statusConcessionaria
+            , sr.method as metodoContato
+            , sr.description as observacoesContato
+            , sr.x_camp_id__c as dadosCampanha
+            , sr.source_tag__c as sourceTag
+            , sr.medium_tag__c as mediumTag
+            , sr.content_tag__c as contentTag
+            , sr.form__c as form
+        from
+            process.service_request sr
+        join
+            process.account pc
+        on
+            sr.contact_row_id__c = pc.row_id 
         where 
-            le.partneraccountid = #{rowId}
+            sr.protocol__c = #{protocol}
     </select>
-    <select id="financiamentoopvList" parameterType="IFHMBDMSCDPP0004Dto" resultType="IFHMBDMSCDPP0004Dto">
+
+    <select id="getfinanciamentoOpv" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeadFinanciamentoOPVDto">
         select 
-            le.x_opv_wants_loan__c as querFinanciar
-            , le.x_opv_loan_type__c as tipoFinanciamento
-            , le.x_opv_down_paymnt__c as valorEntradaFinanciamento
-            , le.x_opv_installments_amt__c as qtdParcelaFinanciamento
-        from 
-            process.lead le
+            wants_loan__c as querFinanciar
+            , loan_type__c as tipoFinanciamento
+            , down_payment__c as valorEntradaFinanciamento
+            , installments_amt__c as qtdParcelaFinanciamento
+        from
+            process.service_request sr
         where 
-            le.partneraccountid = #{rowId}
+            sr.protocol__c = #{protocol}
+    </select>
+
+    <select id="getTemperatureList" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeadTemperatureDto">
+        select 
+			'0' as temperatureNum
+			, predictive_temp__c as temperature 
+		from
+			process.opportunity
+		where 
+            protocol__c = #{protocol}
+		union all
+		select 
+			temperaturenumber__c as temperatureNum 
+			,predictivetemp__c as temperature
+		FROM
+			process.sales_consult_history
+		where
+            protocol__c = #{protocol}
+		order by temperatureNum asc
     </select>
     
+    <select id="getAgendamentoList" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeadAgendamentoDto">
+        select 
+            sch.temperaturenumber__c as tipoAgendamento
+            , sch.description_interaction__c as dataAgendamento
+        from
+            process.sales_consult_history sch 
+        where
+            protocol__c = #{protocol}
+    </select>
+
+    <select id="getResult" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeadResultDto">
+        select 
+            interactionstartdate__c as firstInteractionDate
+            , statussales__c as saleStatus
+            , reason__c as reason
+            , result__c as result
+            , salespersoncode__c as saleCPF
+            , dmsenddate__c as endDate
+            , dmsreceivedate__c as dlrReceiveDate
+            , dealerrespondetime__c as dlrResponseTime
+        from 
+            process.sales_consult_history
+        where 
+            protocol__c = #{protocol}
+        order by interactionnumber__c desc
+        limit 1
+    </select>
+
+    <select id="getInteractionList" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeadInteractionDto">
+        select 
+            interactionnumber__c as interactionNum
+            , first_interaction_date__c as date
+            , description_interaction__c as description
+            , contact_flag__c as contactCustomer
+        from
+            process.sales_consult_history
+        where
+            protocol__c = #{protocol}
+        order by interactionnumber__c asc
+    </select>
+
+    <select id="getVeiculoEntradaOPV" parameterType="IFHMBDMSCDPP0004Dto" resultType="GetLeaDveiculoEntradaOPVDto">
+        select 
+            usedcar_as_down_payment__c as usadoNaTroca
+            , usedcar_brand__c as usadoMarca
+            , usedcar_model__c as usadoModelo
+            , usedcar_year__c as usadoAno
+            , usedcar_km__c as usadoKM
+            , usedcar_plate__c as usadoExpectativaValor
+            , usedcar_color__c as usadoCor
+            , payment_status__c as usadoPlaca
+            , usedcar_chassi__c as usadoChassi
+            , usedcar_version__c as usadoVersao
+            , usedcar_min_price__c as usadoPrecoMin
+            , usedcar_max_price__c as usadoPrecoMax
+            , usedcar_mid_price__c as usadoPrecoMed
+        from
+            process.service_request
+        where 
+            protocol__c = #{protocol}
+    </select>
+
+    <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_getlead_ws(#{param_id});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_getlead_ws(#{param_id});
+    </insert>
 </mapper>

@@ -1,7 +1,5 @@
 package com.hyundaimotors.hmb.cdppapp.payload.IFHMBSELFBICDPP0062;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -146,7 +144,8 @@ public class TotalLead {
     @JsonProperty("QuoteReplaceIntention")
     private String quoteReplaceIntention;
     @JsonProperty("Contact")
-    List<TotalContact> contact;
+//    List<TotalContact> contact;//20231030 Object Type 으로 수정 Mapping Spec 확인
+    TotalContact contact;
     @JsonProperty("Action")
     TotalAction action;
 }

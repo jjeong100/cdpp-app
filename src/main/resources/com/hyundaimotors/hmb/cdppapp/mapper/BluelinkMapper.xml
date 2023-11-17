@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.BluelinkMapper">
+
+    <select id="selectProcessBlueLinkInfo" parameterType="bluelinkMileageDto" resultType="bluelinkMileageDto">
+        select
+            row_id
+            , chassi
+            , latestmileage
+            , created::date
+        from
+            landing.bluelink_mileage
+        where
+            created::date = to_char(now(), 'YYYY-MM-DD')::date
+    </select>
+    
+    <update id="updateProcessBlueLink" parameterType="bluelinkMileageDto">
+        <!--update process.bluelink set
+            latestmileage = #{latestmileage}
+            , last_upd = now()
+        where
+            chassi__c = #{chassi}-->
+
+            update process.bluelink as pbl set
+                latestmileage = lbm.latestmileage
+                , last_upd = now()
+            from
+                landing.bluelink_mileage lbm
+            where
+                pbl.chassi__c = lbm.chassi
+            and
+                lbm.created::date = to_char(now(), 'YYYY-MM-DD')::date
+    </update>
+
+    <select id="selectReplicaBlueLinkInfo" parameterType="bluelinkMileageDto" resultType="bluelinkMileageDto">
+        select
+            row_id
+            , chassi__c as chassi
+            , latestmileage
+        from
+            process.bluelink
+        where
+            last_upd::date = to_char(now(), 'YYYY-MM-DD')::date
+    </select>
+
+    <update id="updateReplicaBlueLink" parameterType="bluelinkMileageDto">
+        <!--update replica.bluelink rbl set
+            latestmileage__c = #{latestmileage}
+        where
+            chassi__c = #{chassi}-->
+            update replica.bluelink__c rbl set
+                latestmileage__c = pbl.latestmileage
+            from process.bluelink pbl
+            where
+                rbl.chassi__c = pbl.chassi__c
+            and
+                pbl.last_upd::date = to_char(now(), 'YYYY-MM-DD')::date
+    </update>
+    
+</mapper>

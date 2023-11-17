@@ -45,14 +45,14 @@
             , #{answer}
             , #{status}
             , #{hotlineId}
-            , to_date(#{hotlineCreation},'YYYY-MM-DD')
+            , #{hotlineCreation}::timestamp
             , #{pwaId}
             , #{pwaCreation}
             , #{roId}
-            , to_date(#{roCreation},'YYYY-MM-DD')
+            , #{roCreation}::timestamp
             , #{mobisId}
             , #{mobisStatus}
-            , to_date(#{expectedDelivery},'YYYY-MM-DD')
+            , #{expectedDelivery}::timestamp
             , #{purchasePurposeId}
             , #{type}
             , #{srProtocol}
@@ -62,8 +62,8 @@
             , #{contactId}
             , #{dealerCode}
             , #{serialNumber}
-            , #{creationDate}::timestamp(0)
-            , #{plannedDt}::timestamp(0)
+            , #{creationDate}::timestamp
+            , #{plannedDt}::timestamp
             , #{orderNum}
             , #{dpUser}
             , #{estoque}
@@ -81,21 +81,19 @@
             , noteDate
             , noteDescription
             , noteCreator
-        )values
-        <foreach collection="actionNote" item="item" separator=",">
-            (
-                #{rowId}
-                , now()
-                , 'interface'
-                , now()
-                , 'interface'
-                , #{item.noteType}
-                , to_timestamp(#{item.noteDate},'yyyy-mm-dd hh12:mi:ss AM')
-                , #{item.noteDescription}
-                , #{item.noteCreator}
-            )
-        </foreach>
+        ) values (
+            #{rowId}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{actionNote.noteType}
+            , #{actionNote.noteDate}::timestamp
+            , #{actionNote.noteDescription}
+            , #{actionNote.noteCreator}
+        )
     </insert>
+
     <insert id="insertActionProducts" parameterType="IFHMBSAPEAICDPP0006Dto">
         insert into landing.if_action_in_ws_wf_products(
             par_row_id 
@@ -105,18 +103,15 @@
             , last_upd_by
             , partid
             , partqty
-        )values
-        <foreach collection="actionProducts" item="item" separator=",">
-            (
-                #{rowId}
-                , now()
-                , 'interface'
-                , now()
-                , 'interface'
-                , #{item.partId}
-                , #{item.partQty}
-            )
-        </foreach>
+        ) values (
+            #{rowId}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{actionProducts.partId}
+            , #{actionProducts.partQty}
+        )
     </insert>
 
     <insert id="insertSynergyActionAudit" parameterType="IFHMBSAPEAICDPP0006Dto">
@@ -128,18 +123,15 @@
             , last_upd_by
             , fieldname
             , fieldvalue
-        )values
-        <foreach collection="synergyActionAudit" item="item" separator=",">
-            (
-                #{rowId}
-                , now()
-                , 'interface'
-                , now()
-                , 'interface'
-                , #{item.fieldName}
-                , #{item.fieldValue}
-            )
-        </foreach>
+        ) values (
+            #{rowId}
+            , now()
+            , 'interface'
+            , now()
+            , 'interface'
+            , #{synergyActionAudit.fieldName}
+            , #{synergyActionAudit.fieldValue}
+        )
     </insert>
 
     <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSAPEAICDPP0015Mapper">
 
-    <insert id="insertObject" parameterType="IFHMBSAPEAICDPP0015Dto"  useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
+    <insert id="insertObject" parameterType="ColorDto"  useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
         insert into landing.if_in_color_ws_color
         (
             created
@@ -16,27 +16,41 @@
             , color_type            
             , color_description            
         )values
-        <foreach collection="listOfColor" item="item" separator=",">
         (
             now()
             , 'interface'
             , now()
             , 'interface'
-            , #{item.type}
-            , #{item.code}            
-            , #{item.descriptionEM}            
-            , #{item.descriptionPT}            
-            , #{item.colorType}            
-            , #{item.colorDescription}            
+            , #{type}
+            , #{code}            
+            , #{descriptionEM}            
+            , #{descriptionPT}            
+            , #{colorType}            
+            , #{colorDescription}            
         )
-        </foreach>
     </insert>
 
+    <select id="getProcessRowIds" parameterType="list" resultType="string">
+        select 
+            ci.row_id
+        from
+            process.color_information ci 
+        join 
+            landing.if_in_color_ws_color iicwc
+        on
+            ci.external_id__c = iicwc.row_id::text
+        where
+            iicwc.row_id in
+            <foreach collection="paramList" item="item" index="index" open="(" close=")" separator=",">
+                CAST(#{item} AS INTEGER)
+            </foreach>
+    </select>
+
     <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
-        call process.if_in_color(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+        call process.if_in_color(#{param_id});
     </insert>
 
     <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
-        call replica.if_in_color(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+        call replica.if_in_color(#{param_id});
     </insert>
 </mapper>

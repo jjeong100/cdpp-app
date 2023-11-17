@@ -4,7 +4,7 @@
 
     <select id="getProcId" parameterType="IFHMBINNOCEANCDPP0088Dto" resultType="String">
         select
-            row_id as getProcId
+            amr_row_id as getProcId
         from 
             process.amaro
         where 

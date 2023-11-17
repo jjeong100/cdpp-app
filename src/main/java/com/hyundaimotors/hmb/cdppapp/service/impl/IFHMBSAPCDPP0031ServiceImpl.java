@@ -38,8 +38,8 @@ public class IFHMBSAPCDPP0031ServiceImpl implements IFHMBSAPCDPP0031Service{
 
         }else{
             
-            hmbSearchServiceRequestTDWebserviceOutput.setErrorSpcCode(("1"));
-            hmbSearchServiceRequestTDWebserviceOutput.setErrorSpcMessage(("FAIL"));  
+            hmbSearchServiceRequestTDWebserviceOutput.setErrorSpcCode(("0"));
+            hmbSearchServiceRequestTDWebserviceOutput.setErrorSpcMessage(("OK"));  
             resuDto.setHmbSearchServiceRequestTDWebserviceOutput(hmbSearchServiceRequestTDWebserviceOutput);    
             
         }

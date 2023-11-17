@@ -1,5 +1,7 @@
 package com.hyundaimotors.hmb.cdppapp.controller.foundation;
 
+import java.util.UUID;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,13 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBSELFBICDPP0063.IFHMBSELFBICDPP0063Dto;
 import com.hyundaimotors.hmb.cdppapp.payload.IFHMBSELFBICDPP0063.IFHMBSELFBICDPP0063Payload;
+import com.hyundaimotors.hmb.cdppapp.service.ApiLogService;
 import com.hyundaimotors.hmb.cdppapp.service.IFHMBSELFBICDPP0063Service;
+import com.hyundaimotors.hmb.cdppapp.util.ApiLog;
+import com.hyundaimotors.hmb.cdppapp.util.ApiLogStep;
+import com.hyundaimotors.hmb.cdppapp.util.JsonUtils;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "HMB Get VIN Sales WF", description = "Interface Requirement for Get VIN Sales WF I/F Requirement")
@@ -23,6 +30,8 @@ public class IFHMBSELFBICDPP0063Controller {
 
     private static final String IF_ID = "IF084";
     
+    private final ApiLogService logService;
+    
     private final IFHMBSELFBICDPP0063Service service;
 
     private final ModelMapper defaultMapper;
@@ -30,12 +39,27 @@ public class IFHMBSELFBICDPP0063Controller {
     @Operation(summary = "HMB Get VIN Sales WF", description = "HMB Get VIN Sales WF")
     @ApiResponse(content = @Content(schema = @Schema(implementation = IFHMBSELFBICDPP0063Payload.Request.class)))
     @PostMapping(value = "/api/v1/HMBGetVINSalesWF")
-    public Object getObject(@RequestBody IFHMBSELFBICDPP0063Payload.Request request)throws Exception{
-        IFHMBSELFBICDPP0063Dto dto = defaultMapper.map(request, IFHMBSELFBICDPP0063Dto.class);
+    public Object getObject(@Valid @RequestBody IFHMBSELFBICDPP0063Payload.Request request) throws Exception {
+        UUID IF_TR_ID = UUID.randomUUID();
+
+        IFHMBSELFBICDPP0063Payload.Response response = new IFHMBSELFBICDPP0063Payload.Response();
+        ApiLog.logApi(logService, IF_ID, ApiLogStep.START, IF_TR_ID, JsonUtils.toJson(request));
+        try {
+            IFHMBSELFBICDPP0063Dto dto = defaultMapper.map(request, IFHMBSELFBICDPP0063Dto.class);
+            
+            ApiLog.logApi(logService, IF_ID,ApiLogStep.STEP1, IF_TR_ID, null);
             IFHMBSELFBICDPP0063Dto resultDto = service.getObject(dto);
+            ApiLog.logApi(logService, IF_ID,ApiLogStep.STEP2, IF_TR_ID, null);
             resultDto.setErrorSpcCode("0");
             resultDto.setErrorSpcMessage("OK");
             
-            return defaultMapper.map(resultDto, IFHMBSELFBICDPP0063Payload.Response.class);
+            response = defaultMapper.map(resultDto, IFHMBSELFBICDPP0063Payload.Response.class);
+            ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response));
+        }catch(Exception e) {
+            response.setErrorSpcCode("500");
+            response.setErrorSpcMessage(e.getLocalizedMessage());
+            ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response), e);
+        }
+        return response;
     }
 }

@@ -10,7 +10,7 @@ import lombok.Setter;
 public class ActionNote {
     @Schema(description = "Action Note type", example = "Vendedor")
     private String noteType;
-    @Schema(description = "Action Note date", example = "2015-04-12  10:00:00 AM")
+    @Schema(description = "Action Note date", example = "2023-10-20T15:14:33-0300")
     private String noteDate;
     @Schema(description = "Action Note Description", example = "<Long>")
     private String noteDescription;

@@ -1,9 +1,5 @@
 package com.hyundaimotors.hmb.cdppapp.payload;
 
-import java.util.List;
-
-import com.hyundaimotors.hmb.cdppapp.payload.IFHMBRECLAMEAQUICDPP0096.RetrieveTicketId;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;

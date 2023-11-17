@@ -1,6 +1,6 @@
 package com.hyundaimotors.hmb.cdppapp.service;
 
-import com.hyundaimotors.hmb.cdppapp.dto.IFHMBSAPEAICDPP0015Dto;
+import com.hyundaimotors.hmb.cdppapp.dto.IFHMBSAPEAICDPP0015.IFHMBSAPEAICDPP0015Dto;
 
 public interface IFHMBSAPEAICDPP0015Service {
     

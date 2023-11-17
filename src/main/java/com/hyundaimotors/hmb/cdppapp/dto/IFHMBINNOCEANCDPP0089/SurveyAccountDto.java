@@ -16,6 +16,7 @@ public class SurveyAccountDto {
     private String streetAddress;
     private String streetAddress2;
     private String streetAddress3;
+    private String county;
     private String city;
     private String state;
     private String mainPhone;

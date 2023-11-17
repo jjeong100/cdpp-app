@@ -10,6 +10,7 @@ import com.hyundaimotors.hmb.cdppapp.dto.IFHMBSELFBICDPP0062.IFHMBSELFBICDPP0062
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBSELFBICDPP0062.TotalActionDto;
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBSELFBICDPP0062.TotalContactDto;
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBSELFBICDPP0062.TotalLeadDto;
+import com.hyundaimotors.hmb.cdppapp.dto.IFHMBSELFBICDPP0062.TotalTemperatureDto;
 import com.hyundaimotors.hmb.cdppapp.mapper.IFHMBSELFBICDPP0062Mapper;
 import com.hyundaimotors.hmb.cdppapp.service.IFHMBSELFBICDPP0062Service;
 
@@ -24,33 +25,54 @@ public class IFHMBSELFBICDPP0062ServiceImpl implements IFHMBSELFBICDPP0062Servic
     public IFHMBSELFBICDPP0062Dto getObject(IFHMBSELFBICDPP0062Dto dto)throws Exception{
         IFHMBSELFBICDPP0062Dto resulDto = new IFHMBSELFBICDPP0062Dto();
 
+        // TotalLeadDto lead = new TotalLeadDto();
         List<TotalLeadDto> lead = new ArrayList<TotalLeadDto>();
 
         lead = mapper.getLead(dto);
 
         if(lead != null){
-            List<TotalContactDto> contactList = new ArrayList<>();
-            TotalActionDto action = new TotalActionDto();
-            
-             for(int index=0;index < lead.size();index++ ) {
-            String contactRowId = lead.get(index).getContactRowId();
-            contactList = mapper.getContact(contactRowId);
+            for(int index=0;index < lead.size();index++ ) {
+                TotalLeadDto leadDto = lead.get(index);
 
-            if(0 < contactList.size()){
-               
+            // List<TotalContactDto> contactList = new ArrayList<>();
+                TotalContactDto contactList = new TotalContactDto();
+                TotalActionDto action = new TotalActionDto();
+                
+                // String contactRowId = lead.getContactRowId();
+                String contactRowId = leadDto.getContactRowId();
+
+                System.out.println("■■■ contactRowId : " + contactRowId);
+                contactList = mapper.getContact(contactRowId);
+
+                // if(0 < contactList.size()){
+                // lead.setContact(contactList);
+                // }
                 lead.get(index).setContact(contactList);
-            }
-            
-        //    for(int index=0;index < lead.size();index++ ) {
-String protocol = lead.get(index).getProtocol();
-            action = mapper.getAction(protocol);
-            if(action!= null){
-                lead.get(index).setAction(action);
-            }
-           }
-          
+                
+                // String protocol = lead.getProtocol();
+                // action = mapper.getAction(protocol);
+                // if(action!= null){
+                //     lead.setAction(action);
+                // }
+                // resulDto.setTotallead(lead);
 
-             resulDto.setTotallead(lead);
+                String protocol = leadDto.getProtocol();
+                System.out.println("■■■ protocol : " + protocol);
+
+                action = mapper.getAction(protocol);
+                if(action!= null){
+                    lead.get(index).setAction(action);
+
+                    List<TotalTemperatureDto> temperature = new ArrayList<>();
+                    temperature = mapper.getTemperature(protocol);
+                }
+
+                
+            }
+
+            resulDto.setTotallead(lead);
+
+            
 
             resulDto.setErrorSpcCode("0");
             resulDto.setErrorSpcMessage("OK");

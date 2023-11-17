@@ -8,7 +8,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class IFHMBBLUELINKCDPP0053Dto {
-    List<VehicleBluelinkDto> Vehicle;
-    private String ErrorSpcCode;
-    private String ErrorSpcMessage;
+    private String chassi;
+    // private String latestMileage;
+    List<BluelinkDto> listOfBluelink;
+
+    private String errorSpcCode;
+    private String errorSpcMessage;
 }

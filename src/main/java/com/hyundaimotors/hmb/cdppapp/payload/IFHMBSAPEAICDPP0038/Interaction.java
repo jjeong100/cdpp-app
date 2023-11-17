@@ -16,7 +16,7 @@ public class Interaction {
     @Schema(description = "Description Interaction", example = "04/10/2018 - O cliente fez o testdrive")
     @JsonProperty("Description")
     private String description;
-    @Schema(description = "Interaction Date", example = "2018-04-10")
+    @Schema(description = "Interaction Date", example = "2018-04-10T00:00:00-0300")
     @JsonProperty("Date")
     private String date;
     @Schema(description = "Contact Flag", example = "Y")

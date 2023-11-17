@@ -14,7 +14,6 @@ public class SatisfactionSurvey {
     @Schema(description = "Connex asset id.", example = "1-OEZ-221")
     private String assetId;
     @Schema(description = "Chassis number.", example = "9BHBH41DBGP633658")
-    @JsonProperty("Vin")
     private String vin;
     @Schema(description = "Product FSC OCN Name", example = "092214A000")
     @JsonProperty("fsc_ocn")

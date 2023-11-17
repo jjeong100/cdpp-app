@@ -9,6 +9,18 @@
             process.account
         where
             corporateregistrationnumber__c = #{cnpjNumber}
+        limit 1
+    </select>
+    
+    <select id="foundAccountIdbyNameAndPhoneAndEmail" parameterType="IFHMBSAPCDPP0005Dto" resultType="String">
+        select
+            row_id as foundAccountIdbyCnpj
+        from
+            process.account
+        where "name"          = #{name}
+          and phone           = #{mainPhoneNumber}
+          and emailaddress__c = #{mainEmailAddress}
+        limit 1
     </select>
 
     <select id="foundAccountId" parameterType="IFHMBSAPCDPP0005Dto" resultType="String">
@@ -18,6 +30,7 @@
             process.account
         where
             lower(trim(name)) = lower(trim(#{name}))
+        limit 1
     </select>
     
     <insert id="insertObject" parameterType="IFHMBSAPCDPP0005Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
@@ -69,7 +82,7 @@
                 , #{industryTrend}
                 , #{numberOfEmployee}
                 , #{totalFleetSize}
-                , to_date(#{contractedSince}, 'YYYY-MM-DD')
+                , to_date(nullif(#{contractedSince},''), 'YYYY-MM-DD')
                 , #{source}
                 , #{organizationType}
                 , #{mainPhoneNumber}

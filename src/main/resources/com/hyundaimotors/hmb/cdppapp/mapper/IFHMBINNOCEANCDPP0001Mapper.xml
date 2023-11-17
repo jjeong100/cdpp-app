@@ -4,12 +4,19 @@
     
     <select id="getObject" parameterType="IFHMBINNOCEANCDPP0001Dto" resultType="IFHMBINNOCEANCDPP0001Dto">
         select 
-            cpf__c as cpf
-            , row_id as contactId
-            , coalesce(firstname, '')||lastname as name
-            , personmobilephone as personCell
+            pa.cpf__c as cpf
+            , pa.row_id as contactId
+            , coalesce(pa.firstname, '')||pa.lastname as name
+            , pa.personmobilephone as personCell
+            , sr.protocol__c as protocolNumber
+            , coalesce(pa.firstname, '')||pa.lastname as protocolOwnerName
+            , sr.status as protocolStatus
         from 
-            process.account
+            process.account pa
+        join
+            process.service_request sr 
+        on
+            pa.row_id = sr.contact_row_id__c
         where
             1=1
         <if test="phoneNumber != null and !phoneNumber.equals('')">
@@ -19,6 +26,8 @@
         <if test="cpf != null and !cpf.equals('')">
             and
                 cpf__c = #{cpf}
-        </if>    
+        </if>
+        order by sr.legacycreateddate__c asc
+        limit 1
     </select>
 </mapper>

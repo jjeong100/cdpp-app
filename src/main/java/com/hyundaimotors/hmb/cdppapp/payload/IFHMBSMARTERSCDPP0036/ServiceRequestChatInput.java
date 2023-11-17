@@ -3,6 +3,8 @@ package com.hyundaimotors.hmb.cdppapp.payload.IFHMBSMARTERSCDPP0036;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -19,12 +21,10 @@ public class ServiceRequestChatInput {
     @Schema(description = "Protocol unique identifier. If an update is needed, value on this tag must be provided.", example = "HMB98949022323")
     private String protocol;
     @Schema(description = "Protocol reason. Valid values:Complaint, Compliment", example = "Information")
-    @NotNull
-    @NotEmpty
+    @NotNull @NotBlank @NotEmpty
     private String reason;
     @Schema(description = "VOC level 1. Values are according business definitions for each situation.", example = "Sales")
-    @NotNull
-    @NotEmpty
+    @NotNull @NotBlank @NotEmpty
     private String level1;
     @Schema(description = "VOC level 2. Values are according business definitions for each situation.", example = "Request a quote")
     private String level2;
@@ -33,6 +33,7 @@ public class ServiceRequestChatInput {
     @Schema(description = "VOC level 4. Values are according business definitions for each situation.", example = "Acceleration 0 - 100 km/h")
     private String level4;
     @Schema(description = "Protocol source. Valid values: Call Center, Complaint Site, Dealer, Director, Facebook, Other", example = "Call Center")
+    @NotNull @NotBlank @NotEmpty
     private String source;
     @Schema(description = "Protocol entry method. Valid values: Chat, Email, Internet, Mail/Letter, Other Social Media", example = "Email")
     private String method;
@@ -60,7 +61,7 @@ public class ServiceRequestChatInput {
     private String dealerId;
     @Schema(description = "Protocol causing area.Valid values: Dealer, Generalli, HMB, Mobis", example = "Dealer")
     private String causingArea;
-    @Schema(description = "Vehicle immobilized date. Format: MM/DD/YYYY", example = "2023-10-24T15:00:02")
+    @Schema(description = "Vehicle immobilized date. Format: MM/DD/YYYY", example = "2023-10-24T15:00:02-0300")
     private String imobilizationDate;
     @Schema(description = "Vehicle model related with the protocol. Valid values: HB20, HB20 FOR YOU", example = "HB20")
     private String relatedModel;
@@ -132,7 +133,7 @@ public class ServiceRequestChatInput {
     private String hotlineFlg;
     @Schema(description = "Hotline number.", example = "HOT001")
     private String hotlineNum;
-    @Schema(description = "Hotline open date.", example = "2023-10-24T15:00:02")
+    @Schema(description = "Hotline open date.", example = "2023-10-24T15:00:02-0300")
     private String hotlineOpenDt;
     @Schema(description = "Purchase proposal number for complaints related with delayed delivery.", example = "PROPOSTA002")
     private String purchaseProposalNum;
@@ -140,13 +141,13 @@ public class ServiceRequestChatInput {
     private String pwaFlg;
     @Schema(description = "PWA number.", example = "PWA001")
     private String pwaNum;
-    @Schema(description = "PWA opened date.", example = "2023-10-24T15:00:02")
+    @Schema(description = "PWA opened date.", example = "2023-10-24T15:00:02-0300")
     private String pwaOpenDt;
     @Schema(description = "Flag indicating if the complaint is recurring. Valid values: Y, N", example = "Y")
     private String recurrenceFlg;
     @Schema(description = "Number of complaint recurrences.", example = "23456789")
     private int recurrenceNum;
-    @Schema(description = "Date of vehicle delivery, either for purchases or repairs.", example = "2023-10-24T15:00:02")
+    @Schema(description = "Date of vehicle delivery, either for purchases or repairs.", example = "2023-10-24T15:00:02-0300")
     private String vehicleDeliveryDt;
     @Schema(description = "Flag indicating if the vehicle was delivered, either for purchases or repairs. Valid values: Y, N", example = "Y")
     private String vehicleDeliveryFlg;
@@ -169,7 +170,7 @@ public class ServiceRequestChatInput {
     private String dlrTemperature;
 
 
-    @JsonProperty("Chat")
+    @Valid @JsonProperty("Chat")
     Chat chat;
     
 }

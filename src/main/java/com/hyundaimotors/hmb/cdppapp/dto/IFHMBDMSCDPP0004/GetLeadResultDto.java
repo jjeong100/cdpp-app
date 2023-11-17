@@ -13,5 +13,5 @@ public class GetLeadResultDto {
     private String saleCPF;
     private String endDate;
     private String dlrReceiveDate;
-    private String dlrResponseTime;
+    private double dlrResponseTime;
 }

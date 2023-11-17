@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0025Mapper">
 
+    <select id="getProcProtocol" parameterType="ScheduleMaintenanceINDto" resultType="String">
+        select
+            protocol__c as procProtocol
+        from
+            process.service_request
+        where
+            external_id__c = CAST(#{rowId} AS TEXT)
+        limit 1
+    </select>
+
     <insert id="insertObject" parameterType="ScheduleMaintenanceINDto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
         insert into landing.if_mntsrvc_schedule_maintenance
         (
@@ -56,14 +66,18 @@
             , #{technicianCPF}
             , #{serviceType}
             , #{serviceStatus}
-            , to_date(#{serviceArrivaldate},'YYYY-MM-DD HH24:MI:SS')
-            , to_date(#{serviceStartdate},'YYYY-MM-DD HH24:MI:SS')
+            , #{serviceArrivaldate}::timestamp
+            , #{serviceStartdate}::timestamp
             , #{serviceDuration}
-            , to_date(#{serviceDeliverydate},'YYYY-MM-DD HH24:MI:SS')
+            , #{serviceDeliverydate}::timestamp
         );
     </insert>
 
     <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
         call process.if_mntsrvc_schedule_maintenace(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_mntsrvc_schedule_maintenace(#{PROC_PROTOCOL,jdbcType=VARCHAR,mode=IN});
     </insert>
 </mapper>

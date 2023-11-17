@@ -1,7 +1,5 @@
 package com.hyundaimotors.hmb.cdppapp.dto;
 
-import java.util.List;
-
 import com.hyundaimotors.hmb.cdppapp.payload.IFHMBSAPEAICDPP0006.ActionNote;
 import com.hyundaimotors.hmb.cdppapp.payload.IFHMBSAPEAICDPP0006.ActionProducts;
 import com.hyundaimotors.hmb.cdppapp.payload.IFHMBSAPEAICDPP0006.SynergyActionAudit;
@@ -41,9 +39,9 @@ public class IFHMBSAPEAICDPP0006Dto {
     private String dpUser;
     private String estoque;
 
-    List<ActionNote> actionNote;
-    List<ActionProducts> actionProducts;
-    List<SynergyActionAudit> synergyActionAudit;
+    ActionNote actionNote;
+    ActionProducts actionProducts;
+    SynergyActionAudit synergyActionAudit;
     
     private String actionId;
     private String errorSpcCode;

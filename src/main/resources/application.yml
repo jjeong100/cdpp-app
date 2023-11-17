@@ -20,6 +20,28 @@ spring:
 
 ---
 
+spring:
+  datasource:
+    url: ${DATASOURCE_URL}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 3000
+      validation-timeout: 3000
+      minimum-idle: 10
+      max-lifetime: 240000
+      maximum-pool-size: 200
+
+---
+
+logging:
+  level:
+    org.hibernate.SQL: info
+    root: info
+    com.zaxxer.hikari.pool.HikariPool: debug
+
+---
 springdoc:
   api-docs:
     groups:
@@ -58,7 +80,3 @@ springdoc:
       - com.hyundaimotors.hmb.cdppapp.controller.campaign
       - com.hyundaimotors.hmb.cdppapp.controller.accesstocken
     
-  - group: test
-    packages-to-scan: 
-      - com.hyundaimotors.hmb.cdppapp.controller.test
-      - com.hyundaimotors.hmb.cdppapp.controller.accesstocken

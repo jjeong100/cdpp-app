@@ -108,7 +108,7 @@
             , #{serviceRequestChatInput.satisfaction}
             , #{serviceRequestChatInput.dealerId}
             , #{serviceRequestChatInput.causingArea}
-            , #{serviceRequestChatInput.imobilizationDate}
+            , #{serviceRequestChatInput.imobilizationDate}::timestamp
             , #{serviceRequestChatInput.relatedModel}
             , #{serviceRequestChatInput.quoteDescription}
             , #{serviceRequestChatInput.engineTransmission}
@@ -122,7 +122,7 @@
             , #{serviceRequestChatInput.integrationId}
             , #{serviceRequestChatInput.tdConfirmed}
             , #{serviceRequestChatInput.tdTime}
-            , #{serviceRequestChatInput.tdDate}
+            , #{serviceRequestChatInput.tdDate}::timestamp
             , #{serviceRequestChatInput.salesrepId}
             , #{serviceRequestChatInput.pneFlag}
             , #{serviceRequestChatInput.campaignId}
@@ -144,14 +144,14 @@
             , #{serviceRequestChatInput.dlrReversal}
             , #{serviceRequestChatInput.hotlineFlg}
             , #{serviceRequestChatInput.hotlineNum}
-            , #{serviceRequestChatInput.hotlineOpenDt}
+            , #{serviceRequestChatInput.hotlineOpenDt}::timestamp
             , #{serviceRequestChatInput.purchaseProposalNum}
             , #{serviceRequestChatInput.pwaFlg}
             , #{serviceRequestChatInput.pwaNum}
-            , #{serviceRequestChatInput.pwaOpenDt}
+            , #{serviceRequestChatInput.pwaOpenDt}::timestamp
             , #{serviceRequestChatInput.recurrenceFlg}
             , #{serviceRequestChatInput.recurrenceNum}
-            , #{serviceRequestChatInput.vehicleDeliveryDt}
+            , #{serviceRequestChatInput.vehicleDeliveryDt}::timestamp
             , #{serviceRequestChatInput.vehicleDeliveryFlg}
             , #{serviceRequestChatInput.wantsLoan}
             , #{serviceRequestChatInput.loanType}
@@ -181,7 +181,7 @@
             , now()
             , 'interface'
             , #{chat.chatCode}
-            , #{chat.date}
+            , #{chat.date}::timestamp
             , #{chat.source}
             , #{chat.operator}
         )        
@@ -208,7 +208,7 @@
                 , now()
                 , 'interface'
                 , #{item.msgCode}
-                , #{item.date}
+                , #{item.date}::timestamp
                 , #{item.sentBy}
                 , #{item.msg}
                 , #{item.msgStatus}

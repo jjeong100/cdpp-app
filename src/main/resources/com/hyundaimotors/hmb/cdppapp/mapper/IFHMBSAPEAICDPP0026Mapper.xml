@@ -25,7 +25,7 @@
                 , #{name}
                 , #{source}
                 , #{type}
-                , cast(#{suggestedPrice} as Integer)
+                , cast(#{suggestedPrice} as float8)
             )        
     </insert>
 

@@ -15,9 +15,9 @@
             , pca.phone as mainPhone
             , pca.fax as fax
             , pca.emailaddress__c as mainEmailAddress
-            , pca.personemail as workEmailAddress
-            , pca.salesflag__c as salesDealerFlag
-            , pca.serviceflag__c as serviceDealerFlag
+            , pca.emailaddress__c as workEmailAddress
+            , case when pca.salesflag__c = true then 'Y' when pca.salesflag__c = false then 'N' end salesDealerFlag
+            , case when pca.serviceflag__c = true then 'Y' when pca.serviceflag__c = false then 'N' end serviceDealerFlag
             , pca.prtnrshp_start_dt__c as partnerStartDate
             , pca.prtnrshp_end_dt__c as partnerEndDate
             , pca.region__c as region
@@ -40,7 +40,9 @@
         from
             process.account pca
         where
-            pca.registrysource__c = #{source}
+            pca.cust_stat_cd__c = 'Active'
+          and
+            pca."type" = 'Dealer'
     </select>
 
     <select id="getChannelPartnerContactList" parameterType="IFHMBINNOCEANCDPP0012Dto" resultType="ChannelPartnerContact">
@@ -54,6 +56,8 @@
             , pcc.companyphone__c as workPhone
             , pcc.mobilephone as cellPhone
             , pcc.title as jobTitle
+            , pcc.statusdealer__c as status
+            , pcc.note__c  as notes
             , pcc.row_id as id
         from
             process.contact pcc

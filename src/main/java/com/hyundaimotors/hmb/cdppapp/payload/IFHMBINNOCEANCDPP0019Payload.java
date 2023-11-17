@@ -5,6 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -16,13 +19,17 @@ public class IFHMBINNOCEANCDPP0019Payload {
     @Setter
     public static class Request{
         @Schema(description = "Dealer Code", example = "B05AM19023")
+        @NotNull @NotBlank @NotEmpty
         @JsonProperty("dealer-code")
         private String dealerCode;
         @Schema(description = "Year to search for calendar availability, Format: YYYY", example = "2017")
+        @NotNull @NotBlank @NotEmpty
         private String year;
         @Schema(description = "Month to search for calendar availability", example = "11")
+        @NotNull @NotBlank @NotEmpty
         private String month;
         @Schema(description = "Name of requester system.", example = "Source")
+        @NotNull @NotBlank @NotEmpty
         @JsonProperty("Source")
         private String source;
 

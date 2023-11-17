@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Message {
     @Schema(description = "Message Code", example = "HMBJVICTOR")
     private String msgCode;
-    @Schema(description = "Date Message", example = "2023-10-24T15:00:02")
+    @Schema(description = "Date Message", example = "2023-10-24T15:00:02-0300")
     private String date;
     @Schema(description = "Sent By Mesage", example = "Bot")
     private String sentBy;

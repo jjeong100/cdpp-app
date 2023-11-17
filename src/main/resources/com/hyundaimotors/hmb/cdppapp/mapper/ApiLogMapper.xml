@@ -31,6 +31,6 @@
             seq_no = #{seqNo}
     </update>
     <select id="selectSeqNo" parameterType="String" resultType="int">
-        SELECT seq_no FROM process.if_info_logs WHERE if_tr_id = #{ifTrId}
+        SELECT COALESCE(MAX(seq_no),0) as seq_no FROM process.if_info_logs WHERE if_tr_id = #{ifTrId}
     </select>
 </mapper>

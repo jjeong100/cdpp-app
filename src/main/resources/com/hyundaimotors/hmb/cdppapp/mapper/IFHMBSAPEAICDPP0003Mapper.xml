@@ -51,9 +51,9 @@
             , #{transmission}
             , #{fuel}
             , #{doorsAmnt}
-            , #{suggestedPrice}          
+            , #{suggestedPrice}::float8          
             , #{description}
-            , #{productTypeCode}  
+            , #{productTypeCode}
         )
         ;
     </insert>    

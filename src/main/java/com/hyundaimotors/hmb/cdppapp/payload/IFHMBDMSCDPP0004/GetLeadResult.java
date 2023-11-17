@@ -32,5 +32,5 @@ public class GetLeadResult {
     private String dlrReceiveDate;
     @Schema(description = "Dealer Responde", example = "16/10/2018 16:30:00")
     @JsonProperty("DlrResponseTime")
-    private String dlrResponseTime;
+    private double dlrResponseTime;
 }

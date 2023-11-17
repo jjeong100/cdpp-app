@@ -24,7 +24,7 @@ public class IFHMBSAPEAICDPP0003Dto {
     private String transmission;
     private String fuel;
     private int doorsAmnt;
-    private int suggestedPrice;
+    private float suggestedPrice;
     private String description;
     private String productTypeCode;
     

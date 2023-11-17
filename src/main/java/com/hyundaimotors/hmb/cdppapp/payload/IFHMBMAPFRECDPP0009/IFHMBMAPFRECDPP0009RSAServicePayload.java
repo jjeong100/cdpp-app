@@ -3,6 +3,9 @@ package com.hyundaimotors.hmb.cdppapp.payload.IFHMBMAPFRECDPP0009;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +15,7 @@ import lombok.Setter;
 public class IFHMBMAPFRECDPP0009RSAServicePayload {
     
     @Schema(description = "Integration Id", example = "Conveni 00EAncia-Rede el 00E1stica para porta-malas")
+    @NotNull @NotBlank @NotEmpty
     @JsonProperty("ServiceId")
     private String serviceId;
     @Schema(description = "Service Date", example = "2015-08-09")

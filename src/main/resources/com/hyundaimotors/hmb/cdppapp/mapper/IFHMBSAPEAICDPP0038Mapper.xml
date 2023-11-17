@@ -31,19 +31,19 @@
             , now()
             , 'interface'
             , #{result}
-            , #{ntegrationId}
+            , #{integrationId}
             , #{salesStatus}
             , #{saleCPF}
             , #{status}
-            , to_timestamp(#{firstInteractionDate}, 'YYYY-MM-DD hh24:mi:ss')
+            , nullif(#{firstInteractionDate},'')::timestamp
             , #{saleReason}
-            , to_timestamp(#{endDate}, 'YYYY-MM-DD hh24:mi:ss')
-            , to_timestamp(#{dlrReceiveDate}, 'YYYY-MM-DD hh24:mi:ss')
-            , to_timestamp(#{dlrResponseTime}, 'YYYY-MM-DD hh24:mi:ss')
+            , nullif(#{endDate},'')::timestamp
+            , nullif(#{dlrReceiveDate},'')::timestamp
+            , #{dlrResponseTime}
             , #{pcd}
             , #{source}
-            , to_timestamp(#{schedvisit}, 'YYYY-MM-DD hh24:mi:ss')
-            , to_timestamp(#{visitdate}, 'YYYY-MM-DD hh24:mi:ss')
+            , nullif(#{schedvisit},'')::timestamp
+            , nullif(#{visitdate},'')::timestamp
             , #{visitstat}
         )
     </insert>
@@ -92,7 +92,7 @@
                 , 'interface'
                 , #{item.interactionNum}
                 , #{item.description}
-                , to_date(#{item.date}, 'YYYY-MM-DD')
+                , nullif(#{item.date},'')::timestamp
                 , #{item.contactCustomer}
             )
         </foreach>
@@ -105,4 +105,13 @@
     <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
         call replica.if_update_lead_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
     </insert>
+
+    <select id="getActionId" parameterType="IFHMBSAPEAICDPP0038Dto" resultType="String">
+        select
+            row_id as rowId
+        from
+            process.sales_consult_history psc
+        where
+            external_id__c = #{rowId}::text
+    </select>
 </mapper>

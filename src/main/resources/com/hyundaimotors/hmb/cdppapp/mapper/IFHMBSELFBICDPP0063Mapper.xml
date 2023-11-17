@@ -5,16 +5,16 @@
     <select id="getAsset" parameterType="IFHMBSELFBICDPP0063Dto" resultType="VehicleDto">
         select 
             pa.serialnumber as chassi
-            , pa.billing_date__c as salesDate
+            , pa.billing_date__c::timestamp  as salesDate
             , pa.dealercode__c as salesDealerCode
-            , (select corporaterepresentativename__c from process.account where external_id__c = pa.dealercode__c) as salesDealerNick
+            , (select corporaterepresentativename__c from process.account where row_id  = pa.account_row_id__c) as salesDealerNick
             , pa.oper_status_cd__c as salesCode
-            , pa.description__c as saleVersion
+            , (select pp.part__c from process.product pp where pp.row_id = pa.product2id) as saleVersion
             , pa.fsc__c as salesFSCOCN
-            , pa.enginetype__c as salesMotor
-            , pa.modelname__c as vinModel
-            , pa.vehiclecolor__c as vinColor
-            , pa.legacy_last_upd as updated
+            , (select pp.engine_desc__c from process.product pp where pp.row_id = pa.product2id) as salesMotor
+            , pa.friendly_model__c  as vinModel
+            , (select ci.val from process.color_information ci where ci.lang_id__c = 'ENU' and ci."type" = 'AUTO_EXTERIOR' and ci.name_code = pa.vehiclecolor__c) as vinColor
+            , pa.legacy_last_upd::timestamp as updated
             , pa.x_del_home__c as delHome
             , pa.x_dig_sales__c as digitalSales
             , pa.x_td_home__c as tdHome
@@ -65,9 +65,9 @@
         from
             process.account pa
         join
-            process.asset_con ac 
+            process.customer_vehicle ac  
         on
-            pa.external_id__c = ac.contact_id 
+            pa.row_id  = ac.account_id
         where 
             ac.asset_id = #{assetGetRowId}
     </select>
@@ -75,14 +75,14 @@
     <select id="getAccount"  parameterType="String" resultType="AccountGetVinDto">
         select
             pa.row_id as idSiebel
-            , aa.rel_type_cd as relatedType
+            , aa.relation_type_cd as relatedType
             , aa.status_cd as relatedStatus
         from
             process.account pa
         join
-            process.asset_accnt aa 
+            process.customer_vehicle aa 
         on
-            pa.external_id__c = aa.accnt_id
+            pa.row_id  = aa.account_id
         where
             aa.asset_id = #{assetGetRowId}
     </select>

@@ -32,8 +32,8 @@
             , #{excpId}
             , #{employeeCPF}
             , #{dealerCode}
-            , to_date(#{excpStartDate},'YYYY-MM-DD')
-            , to_date(#{excpEndDate},'YYYY-MM-DD')
+            , #{excpStartDate}::timestamp
+            , #{excpEndDate}::timestamp
             , #{absencePeriod}
             , #{period1Start}
             , #{period1End}

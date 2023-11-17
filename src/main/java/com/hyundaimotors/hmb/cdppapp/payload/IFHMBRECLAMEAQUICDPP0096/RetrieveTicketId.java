@@ -186,4 +186,14 @@ public class RetrieveTicketId {
     public String firstName;
     public String lastName;
 
+    public String city;
+    public String addressState;
+
+    @JsonProperty("detail_description")
+    public String detailDescription;
+    public String attachName;
+    public String attachCreationDate;
+
+    public String raModerationRequestMessage;
+    public String raModerationResponseMessage;
 }

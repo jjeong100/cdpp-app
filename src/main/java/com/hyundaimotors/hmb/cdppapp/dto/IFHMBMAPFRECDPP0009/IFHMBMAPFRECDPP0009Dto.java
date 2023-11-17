@@ -31,6 +31,7 @@ public class IFHMBMAPFRECDPP0009Dto {
     private String exchangeDate;
     private String vehiclePlate;
     private int vehicleMileage;
+    private String protocol;
     private String errorSpcCode;
     private String errorSpcMessage;
     List<IFHMBMAPFRECDPP0009RSAServicePayload> listOfRSASetvice;

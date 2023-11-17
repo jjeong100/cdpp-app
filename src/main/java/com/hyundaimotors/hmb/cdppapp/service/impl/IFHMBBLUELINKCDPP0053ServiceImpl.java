@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBBLUELINKCDPP0053.BluelinkDto;
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBBLUELINKCDPP0053.IFHMBBLUELINKCDPP0053Dto;
-import com.hyundaimotors.hmb.cdppapp.dto.IFHMBBLUELINKCDPP0053.VehicleBluelinkDto;
 import com.hyundaimotors.hmb.cdppapp.mapper.IFHMBBLUELINKCDPP0053Mapper;
 import com.hyundaimotors.hmb.cdppapp.service.IFHMBBLUELINKCDPP0053Service;
 
@@ -24,43 +23,44 @@ public class IFHMBBLUELINKCDPP0053ServiceImpl implements IFHMBBLUELINKCDPP0053Se
 
     public IFHMBBLUELINKCDPP0053Dto insertList(IFHMBBLUELINKCDPP0053Dto dto)throws Exception{
         
-        List<VehicleBluelinkDto> vehicleList = new ArrayList<>();
-
-        vehicleList = dto.getVehicle();
+                
 
         List<String> paramList = new ArrayList<>();
-        List<String> replicaParamList = new ArrayList<>();
-        if(0 < vehicleList.size()){
-            for(int i=0;i< vehicleList.size(); i++){
-                List<BluelinkDto> bluelinkList = new ArrayList<>();
-                
-                bluelinkList = vehicleList.get(i).getListOfBluelink();
-                for(int j=0; j< bluelinkList.size(); j++){
-                    BluelinkDto bluelinkDto = new BluelinkDto();
-                    bluelinkDto = bluelinkList.get(j);
-                    bluelinkDto.setSetChassi(vehicleList.get(i).getChassi());
-                    bluelinkDto.setSetLatestMileage(vehicleList.get(i).getLatestMileage());
-                    // type에 따른 결과 값 저장
-                    if("GPI-H".equals(bluelinkDto.getType())){
-                        bluelinkDto.setType("ENROLLMENT (VIA TMU)");
-                        bluelinkDto.setFirstActivation("Y");
-                    }else if("GPI-D".equals(bluelinkDto.getType())){
-                        bluelinkDto.setType("ENROLLMENT (VIA APP)");
-                        bluelinkDto.setFirstActivation("Y");
-                    }else if("GPI-M".equals(bluelinkDto.getType())){
-                        bluelinkDto.setType("DEACTIVATION (VIA APP)");
-                        bluelinkDto.setFirstActivation("N");
-                    }else if("GPI-Q".equals(bluelinkDto.getType())){
-                        bluelinkDto.setType("DEACTIVATION (VIA TMU)");
-                        bluelinkDto.setFirstActivation("N");
-                    }else{
+        List<String> replicaParamList = new ArrayList<>();       
+        
+        List<BluelinkDto> bluelinkList = new ArrayList<>();        
 
-                    }
-                    mapper.inserBluelink(bluelinkDto);
-                    paramList.add(String.valueOf(bluelinkDto.getRowId()));
+        bluelinkList = dto.getListOfBluelink();
+
+        if ( bluelinkList != null ){
+
+            for(int j=0; j< bluelinkList.size(); j++){
+                BluelinkDto bluelinkDto = new BluelinkDto();
+                bluelinkDto = bluelinkList.get(j);
+                bluelinkDto.setSetChassi(dto.getChassi());
+                // bluelinkDto.setSetLatestMileage(vehicleList.get(i).getLatestMileage());
+                // type에 따른 결과 값 저장
+                if("GPI-H".equals(bluelinkDto.getType())){
+                    bluelinkDto.setType("ENROLLMENT (VIA TMU)");
+                    bluelinkDto.setFirstActivation("Y");
+                }else if("GPI-D".equals(bluelinkDto.getType())){
+                    bluelinkDto.setType("ENROLLMENT (VIA APP)");
+                    bluelinkDto.setFirstActivation("Y");
+                }else if("GPI-M".equals(bluelinkDto.getType())){
+                    bluelinkDto.setType("DEACTIVATION (VIA APP)");
+                    bluelinkDto.setFirstActivation("N");
+                }else if("GPI-Q".equals(bluelinkDto.getType())){
+                    bluelinkDto.setType("DEACTIVATION (VIA TMU)");
+                    bluelinkDto.setFirstActivation("N");
+                }else{
+    
                 }
+                mapper.inserBluelink(bluelinkDto);
+                paramList.add(String.valueOf(bluelinkDto.getRowId()));
             }
         }
+        
+        
         String[] param = paramList.toArray(new String[paramList.size()]);
         
         HashMap<String, String[]> map = new HashMap<>();

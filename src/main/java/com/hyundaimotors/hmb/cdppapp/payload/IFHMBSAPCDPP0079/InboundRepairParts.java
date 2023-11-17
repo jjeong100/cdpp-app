@@ -10,51 +10,60 @@ import lombok.Setter;
 @Setter
 public class InboundRepairParts {
     @Schema(description = "soid", example = "0002345")
-    @JsonProperty("CODIGO_OS")
+    @JsonProperty("SO_ID")
     private String soid;
     @Schema(description = "dealercode", example = "B05AM12345")
-    @JsonProperty("DEALER_CODE")
+    @JsonProperty("DEALERCODE")
     private String dealercode;
     @Schema(description = "vincode", example = "9BH12345678901234")
-    @JsonProperty("CHASSI")
+    @JsonProperty("VINCODE")
     private String vincode;
-    @Schema(description = "itmnum", example = "0001")
+    @Schema(description = "itmnum", example = "001")
     @JsonProperty("COD_ITEM")
     private String itmnum;
     @Schema(description = "sotype", example = "CSR-GSS")
-    @JsonProperty("TIPO_OS")
+    @JsonProperty("SOTYPE")
     private String sotype;
     @Schema(description = "pncode", example = "4300780900")
-    @JsonProperty("COD_PRODUTO")
+    @JsonProperty("PNCODE")
     private String pncode;
     @Schema(description = "zdesc", example = "SHELL HELIX ULTRA AH 5W-30 SN")
-    @JsonProperty("DESCRICAO_ITEM")
+    @JsonProperty("ZDESC")
     private String zdesc;
     @Schema(description = "zqty", example = "2,900")
-    @JsonProperty("QUANTIDADE_ITEM")
+    @JsonProperty("ZQTY")
     private float zqty;
-    @Schema(description = "unit", example = "LT")
-    @JsonProperty("UNIDADE")
-    private String unit;
     @Schema(description = "value", example = "71,70")
-    @JsonProperty("VALOR_UNITARIO_ITEM")
+    @JsonProperty("VALUE")
     private float value;
-    @Schema(description = "total_Value", example = "207,93")
-    @JsonProperty("VALOR_TOTAL_ITEM")
-    private float totalValue;
+    @Schema(description = "erdat", example = "20230927")
+    @JsonProperty("ERDAT")
+    private String erdat;
+    @Schema(description = "erzet", example = "183540")
+    @JsonProperty("ERZET")
+    private String erzet;
+    @Schema(description = "aedat", example = "20230927")
+    @JsonProperty("AEDAT")
+    private String aedat;
+    @Schema(description = "aezet", example = "183753")
+    @JsonProperty("AEZET")
+    private String aezet;    
     /*
     @Schema(description = "ernam", example = "AXAPIRFC01")
     private String ernam;
-    @Schema(description = "erdat", example = "27092023")
-    private String erdat;
-    @Schema(description = "erzet", example = "183540")
-    private String erzet;
+    @Schema(description = "itmnum", example = "0001")
+    @JsonProperty("COD_ITEM")
+    private String itmnum;
+    @Schema(description = "unit", example = "LT")
+    @JsonProperty("UNIDADE")
+    private String unit;
+    @Schema(description = "total_Value", example = "207,93")
+    @JsonProperty("VALOR_TOTAL_ITEM")
+    private float totalValue;
     @Schema(description = "aenam", example = "AXAPIRFC01")
     private String aenam;
-    @Schema(description = "aedat", example = "27092023")
-    private String aedat;
-    @Schema(description = "aezet", example = "183753")
-    private String aezet;
+    
+    
     */
 
 }

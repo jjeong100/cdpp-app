@@ -5,6 +5,10 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +20,7 @@ public class IFHMBMAPFRECDPP0009Payload {
     public static class Request{
         @Schema(description = "RSA Integration Id", example = "MONDIAL29130301")
         @JsonProperty("ClaimId")
+        @NotNull @NotBlank @NotEmpty
         private String claimId;
         @Schema(description = "Source", example = "Telephone")
         @JsonProperty("Source")
@@ -58,6 +63,7 @@ public class IFHMBMAPFRECDPP0009Payload {
         private String claimStatus;
         @Schema(description = "Auto Vehicle Serial Number", example = "9BHBH41DBGP633658")
         @JsonProperty("SerialNumber")
+        @NotNull @NotBlank @NotEmpty
         private String serialNumber;
         @Schema(description = "RSA Effective Start Date", example = "2015-08-06")
         @JsonProperty("EffectiveStartDate")
@@ -74,7 +80,7 @@ public class IFHMBMAPFRECDPP0009Payload {
         @Schema(description = "RSA Mileage", example = "900")
         @JsonProperty("vehicleMileage")
         private int vehicleMileage;
-        @JsonProperty("ListOfRSASetvice")
+        @Valid @JsonProperty("ListOfService")
         List<IFHMBMAPFRECDPP0009RSAServicePayload> listOfRSASetvice;
     }
 

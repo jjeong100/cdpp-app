@@ -3,6 +3,8 @@ package com.hyundaimotors.hmb.cdppapp.payload;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +15,10 @@ public class IFHMBINNOCEANCDPP0027Payload {
     @Getter
     @Setter
     public static class Request{
-        @NotNull
+        @NotNull @NotBlank @NotEmpty
         @Schema(description = "Contact Id", example = "1-U1VO")
         private String contactId;
-        @NotNull
+        @NotNull @NotBlank @NotEmpty
         @Schema(description = "Name of external system : Loyalty Mobile App, Loyalty Web Portal", example = "Loyalty Web Portal")
         private String appSource;
         @Schema(description = "Status of loyalty program : Active, Inactive, Unsubscribed", example = "Active")

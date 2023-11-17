@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,11 +23,11 @@ public class IFHMBINNOCEANCDPP0002Payload {
         @Schema(description = "Individual's document number (numbers only)", example = "12337343006")
         @JsonProperty("CPF")
         private String cpf;
-        @NotNull
+        @NotNull @NotBlank @NotEmpty
         @Schema(description = "Contact first name", example = "Jose")
         @JsonProperty("FirstName")
         private String firstName;
-        @NotNull
+        @NotNull @NotBlank @NotEmpty
         @Schema(description = "Contact last name", example = "Ciclano")
         @JsonProperty("LastName")
         private String lastName;
@@ -46,8 +48,7 @@ public class IFHMBINNOCEANCDPP0002Payload {
         private String workPhone;
         @Schema(description = "Contact cell phone.", example = "11941319501")
         @JsonProperty("CellPhone")
-        private String cellPhone;
-        @NotNull
+        private String cellPhone;        
         @Schema(description = "Contact email address.", example = "kilosolution2s@gmail.com")
         @JsonProperty("EmailAddress")
         private String emailAddress;
@@ -135,6 +136,7 @@ public class IFHMBINNOCEANCDPP0002Payload {
         @Schema(description = "Flag to define if customer wants all mobile suppressed.", example = "Y")
         @JsonProperty("SuppressAllMobile")
         private String suppressAllMobile;
+        // 20231110 테이블 char 1 example = "true" => "Y" 변경
         @Schema(description = "Printed card flag. Valid values: true, false", example = "Y")
         @JsonProperty("PrintedCard")
         private String printedCard;

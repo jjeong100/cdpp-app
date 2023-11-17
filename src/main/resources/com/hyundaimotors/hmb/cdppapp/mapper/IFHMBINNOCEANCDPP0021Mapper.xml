@@ -13,6 +13,10 @@
             pa.row_id = pd.par_row_id__c 
         where 
             pd.dlr_srvc_type__c = #{serviceName}
+        <if test="source != null and source != ''">
+            and
+                pa.registrysource__c = #{source}
+        </if>    
         and
             pa.dealercode__c notnull
     </select>

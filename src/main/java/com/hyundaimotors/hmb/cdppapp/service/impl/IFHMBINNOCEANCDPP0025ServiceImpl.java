@@ -21,15 +21,21 @@ public class IFHMBINNOCEANCDPP0025ServiceImpl implements IFHMBINNOCEANCDPP0025Se
     public IFHMBINNOCEANCDPP0025Dto upsertObject(IFHMBINNOCEANCDPP0025Dto dto)throws Exception{
 
         IFHMBINNOCEANCDPP0025Dto resultDto = new IFHMBINNOCEANCDPP0025Dto();
-
-        int resultNum = mapper.insertObject(dto.getScheduleMaintenanceIN());
-
         HashMap<String, String> map = new HashMap<>();
+
+        mapper.insertObject(dto.getScheduleMaintenanceIN());
 
         map.put("PARAM_ID", String.valueOf(dto.getScheduleMaintenanceIN().getRowId()));
 
         mapper.transferProcess(map);
-        resultDto.setDtoSrnumber(dto.getScheduleMaintenanceIN().getSrNumber());
+
+        String procProtocol = mapper.getProcProtocol(dto.getScheduleMaintenanceIN());
+
+        map.put("PROC_PROTOCOL", procProtocol);
+
+        mapper.transferReplica(map);
+
+        resultDto.setDtoSrnumber(procProtocol);
         resultDto.setErrorSpcCode("0");
         resultDto.setErrorSpcMessage("OK");
         return resultDto;

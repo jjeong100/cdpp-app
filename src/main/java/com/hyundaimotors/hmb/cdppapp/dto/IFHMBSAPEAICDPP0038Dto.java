@@ -14,7 +14,7 @@ public class IFHMBSAPEAICDPP0038Dto {
     private int rowId;
     private String protocol;
     private String result;
-    private String ntegrationId;
+    private String integrationId;
     private String salesStatus;
     private String saleCPF;
     private String status;

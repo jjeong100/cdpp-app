@@ -13,6 +13,8 @@ public class IFHMBDMSCDPP0004Dto {
     private String dealerCode;
     private String apiKey;
     private String statusLead;
+    private String protocol;
+    private String status;
     private String errorspcCode;
     private String errorspcMessage;
     List<GetLeadDto> listOfLead;

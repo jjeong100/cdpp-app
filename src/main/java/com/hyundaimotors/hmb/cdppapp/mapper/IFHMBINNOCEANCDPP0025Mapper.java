@@ -6,8 +6,12 @@ import com.hyundaimotors.hmb.cdppapp.dto.IFHMBINNOCEANCDPP0025.ScheduleMaintenan
 
 public interface IFHMBINNOCEANCDPP0025Mapper {
 
-     public int insertObject(ScheduleMaintenanceINDto ScheduleMaintenanceIN)throws Exception;
+     public void insertObject(ScheduleMaintenanceINDto ScheduleMaintenanceIN)throws Exception;
+
+     public String getProcProtocol(ScheduleMaintenanceINDto dto)throws Exception;
 
      public void transferProcess(HashMap<String, String> parMap)throws Exception;
+
+     public void transferReplica(HashMap<String, String> parMap)throws Exception;
 
 }

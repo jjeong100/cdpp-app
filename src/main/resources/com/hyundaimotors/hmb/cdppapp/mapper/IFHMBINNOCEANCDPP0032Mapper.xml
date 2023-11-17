@@ -8,14 +8,14 @@
             , a.firstname as firstName
             , a.lastname as lastName
             , a.cpf__c as cpf
-            , a.gender__pc as genre
+            <!-- , a.gender__pc as genre
             , a.personbirthdate as birthDate
             , a.personmobilephone as cellularPhone
-            , a.personhomephone as homePhone
+            , a.personhomephone as homePhone -->
             , a.personemail as emailAddress
-            , a.companyphone__pc as workPhone
+            <!-- , a.companyphone__pc as workPhone -->
             , a.row_id as rowId
-            , a.x_printed_card__c as hmbPrintedCard
+            <!-- , a.x_printed_card__c as hmbPrintedCard
             , a.emailoptyn__pc as suppressAllEmails
             , a.blockedsms__c as suppressAllSMS
             , c.x_amount_friends__c as amountFriends
@@ -37,7 +37,7 @@
             , a.billingcountry as county
             , a.billingcity as city
             , a.billingstate as state
-            , a.billingcountry as country
+            , a.billingcountry as country -->
         from
             process.account a
         left join
@@ -59,9 +59,9 @@
             , sr.relatedmodel__c as model
             , a.firstname as salesRepFirstName
             , a.lastname as salesRepLastName
-            , sr.date_test_drive__c as testDriveDate
+            , TO_CHAR(sr.date_test_drive__c::timestamp,'YYYY-MM-DD"T"HH24:MI:SS-0300') as testDriveDate
             , sr.testdrive_time__c as testDriveTime
-            , sr.testdrive_confirmed__c as testDriveConfirmed
+            , (case when sr.testdrive_confirmed__c = 't' then 'Y' when sr.testdrive_confirmed__c = 'f' then 'N' else null end) as testDriveConfirmed
             , sr.voc_class as area
         from
             process.account a

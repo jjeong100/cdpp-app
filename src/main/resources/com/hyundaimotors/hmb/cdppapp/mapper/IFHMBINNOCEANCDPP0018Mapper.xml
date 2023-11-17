@@ -4,45 +4,44 @@
     
     <select id="getList" parameterType="IFHMBINNOCEANCDPP0018Dto" resultType="IFHMBINNOCEANCDPP0018Dto">
         select 
-            pc.protocol__c as protocolNum
-            , pc.status as protocolStatus
-            , pdah.srvc_type as serviceType
-            , pdah.srvc_arrival_date as serviceArrivaldate
-            , pdah.srvc_start_date as serviceStartdate
-            , pdah.srvc_duration as serviceDuration
-            , pdah.srvc_delivery_date as serviceDeliverydate
-            , pc.status_date__c as serviceStatus
-            , pac.dealercode__c as dealerCode
-            , pac.corporaterepresentativename__c as dealerName
+            pd.protocol__c as protocolNum
+            , sr.status as protocolStatus
+            , pd.srvc_type as serviceType
+            , TO_CHAR(pd.srvc_arrival_date::timestamp,'YYYY-MM-DD"T"HH24:MI:SS-0300') as serviceArrivaldate
+            , TO_CHAR(pd.srvc_start_date::timestamp,'YYYY-MM-DD"T"HH24:MI:SS-0300') as serviceStartdate
+            , pd.srvc_duration as serviceDuration
+            , TO_CHAR(pd.srvc_delivery_date::timestamp,'YYYY-MM-DD"T"HH24:MI:SS-0300') as serviceDeliverydate
+            , pd.srvc_status_cd as serviceStatus
+            , a2.dealercode__c as dealerCode
+            , a2.corporaterepresentativename__c as dealerName
             , pas.carregistrationnumber__c as vehiclePlate
-            , pp.chassi_model__c as vehicleModel
+            , pas.friendly_model__c  as vehicleModel
             , pas.modelyear__c as vehicleModelyear
-            , pas.manufacturedate as vehicleManufacyear
-            , pas.vehiclecolor__c as vehicleExtcolor
+            , pas.manufacturedate  as vehicleManufacyear
+            , (select ci.val from process.color_information ci where ci.lang_id__c = 'ENU' and ci."type" = 'AUTO_EXTERIOR' and ci.name_code = pas.vehiclecolor__c) as vehicleExtcolor
             , pas.serialnumber as vehicleChassi
-            , concat(pac.firstname || pac.lastname) as consultantName
-            , concat(pac.firstname || pac.lastname) as technicianName
+            , (select concat(a2.firstname || ' ' || a2.lastname ) from process.contact pc where row_id = pd.srvc_consultant_id) as consultantName
+            , (select concat(pc.firstname || ' ' || pc.lastname ) from process.contact pc where row_id = pd.srvc_technician_id) as technicianName
         from 
-            process.case pc
+            process.dealer_appointment_history pd
         join
-            process.dealer_appointment_history pdah
+            process.service_request sr 
         on
-            pc.external__c = pdah.par_row_id
+            pd.protocol__c = sr.protocol__c 
         join 
-            process.account pac
+            process.account a1
         on
-            pc.contact_row_id__c = pac.row_id
-        left join 
+            a1.row_id = sr.contact_row_id__c
+        join 
+            process.account a2
+        on
+            a2.row_id = sr.account_row_id__c 
+        join 
             process.asset pas
         on
-            pc.asset_id = pas.row_id 
-        left join 
-            process.product pp
-        on
-            pas.prod_id = pp.int_x_par_row_id
+            pas.contact_row_id__c = a1.row_id
         where 
-            pac.cpf__c = #{cpf}
-
+            a1.cpf__c = #{cpf}
     </select>
     
 </mapper>

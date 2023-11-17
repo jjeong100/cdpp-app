@@ -14,5 +14,6 @@ public class IFHMBSELFBICDPP0062Dto {
     private String created;
     private String voc;
     private String lead;
+    // TotalLeadDto totallead;
     List<TotalLeadDto> totallead;
 }

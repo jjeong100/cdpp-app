@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 public class GetLeadAgendamento {
     @Schema(description = "Numero Interaction", example = "2")
-    @JsonProperty("TemperatureNum")
+    @JsonProperty("TipoAgendamento")
     private String tipoAgendamento;
     @Schema(description = "Description Interaction", example = "04/10/2018 - O cliente fez o testdrive")
-    @JsonProperty("TemperatureNum")
+    @JsonProperty("DataAgendamento")
     private String dataAgendamento;
 }

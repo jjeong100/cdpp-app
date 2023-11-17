@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBINNOCEANCDPP0037.UpdateContactInputDto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,24 +20,27 @@ public class IFHMBINNOCEANCDPP0037Payload {
     @Setter
     public static class Request{
         @Schema(description = "Contact Id", example = "1-40O0EX4")
+        @NotNull @NotBlank @NotEmpty
         @JsonProperty("ContactId")
         private String contactId;
-        @Schema(description = "CNH Expiration Date", example = "2025-10-05")
+        @Schema(description = "CNH Expiration Date", example = "2025-10-05T00:00:00-0300")
         @JsonProperty("CNHExpirationDate")
         private String cnheXpirationDate;
         @Schema(description = "Contact first name", example = "Jose")
+        @NotNull @NotBlank @NotEmpty
         @JsonProperty("FirstName")
         private String firstName;
         @Schema(description = "Contact last name", example = "Ciclano")
+        @NotNull @NotBlank @NotEmpty
         @JsonProperty("LastName")
         private String lastName;
-        @Schema(description = "Contact birth date. Format: YYYY-MM-DD", example = "1996-02-22")
+        @Schema(description = "Contact birth date. Format: YYYY-MM-DD", example = "1996-02-22T00:00:00-0300")
         @JsonProperty("BirthDate")
         private String birthDate;
         @Schema(description = "Contact gender. Valid values: Uninformed, Female, Male", example = "Male")
         @JsonProperty("Genre")
         private String genre;
-        @Schema(description = "HKMERetailDate", example = "2020-05-10")
+        @Schema(description = "HKMERetailDate", example = "2020-05-10T00:00:00-0300")
         @JsonProperty("HKMERetailDate")
         private String hkmeRetailDate;
         @Schema(description = "Contact home phone.", example = "+551141319501")
@@ -46,6 +53,7 @@ public class IFHMBINNOCEANCDPP0037Payload {
         @JsonProperty("CellularPhone")
         private String cellularPhone;
         @Schema(description = "Contact email address.", example = "kilosolution2s@gmail.com")
+        @NotNull @NotBlank @NotEmpty
         @JsonProperty("EmailAddress")
         private String emailAddress;
         @Schema(description = "Amount Friends", example = "5")
@@ -106,7 +114,7 @@ public class IFHMBINNOCEANCDPP0037Payload {
         @JsonProperty("HMBPrintedCard")
         private String hmbPrintedCard;
 
-        @JsonProperty("ListOfAutoVehicle")
+        @Valid @JsonProperty("ListOfAutoVehicle")
         List<ListOfAutoVehicle> listOfAutoVehicle;
         @JsonProperty("ListOfContactSocialMedia")
         List<ListOfContactSocialMedia> listOfContactSocialMedia;

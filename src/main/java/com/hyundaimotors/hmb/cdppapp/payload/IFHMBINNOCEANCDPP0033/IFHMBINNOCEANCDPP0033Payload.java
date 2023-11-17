@@ -32,7 +32,7 @@ public class IFHMBINNOCEANCDPP0033Payload {
         private String cnpj;
         @Schema(description = "Billing start date for search., Format: MM/DD/YYYY", example = "2015-09-28")
         private String startDate;
-        @Schema(description = "Billing End date for search., Format: MM/DD/YYYY", example = " 2015-05-28")
+        @Schema(description = "Billing End date for search., Format: MM/DD/YYYY", example = " 2015-09-28")
         private String endDate;
         @Schema(description = "Connex Asset Id.", example = "1-383PB4S")
         @JsonProperty("Connexid")

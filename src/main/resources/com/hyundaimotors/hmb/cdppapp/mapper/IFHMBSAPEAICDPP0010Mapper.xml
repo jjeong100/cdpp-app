@@ -19,7 +19,7 @@
             name = #{serialNumber}
         <if test="contactId != null">
         and 
-            contact_row_id__c = #{contactId}
+            person_account_id = #{contactId}
         </if>
     </select>
 
@@ -108,10 +108,10 @@
             , #{manufactureYear}
             , #{modelYear}
             , #{mileage}
-            , to_date(#{saleToDealerDate}, 'YYYY-MM-DD')
-            , to_date(#{warrantyStartDate}, 'YYYY-MM-DD')
-            , to_date(#{billingDate}, 'YYYY-MM-DD')
-            , to_date(#{deliverToCustomerDate}, 'YYYY-MM-DD')
+            , to_date(nullif(#{saleToDealerDate},''), 'YYYY-MM-DD')
+            , #{warrantyStartDate}::timestamp
+            , #{billingDate}::timestamp
+            , #{deliverToCustomerDate}::timestamp
             , #{sellingDealerCode}
             , #{negotiationType}
             , #{subscriptionType}
@@ -120,9 +120,9 @@
             , #{salesrepFirstName}
             , #{salesrepLastName}
             , #{urlPhoto}
-            , to_date(#{urlphotoDate}, 'YYYY-MM-DD')
+            , #{urlphotoDate}::timestamp
             , #{urlauthPublication}
-            , to_date(#{vehicleLicenseDate}, 'YYYY-MM-DD')
+            , #{vehicleLicenseDate}::timestamp
             , #{digitalSales}
             , #{deliveryatHome}
             , #{tdatHome}
@@ -157,7 +157,7 @@
             , #{contactStatus}     
             , #{employee}  
             , #{serialNumber}
-            , CAST(#{parRowId} as Integer)
+            , CAST(nullif(#{parRowId},'') as Integer)
         )
     </insert>
 
@@ -182,7 +182,7 @@
             , #{accountType}
             , #{accountStatus}
             , #{serialNumber}
-            , CAST(#{parRowId} as Integer)
+            , CAST(nullif(#{parRowId},'') as Integer)
         )       
     </insert>
     

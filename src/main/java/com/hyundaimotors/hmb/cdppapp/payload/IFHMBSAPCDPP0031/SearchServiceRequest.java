@@ -16,7 +16,7 @@ public class SearchServiceRequest {
     @Schema(description = "Id", example = "Id")
     @JsonProperty("Id")
     private String id;
-    @Schema(description = "TestDriveDate", example = "1-1238L")
+    @Schema(description = "TestDriveDate", example = "2020-07-22T00:00:00-0300")
     @JsonProperty("TestDriveDate")
     private String testDriveDate;
     @Schema(description = "Test DriveD ate", example = "14:00~16:00")
@@ -25,13 +25,13 @@ public class SearchServiceRequest {
     @Schema(description = "Test Drive Time", example = "2015-09-12")
     @JsonProperty("TestDriveConfirmed")
     private String testDriveConfirmed;
-    @Schema(description = "Created", example = "2015-09-10")
+    @Schema(description = "Created", example = "2015-09-10T09:01:00-0300")
     @JsonProperty("Created")
     private String created;
     @Schema(description = "Created By", example = "1-1GQA")
     @JsonProperty("CreatedBy")
     private String createdBy;
-    @Schema(description = "Updated", example = "2015-09-14")
+    @Schema(description = "Updated", example = "2015-09-14T09:01:00-0300")
     @JsonProperty("Updated")
     private String updated;
     @Schema(description = "Updated By", example = "1-1GQA")

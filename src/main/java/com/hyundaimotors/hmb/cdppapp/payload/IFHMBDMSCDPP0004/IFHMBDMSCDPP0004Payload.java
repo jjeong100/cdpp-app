@@ -5,6 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,13 +17,15 @@ public class IFHMBDMSCDPP0004Payload {
     @Getter
     @Setter
     public static class Request{
-        @Schema(description = "MM/DD/YYYY", example = "2019-09-10")
+        @Schema(description = "YYYY-MM-DD", example = "2019-09-10")
+        @NotNull @NotBlank @NotEmpty
         private String date;
-        @Schema(description = "It should be a pre-existing Dealer Code in CRM.", example = "proc00035047103")
+        @Schema(description = "It should be a pre-existing Dealer Code in CRM.", example = "B05AM26057")
         private String dealerCode;
-        @Schema(description = "It should be an existing Api Key in CRM.", example = "4455")
+        @Schema(description = "It should be an existing Api Key in CRM.", example = "4ectZfEIGhrAFoLyAUVq0HzuZ5GBMevx")
         private String apiKey;
         @Schema(description = "Open or Done", example = "Open")
+        @NotNull @NotBlank @NotEmpty
         private String statusLead;
     }
 
