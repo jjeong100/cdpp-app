@@ -53,4 +53,9 @@
     <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
         call replica.if_in_color(#{param_id});
     </insert>
+
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_in_color(#{param_id});
+    </insert>
+    
 </mapper>

@@ -20,8 +20,21 @@
             , #{srNumber}            
         );
     </insert>
+    
+     <select id="selectFileDownload" parameterType="IFHMBSAPEAICDPP0035Dto" resultType="FileInfoDto">
+         select cast(attach_file as Bytea) as attach_file
+              , url
+          from process."case"
+         where protocol__c = (select srnumber from landing.if_service_request_attachment where row_id = cast(#{rowId} as integer) limit 1)
+    </select>
 
     <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
         call process.if_service_request_attachment(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+    
+    <insert id="transferFile" statementType="CALLABLE" parameterType="hashMap">
+<!--         call process.if_file_attachment(#{PARAM_ID,jdbcType=VARCHAR,mode=IN},#{PARAM_CONTENT,jdbcType=CLOB,mode=IN}); -->
+<!--        call process.if_file_attachment(#{PARAM_ID,jdbcType=VARCHAR,mode=IN},#{PARAM_CONTENT,jdbcType=BINARY,mode=IN}); -->
+        call process.if_file_attachment(#{PARAM_ID,jdbcType=VARCHAR,mode=IN},#{FILE_PATH,jdbcType=VARCHAR,mode=IN});
     </insert>
 </mapper>

@@ -18,4 +18,7 @@ public interface IFHMBSAPEAICDPP0038Mapper {
     public void transferReplica(HashMap<String, String> parMap)throws Exception;
 
     public List<String> getActionId(IFHMBSAPEAICDPP0038Dto dto)throws Exception;
+
+    public void transferDPProcess(HashMap<String, String[]> parMap)throws Exception;
+    
 }

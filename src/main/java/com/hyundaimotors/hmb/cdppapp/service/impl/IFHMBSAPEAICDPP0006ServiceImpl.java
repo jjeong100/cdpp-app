@@ -55,4 +55,12 @@ public class IFHMBSAPEAICDPP0006ServiceImpl implements IFHMBSAPEAICDPP0006Servic
 
         return resulDto;
     }
+
+    public void insertDPObject(IFHMBSAPEAICDPP0006Dto dto)throws Exception{
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("PARAM_ID", dto.getActionId());
+        
+        mapper.transferDPProcess(map);
+    }
 }

@@ -21,10 +21,10 @@ public class ServiceRequestChatInput {
     @Schema(description = "Protocol unique identifier. If an update is needed, value on this tag must be provided.", example = "HMB98949022323")
     private String protocol;
     @Schema(description = "Protocol reason. Valid values:Complaint, Compliment", example = "Information")
-    @NotNull @NotBlank @NotEmpty
+    //@NotNull @NotBlank @NotEmpty
     private String reason;
     @Schema(description = "VOC level 1. Values are according business definitions for each situation.", example = "Sales")
-    @NotNull @NotBlank @NotEmpty
+    //@NotNull @NotBlank @NotEmpty
     private String level1;
     @Schema(description = "VOC level 2. Values are according business definitions for each situation.", example = "Request a quote")
     private String level2;
@@ -33,7 +33,7 @@ public class ServiceRequestChatInput {
     @Schema(description = "VOC level 4. Values are according business definitions for each situation.", example = "Acceleration 0 - 100 km/h")
     private String level4;
     @Schema(description = "Protocol source. Valid values: Call Center, Complaint Site, Dealer, Director, Facebook, Other", example = "Call Center")
-    @NotNull @NotBlank @NotEmpty
+    //@NotNull @NotBlank @NotEmpty
     private String source;
     @Schema(description = "Protocol entry method. Valid values: Chat, Email, Internet, Mail/Letter, Other Social Media", example = "Email")
     private String method;

@@ -56,7 +56,7 @@ public class IFHMBCSUCDPP0086Controller {
             response = defaultMapper.map(resultDto, IFHMBCSUCDPP0086Payload.Response.class);
             ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response));
         }catch(Exception e) {
-             response.setErrorSpcCode("500");
+             response.setErrorSpcCode("1");
              response.setErrorSpcMessage(e.getLocalizedMessage());
 
              ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response), e);

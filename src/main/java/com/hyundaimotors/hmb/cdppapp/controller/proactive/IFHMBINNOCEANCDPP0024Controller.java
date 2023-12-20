@@ -59,6 +59,8 @@ public class IFHMBINNOCEANCDPP0024Controller {
 	        response.setErrorSpcMessage("OK");
 	        
 	        ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response));
+
+			service.insertDPObject(resultDto);
     	}catch(Exception e) {
     		response.setErrorSpcCode("500");
             response.setErrorSpcMessage(e.getLocalizedMessage());

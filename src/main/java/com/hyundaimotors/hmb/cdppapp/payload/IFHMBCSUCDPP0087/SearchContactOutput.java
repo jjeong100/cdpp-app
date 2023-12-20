@@ -108,12 +108,20 @@ public class SearchContactOutput {
     @Schema(description = "Printed card flag. Valid values: true, false", example = "TRUE")
     @JsonProperty("PrintedCard")
     private String printedCard;
-
-    List<SearchAutoVehicle> listOfAutoVehicle;
-    List<SearchCampaign> listOfCampaign;
-    List<SearchContactHobby> listOfContactHobby;
-    List<SearchSoccerTeam> listOfContactSoccerTeam;
-    List<SearchSocialMedia> listOfContactSocialMedia;
-    List<SearchUtilizedApps> listOfContactUtilizedApps;
-    List<SearchCSISurvey> listOfCSISurvey;
+    @JsonProperty("AutoVehicle")
+    List<SearchAutoVehicle> autoVehicle;
+    @JsonProperty("Campaign")
+    List<SearchCampaign> campaign;
+    @JsonProperty("ContactHobby")
+    List<SearchContactHobby> contactHobby;
+    @JsonProperty("ContactSoccerTeam")
+    List<SearchSoccerTeam> contactSoccerTeam;
+    @JsonProperty("ContactSocialMedia")
+    List<SearchSocialMedia> contactSocialMedia;
+    @JsonProperty("ContactUtilizedApps")
+    List<SearchUtilizedApps> contactUtilizedApps;
+    @JsonProperty("CSISurvey")
+    List<SearchCSISurvey> csiSurvey;
+    @JsonProperty("ServiceRequest")
+    List<SearchServiceRequestContact> serviceRequest;
 }

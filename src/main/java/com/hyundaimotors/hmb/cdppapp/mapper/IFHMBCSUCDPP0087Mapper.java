@@ -7,6 +7,7 @@ import com.hyundaimotors.hmb.cdppapp.dto.IFHMBCSUCDPP0087.SearchAutoVehicleDto;
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBCSUCDPP0087.SearchCSISurveyDto;
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBCSUCDPP0087.SearchCampaignDto;
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBCSUCDPP0087.SearchContactOutputDto;
+import com.hyundaimotors.hmb.cdppapp.dto.IFHMBCSUCDPP0087.SearchServiceRequestContactDto;
 
 public interface IFHMBCSUCDPP0087Mapper {
     
@@ -17,4 +18,6 @@ public interface IFHMBCSUCDPP0087Mapper {
     public List<SearchCampaignDto> getCampaignList(IFHMBCSUCDPP0087Dto dto)throws Exception;
 
     public List<SearchCSISurveyDto> getCSISurveyList(IFHMBCSUCDPP0087Dto dto)throws Exception;
+
+    public List<SearchServiceRequestContactDto> getServiceRequestList(IFHMBCSUCDPP0087Dto dto)throws Exception;
 }

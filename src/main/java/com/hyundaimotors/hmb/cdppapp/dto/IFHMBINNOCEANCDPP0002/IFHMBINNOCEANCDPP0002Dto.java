@@ -59,6 +59,7 @@ public class IFHMBINNOCEANCDPP0002Dto {
     private String ContactId;
     private String Error_spcCode;
     private String Error_spcMessage;
+    private String checkUpsert;
 
     List<InboundContactWorkflowCarDto> ListOfCurrentCars;
     List<InboundContactWorkflowAppPayLoad> ListOfApps;

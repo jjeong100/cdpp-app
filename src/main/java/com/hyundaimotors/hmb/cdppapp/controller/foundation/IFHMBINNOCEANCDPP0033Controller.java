@@ -1,5 +1,6 @@
 package com.hyundaimotors.hmb.cdppapp.controller.foundation;
 
+import java.io.IOException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -49,58 +50,58 @@ public class IFHMBINNOCEANCDPP0033Controller {
         String checkInterfaceVal = request.getIdInterface();
 
         if(Objects.isNull(request.getIdInterface()) && Objects.isNull(request.getSource())){
-            throw new Exception("haven't IdInterface or Source");
+        	throw new IOException("haven't IdInterface or Source");
         }else{
             if("1".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getSerialNumber()) || request.getSerialNumber().isEmpty()){
-                    throw new Exception("haven't SerialNumber");    
+                    throw new IOException("haven't SerialNumber");    
                 }
             }else if("2".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getLicenseNumber()) || request.getLicenseNumber().isEmpty()){
-                    throw new Exception("haven't LicenseNumber");
+                	throw new IOException("haven't LicenseNumber");
                 }
             }else if("3".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getRenavamCode()) || request.getRenavamCode().isEmpty()){
-                    throw new Exception("haven't RenavamCode");
+                	throw new IOException("haven't RenavamCode");
                 }
             }else if("4".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getCpf()) || request.getCpf().isEmpty()){
-                    throw new Exception("haven't Cpf");
+                	throw new IOException("haven't Cpf");
                 }
             }else if("5".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getCnpj()) || request.getCnpj().isEmpty()){
-                    throw new Exception("haven't Cnpj");
+                	throw new IOException("haven't Cnpj");
                 }
             }else if("6".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getStartDate()) || Objects.isNull(request.getEndDate()) || request.getStartDate().isEmpty()  || request.getEndDate().isEmpty()){
-                    throw new Exception("haven't RenavamCode");
+                	throw new IOException("haven't RenavamCode");
                 }
             }else if("7".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getConnexid()) || request.getConnexid().isEmpty()){
-                    throw new Exception("haven't Connexid");
+                	throw new IOException("haven't Connexid");
                 }
             }else if("8".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getEndDate()) || request.getEndDate().isEmpty()){
-                    throw new Exception("haven't EndDate");
+                	throw new IOException("haven't EndDate");
                 }
             }else if("9".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getStartDate()) || Objects.isNull(request.getEndDate()) || request.getStartDate().isEmpty()  || request.getEndDate().isEmpty()){
-                    throw new Exception("haven't RenavamCode");
+                	throw new IOException("haven't RenavamCode");
                 }
             }else if("10".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getStartDate()) || request.getStartDate().isEmpty()){
-                    throw new Exception("haven't StartDate");
+                	throw new IOException("haven't StartDate");
                 }
             }else if("11".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getSerialNumber()) || request.getSerialNumber().isEmpty()){
-                    throw new Exception("haven't SerialNumber");
+                	throw new IOException("haven't SerialNumber");
                 }
             }else if("12".equals(checkInterfaceVal)){
                 if(Objects.isNull(request.getDealerCode()) || request.getDealerCode().isEmpty() || Objects.isNull(request.getStartDate()) || request.getStartDate().isEmpty() || Objects.isNull(request.getEndDate()) || request.getEndDate().isEmpty()){
-                    throw new Exception("haven't DealerCode");
+                	throw new IOException("haven't DealerCode");
                 }
             }else{
-                throw new Exception("haven't IdInterface");
+            	throw new IOException("haven't IdInterface");
             }
         }
         

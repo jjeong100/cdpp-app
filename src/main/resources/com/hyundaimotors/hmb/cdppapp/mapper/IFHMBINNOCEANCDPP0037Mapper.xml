@@ -85,7 +85,7 @@
             , #{suppressAllMobile}
             , #{suppressAllVideoCall}
             , #{suppressAllSMS}
-            , case when lower(#{hmbPrintedCard}) = 'false' then 'N' else 'Y' end
+            , case when lower(#{hmbPrintedCard}) = 'false' then 'N' when lower(#{hmbPrintedCard}) = 'true' then 'Y' else null end
         )
     </insert>
     
@@ -150,35 +150,35 @@
     <select id="getUpdateContactOutput" parameterType="IFHMBINNOCEANCDPP0037Dto" resultType="com.hyundaimotors.hmb.cdppapp.payload.IFHMBINNOCEANCDPP0037.ContactData">
         select 
             pa.row_id as contactId
-            , pa.loyaltyexpirationdate__c  as cnheXpirationDate
+            , pa.cnhexpirationdate__c  as cnheXpirationDate
             , pa.firstname as firstName
             , pa.lastname as lastName
             , pa.personbirthdate as birthDate
             , pc.gender__c as gender
             , pa.hkmeretaildate as retailDate
             , pa.personhomephone as homePhone
-            , pc.companyphone__c as workPhone
+            , pa.workphone__c as workPhone
             , pa.personhomephone as cellPhone
             , pa.personemail as emailAddress
             , pc.x_amount_friends__c as amountFriends
             , pc.x_amount_children__c as amountChildren
             , pc.x_loyalty_optin_flg__c as loyaltyOPTINFla
-            , pc.mailingstreet as streetAddress
-            , pc.mailingstreet_2__c as streetAddress2
-            , pc.mailingstreet_3__c as streetAddress3
-            , pc.mailingcountry as country
-            , pc.mailingcounty as county
-            , pc.mailingcity as city
-            , pc.mailingstate as state
-            , pc.mailingpostalcode as postalCode
-            , pc.emailoptyn__c as suppressAllEmails
-            , pc.directmailoptyn__c as suppressAllMailings
-            , pc.calloptyn__c as suppressAllCalls
-            , pc.blockedwhatsapp__c as suppressAllWhatsapp
-            , pc.blockedmobile__c as suppressAllMobile
-            , pc.x_printed_card__c as suppressAllVideoCall
-            , pc.blockedsms__c  as suppressAllSMS
-            , pc.x_printed_card__c as hmbPrintedCard
+            , pa.billingstreet as streetAddress
+            , pa.billingstreet_2__c as streetAddress2
+            , pa.billingstreet_3__c as streetAddress3
+            , pa.billingcountry as country
+            , pa.billingcounty as county
+            , pa.billingcity as city
+            , pa.billingstate as state
+            , pa.billingpostalcode as postalCode
+            , ( case when pa.blockedemails__pc = true then 'Y' when pa.blockedemails__pc = false then 'N' else null end ) as suppressAllEmails
+            , ( case when pa.blockedletters__c = true then 'Y' when pa.blockedletters__c = false then 'N' else null end ) as suppressAllMailings
+            , ( case when pa.calloptyn__pc = true then 'Y' when pa.calloptyn__pc = false then 'N' else null end ) as suppressAllCalls
+            , ( case when pa.blockedwhatsapp__c = true then 'Y' when pa.blockedwhatsapp__c = false then 'N' else null end ) as suppressAllWhatsapp
+            , ( case when pa.blockedmobile__c = true then 'Y' when pa.blockedmobile__c = false then 'N' else null end ) as suppressAllMobile
+            , ( case when pa.blockedvideocall__c = true then 'Y' when pa.blockedvideocall__c = false then 'N' else null end ) as suppressAllVideoCall
+            , ( case when pa.blockedsms__c = true then 'Y' when pa.blockedsms__c = false then 'N' else null end )  as suppressAllSMS
+            , ( case when pc.x_printed_card__c = true then 'Y' when pc.x_printed_card__c = false then 'N' else null end ) as hmbPrintedCard
         from
             process.account pa
         join
@@ -222,6 +222,10 @@
 
     <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
         call process.if_update_contact_in_wf(#{PARAM_ID}, #{VEHICLE_ID}, #{PROC_ACCOUNT_ID});
+    </insert>
+
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_update_contact_in_wf(#{PROC_CON_ID});
     </insert>
 
     <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">

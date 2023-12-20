@@ -49,7 +49,11 @@ public class IFHMBINNOCEANCDPP0013Dto {
     private String salesOffice;
     private String division;
 
+    private String procRowId;
+
     private String errorSpcCode;
     private String errorSpcMessage;
     List<ListOfContactsDto> contactList;
+
+    List<String> listOfProcContactRowId;
 }

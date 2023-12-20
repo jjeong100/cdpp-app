@@ -59,4 +59,12 @@ public class IFHMBINNOCEANCDPP0034ServiceImpl implements IFHMBINNOCEANCDPP0034Se
 
         return resulDto;
     }
+
+    public void insertDPObject(IFHMBINNOCEANCDPP0034Dto dto)throws Exception{
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("PARAM_ID", dto.getProtocalResult());
+        
+        mapper.transferDPProcess(map);
+    }
 }

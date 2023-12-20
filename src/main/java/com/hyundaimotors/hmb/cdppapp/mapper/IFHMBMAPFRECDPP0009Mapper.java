@@ -19,4 +19,6 @@ public interface IFHMBMAPFRECDPP0009Mapper {
     public void transferReplica(HashMap<String, String> parMap)throws Exception;
 
     public String resGetProtocolId(String procId)throws Exception;
+
+    public void transferDPProcess(HashMap<String, String> parMap)throws Exception;
 }

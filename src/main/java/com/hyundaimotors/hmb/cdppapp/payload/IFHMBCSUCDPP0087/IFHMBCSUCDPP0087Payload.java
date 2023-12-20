@@ -18,7 +18,7 @@ public class IFHMBCSUCDPP0087Payload {
     @Setter
     public static class Request{
         @Schema(description = "Serial Number", example = "9BHBG51DAEP171603")
-        @NotNull @NotBlank @NotEmpty
+        //@NotNull @NotBlank @NotEmpty
         @JsonProperty("SerialNumber")
         private String serialNumber;
         @Schema(description = "Interface", example = "Source")
@@ -26,13 +26,16 @@ public class IFHMBCSUCDPP0087Payload {
         @JsonProperty("Interface")
         private String interfaces;
         @Schema(description = "Contact Id", example = "1-LK2UJ")
-        @NotNull @NotBlank @NotEmpty
+        //@NotNull @NotBlank @NotEmpty
         @JsonProperty("ContactId")
         private String contactId;
         @Schema(description = "Campaing Name", example = "HMB Evento After Sales BH")
-        @NotNull @NotBlank @NotEmpty
+        //@NotNull @NotBlank @NotEmpty
         @JsonProperty("CampaignName")
         private String campaignName;
+        @Schema(description = "CPF", example = "02377363814")
+        @JsonProperty("CPF")
+        private String cpf;
     }
 
     @Schema(name = "IFHMBCSUCDPP0087Payload.Response")

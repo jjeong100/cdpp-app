@@ -15,4 +15,6 @@ public interface IFHMBSAPEAICDPP0026Mapper {
 
     public void transferReplica(HashMap<String, String[]> parMap)throws Exception;
 
+    public void transferDPProcess(HashMap<String, String[]> parMap)throws Exception;
+
 }

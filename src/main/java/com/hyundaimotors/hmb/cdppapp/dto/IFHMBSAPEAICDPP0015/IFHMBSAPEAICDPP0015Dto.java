@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class IFHMBSAPEAICDPP0015Dto {
     private String source;
-
+    List<String> paramList;
     List<ColorDto> listOfColor; 
 
     private String errorSpcCode;

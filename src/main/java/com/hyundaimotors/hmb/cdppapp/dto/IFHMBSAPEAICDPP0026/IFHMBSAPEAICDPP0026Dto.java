@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class IFHMBSAPEAICDPP0026Dto {
+    List<String> listParamId;
     private String error_spcCode;
     private String error_spcMessage;
     

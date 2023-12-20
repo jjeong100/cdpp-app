@@ -63,7 +63,6 @@ public class BlueLinkBatch {
     @Bean
     public Tasklet testTasklet(){
         return ((contribution, chunkContext) -> {
-            System.out.println("테스트1");
             bluelinkMileageDto dto = new bluelinkMileageDto();
 
             mapper.updateProcessBlueLink(dto);
@@ -75,7 +74,6 @@ public class BlueLinkBatch {
     @Bean
     public Tasklet testTasklet01(){
         return ((contribution, chunkContext) -> {
-            System.out.println("테스트2");
 
             bluelinkMileageDto dto = new bluelinkMileageDto();
 
@@ -88,7 +86,6 @@ public class BlueLinkBatch {
 
     //@Scheduled(cron = "0 */5 * * * *") // 매 시간 실행 (크론 표현식)
     public void runRestApiJob() {
-        System.out.println("GateWay!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         JobExecution jobExecution;
         try {
             jobExecution = jobLauncher.run(testSimpleJob(null,null,null), new JobParameters());

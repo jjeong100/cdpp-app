@@ -21,9 +21,9 @@ public class IFHMBBLUELINKCDPP0053Payload {
         @NotNull @NotBlank @NotEmpty
         @JsonProperty("Chassi")
         private String chassi;
-        // @Schema(description = "Latest Mileage of Asset", example = "1000")
-        // @JsonProperty("LatestMileage")
-        // private String latestMileage;
+        @Schema(description = "Latest Mileage of Asset", example = "1000")
+        @JsonProperty("LatestMileage")
+        private String latestMileage;
         @JsonProperty("ListOfBluelink")
         List<Bluelink> listOfBluelink;
     }

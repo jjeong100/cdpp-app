@@ -2,6 +2,8 @@ package com.hyundaimotors.hmb.cdppapp.dto.IFHMBCSUCDPP0087;
 
 import java.util.List;
 
+import com.hyundaimotors.hmb.cdppapp.payload.IFHMBCSUCDPP0087.SearchServiceRequestContact;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -40,11 +42,12 @@ public class SearchContactOutputDto {
     private String suppressAllEmails;
     private String suppressAllSMS;
     private String printedCard;
-    List<SearchAutoVehicleDto> listOfAutoVehicle;
-    List<SearchCampaignDto> listOfCampaign;
-    List<SearchContactHobbyDto> listOfContactHobby;
-    List<SearchSoccerTeamDto> listOfContactSoccerTeam;
-    List<SearchSocialMediaDto> listOfContactSocialMedia;
-    List<SearchUtilizedAppsDto> listOfContactUtilizedApps;
-    List<SearchCSISurveyDto> listOfCSISurvey;
+    List<SearchAutoVehicleDto> autoVehicle;
+    List<SearchCampaignDto> campaign;
+    List<SearchContactHobbyDto> contactHobby;
+    List<SearchSoccerTeamDto> contactSoccerTeam;
+    List<SearchSocialMediaDto> contactSocialMedia;
+    List<SearchUtilizedAppsDto> contactUtilizedApps;
+    List<SearchCSISurveyDto> csiSurvey;
+    List<SearchServiceRequestContactDto> serviceRequest;
 }

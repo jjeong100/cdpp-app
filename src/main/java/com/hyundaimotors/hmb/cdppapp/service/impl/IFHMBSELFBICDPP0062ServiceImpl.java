@@ -41,7 +41,6 @@ public class IFHMBSELFBICDPP0062ServiceImpl implements IFHMBSELFBICDPP0062Servic
                 // String contactRowId = lead.getContactRowId();
                 String contactRowId = leadDto.getContactRowId();
 
-                System.out.println("■■■ contactRowId : " + contactRowId);
                 contactList = mapper.getContact(contactRowId);
 
                 // if(0 < contactList.size()){
@@ -57,14 +56,16 @@ public class IFHMBSELFBICDPP0062ServiceImpl implements IFHMBSELFBICDPP0062Servic
                 // resulDto.setTotallead(lead);
 
                 String protocol = leadDto.getProtocol();
-                System.out.println("■■■ protocol : " + protocol);
 
-                action = mapper.getAction(protocol);
+                String strId = leadDto.getStrId();
+
+                action = mapper.getAction(strId);
                 if(action!= null){
                     lead.get(index).setAction(action);
 
                     List<TotalTemperatureDto> temperature = new ArrayList<>();
                     temperature = mapper.getTemperature(protocol);
+                    lead.get(index).getAction().setTemperature(temperature);
                 }
 
                 

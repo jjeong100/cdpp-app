@@ -18,16 +18,20 @@ public class IFHMBINNOCEANCDPP0019Payload {
     @Getter
     @Setter
     public static class Request{
+        @NotNull @NotBlank @NotEmpty
         @Schema(description = "Dealer Code", example = "B05AM19023")
         @NotNull @NotBlank @NotEmpty
         @JsonProperty("dealer-code")
         private String dealerCode;
+        @NotNull @NotBlank @NotEmpty
         @Schema(description = "Year to search for calendar availability, Format: YYYY", example = "2017")
         @NotNull @NotBlank @NotEmpty
         private String year;
+        @NotNull @NotBlank @NotEmpty
         @Schema(description = "Month to search for calendar availability", example = "11")
         @NotNull @NotBlank @NotEmpty
         private String month;
+        @NotNull @NotBlank @NotEmpty
         @Schema(description = "Name of requester system.", example = "Source")
         @NotNull @NotBlank @NotEmpty
         @JsonProperty("Source")

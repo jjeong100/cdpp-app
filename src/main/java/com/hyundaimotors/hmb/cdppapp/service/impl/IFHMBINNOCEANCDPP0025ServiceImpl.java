@@ -35,9 +35,24 @@ public class IFHMBINNOCEANCDPP0025ServiceImpl implements IFHMBINNOCEANCDPP0025Se
 
         mapper.transferReplica(map);
 
+        resultDto.setRowId(String.valueOf(dto.getScheduleMaintenanceIN().getRowId()));
         resultDto.setDtoSrnumber(procProtocol);
         resultDto.setErrorSpcCode("0");
         resultDto.setErrorSpcMessage("OK");
         return resultDto;
+    }
+
+    public void insertDPObject(IFHMBINNOCEANCDPP0025Dto dto)throws Exception{
+
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("PARAM_ID", dto.getRowId());
+        map.put("PROTOCOL_NUM", dto.getDtoSrnumber());
+
+        System.out.println(":::::::::: PARAM_ID ::::::::::=>" +  dto.getRowId());
+        System.out.println(":::::::::: PROTOCOL_NUM ::::::::::=>" +  dto.getDtoSrnumber());
+
+        mapper.transferDPProcess(map);
+
     }
 }

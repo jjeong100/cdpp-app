@@ -48,4 +48,8 @@
     <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
         call replica.if_product_list_in_wf(#{PROC_ID});
     </insert>
+    
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_product_list_in_wf(#{param_id});
+    </insert>
 </mapper>

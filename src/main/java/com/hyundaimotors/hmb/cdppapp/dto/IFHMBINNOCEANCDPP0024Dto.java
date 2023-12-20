@@ -22,6 +22,8 @@ public class IFHMBINNOCEANCDPP0024Dto {
     private String period3End;
     private String excpDesc;
     private String source;
+    private String procRowId;
     private String errorSpcCode;
     private String errorSpcMessage;
+
 }

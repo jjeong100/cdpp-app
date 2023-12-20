@@ -57,6 +57,9 @@ public class IFHMBSAPCDPP0005Controller {
     
             response = ObjectUtils.isNotEmpty(resultDto) ? defaultMapper.map(resultDto, IFHMBSAPCDPP0005Payload.Response.class) : null;
             ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response));
+
+            service.insertDPObject(resultDto);
+
         }catch(Exception e) {
             response.setErrorSpcCode("500");
             response.setErrorSpcMessage(e.getLocalizedMessage());

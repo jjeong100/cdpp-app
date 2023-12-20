@@ -77,6 +77,14 @@
         call process.if_mntsrvc_schedule_maintenace(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
     </insert>
 
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_mntsrvc_schedule_maintenace(#{PARAM_ID,jdbcType=VARCHAR,mode=IN},#{PROTOCOL_NUM,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+
+
+    
+
     <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
         call replica.if_mntsrvc_schedule_maintenace(#{PROC_PROTOCOL,jdbcType=VARCHAR,mode=IN});
     </insert>

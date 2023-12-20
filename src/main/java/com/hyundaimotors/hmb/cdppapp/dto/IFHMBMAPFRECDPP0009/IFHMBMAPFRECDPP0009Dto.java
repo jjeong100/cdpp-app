@@ -34,5 +34,6 @@ public class IFHMBMAPFRECDPP0009Dto {
     private String protocol;
     private String errorSpcCode;
     private String errorSpcMessage;
+    private String checkCu;
     List<IFHMBMAPFRECDPP0009RSAServicePayload> listOfRSASetvice;
 }

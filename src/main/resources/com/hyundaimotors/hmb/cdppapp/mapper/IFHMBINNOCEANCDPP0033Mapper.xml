@@ -57,56 +57,43 @@
         on
             pa.product2id = pp.row_id
         where             
-            a3.registrysource__c = #{source}
-        <if test='idInterface == "1"'>
-        and    
+        <if test='idInterface == "1"'>    
             pa.serialnumber = #{serialNumber}        
         limit 1
         </if>
-        <if test='idInterface == "2"'>
-        and    
+        <if test='idInterface == "2"'>    
             pa.carregistrationnumber__c = #{licenseNumber}
         limit 1
         </if>
         <if test='idInterface == "3"'>
-        and
             pa.renavam_code__c = #{renavamCode}
         </if>
         <if test='idInterface == "4"'>
-        and
             a2.cpf__c = #{cpf}
         </if>
         <if test='idInterface == "5"'>
-        and
             a3.corporateregistrationnumber__c = #{cnpj}
         </if>
         <if test='idInterface == "6"'>
-        and
             pa.billing_date__c between to_date(#{startDate}, 'YYYY-MM-DD') and to_date(#{endDate}, 'YYYY-MM-DD')
         </if>
         <if test='idInterface == "7"'>
-        and
             pa.row_id = #{connexid}
         limit 1
         </if>
         <if test='idInterface == "8"'>
-        and
             pa.billing_date__c between to_date(#{startDate}, 'YYYY-MM-DD') and to_date(#{endDate}, 'YYYY-MM-DD')
         </if>
         <if test='idInterface == "9"'>
-        and
             pa.billing_date__c between to_date(#{startDate}, 'YYYY-MM-DD') and to_date(#{endDate}, 'YYYY-MM-DD')
         </if>
         <if test='idInterface == "10"'>
-        and
             pa.billing_date__c = to_date(#{startDate}, 'YYYY-MM-DD')
         </if>
         <if test='idInterface == "11"'>
-        and
-            pa.serialnumber like concat(#{serialNumber},'%')
+            pa.serialnumber like concat('%',#{serialNumber})
         </if>
         <if test='idInterface == "12"'>
-        and
             pa.billing_date__c between to_date(#{startDate}, 'YYYY-MM-DD') and to_date(#{endDate}, 'YYYY-MM-DD')
         and 
             a3.dealercode__c = #{dealerCode}

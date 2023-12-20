@@ -15,9 +15,76 @@
         where 
             pdh.holiday_date__c <![CDATA[ > ]]> date_trunc('month', to_date(concat(#{year}||'-'||#{month}||'-'||'01'), 'YYYY-MM-DD'))::date and pdh.holiday_date__c <![CDATA[ < ]]> date_trunc('month',to_date(concat(#{year}||'-'||#{month}||'-'||'01'), 'YYYY-MM-DD') + interval '1 months')::date - 1
         and
-            to_date(pma.period1_start, 'YYYY-MM-DD') = pdh.holiday_date__c
+            pma.period1_start::date = pdh.holiday_date__c
         and
             pma.dealer_code = #{dealerCode}
         group by to_char(pdh.holiday_date__c, 'DD'), pma.absence_period
+    </select>
+
+
+    <select id="getHolyDayList" parameterType="IFHMBINNOCEANCDPP0019Dto" resultType="string">
+        select 
+            to_char(pdh.holiday_date__c, 'DD')
+        from
+            process.dealerholiday pdh
+        join
+            process.account pa
+        on
+            pdh.par_row_id__c = pa.row_id
+        where
+            pdh.holiday_date__c <![CDATA[ > ]]> to_date(#{year}||'-'||#{month}||'-'||'01','YYYY-MM-DD') and pdh.holiday_date__c <![CDATA[ < ]]> to_date(#{year}||'-'||#{month}||'-'||'01','YYYY-MM-DD') + interval '1 months'
+        and
+            pa.dealercode__c = #{dealerCode}
+        group by to_char(pdh.holiday_date__c, 'DD')
+    </select>
+
+    <select id="getMaintenanceDayList" parameterType="IFHMBINNOCEANCDPP0019Dto" resultType="string">
+        select
+            generate_series(case when (to_char(ma.excp_start_date, 'YYYYMM')::int - cast(#{year}||#{month} as integer)) = 0 then to_char(ma.excp_start_date, 'DD')::int else 1 end , case when (to_char(ma.excp_end_date, 'YYYYMM')::int - cast(#{year}||#{month} as integer)) = 0 then to_char(ma.excp_end_date, 'DD')::int else to_char(((#{year}||'-'||#{month}||'-'||'01')::date + interval '1 months')::date -1, 'DD')::int end )
+        from
+            process.maintenanceable_availability ma 
+        where
+            ma.excp_start_date::date <![CDATA[ <= ]]> (#{year}||'-'||#{month}||'-'||to_char((concat(#{year}||'-'||#{month}||'-'||'01')::date + interval '1 months')::date -1, 'DD'))::date and ma.excp_end_date::date <![CDATA[ >= ]]> (#{year}||'-'||#{month}||'-'||'01')::date
+        and
+            ma.dealer_code = #{dealerCode}
+        and
+            ma.absence_period = 'N'
+        and
+            ma.type = 'Dealer Employee AvailabilityEx'
+    </select>
+    
+    <select id="getWeekDayList" parameterType="IFHMBINNOCEANCDPP0019Dto" resultType="string">
+    with params as (
+    select date_trunc('month', to_timestamp(#{year}||#{month},'yyyymm'))::timestamp as date_from
+        , (date_trunc('month', to_timestamp(#{year}||#{month},'yyyymm')) + interval '1 month - 1 day')::timestamp as date_to
+    ),
+    week_info as (
+        select 1 as week_num, 'Monday' as week_name
+        union all
+        select 2 as week_num, 'Tuesday' as week_name
+        union all
+        select 3 as week_num, 'Wednesday' as week_name
+        union all
+        select 4 as week_num, 'Thursday' as week_name
+        union all
+        select 5 as week_num, 'Friday' as week_name
+        union all
+        select 6 as week_num, 'Saturday' as week_name
+        union all
+        select 7 as week_num, 'Sunday' as week_name
+    )
+    select to_char(yyyyMMdd,'dd') as days
+    from 
+    (select (select week_name from week_info where week_num = b.week_num) as week_name
+          , yyyyMMdd
+    from
+    (select EXTRACT(ISODOW from yyyyMMdd) as week_num
+         , yyyyMMdd
+    from
+      (select generate_series((select  date_from from params), (select date_to from params), '1 day') as yyyyMMdd) a ) b ) c
+      inner join process.maintenanceable_availability ma 
+      on (c.week_name      = ma.day_name)
+      where ma.dealer_code = #{dealerCode}
+        and ma.type        = 'Dealer Employee Availability'
     </select>
 </mapper>

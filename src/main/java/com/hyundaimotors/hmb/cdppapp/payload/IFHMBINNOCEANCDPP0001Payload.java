@@ -16,7 +16,6 @@ public class IFHMBINNOCEANCDPP0001Payload {
     @Setter
     public static class Request{
         
-        @NotNull @NotEmpty @NotBlank
         @Schema(description = "phone Number", example = "+5515997501064")
         @JsonProperty("phone")
         private String phoneNumber;

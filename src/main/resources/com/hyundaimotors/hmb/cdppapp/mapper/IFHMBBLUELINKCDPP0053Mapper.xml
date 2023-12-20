@@ -5,6 +5,7 @@
     <insert id="inserBluelink" parameterType="BluelinkDto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
         insert into landing.if_auto_vehicle_bluelink_ws(
             chassi
+            , latestmileage
             , integrationId
             , created
             , created_by
@@ -15,6 +16,7 @@
             , type
         )values(                 
             #{setChassi}
+            , #{setLatestMileage}::float8
             , #{integrationId}
             , now()
             , 'interface'

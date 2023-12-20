@@ -9,28 +9,36 @@
             process.account
         where
             corporateregistrationnumber__c = #{cnpjNumber}
-        limit 1
     </select>
     
     <select id="foundAccountIdbyNameAndPhoneAndEmail" parameterType="IFHMBSAPCDPP0005Dto" resultType="String">
         select
-            row_id as foundAccountIdbyCnpj
+            row_id as foundAccountIdbyNameAndPhoneAndEmail
         from
             process.account
-        where "name"          = #{name}
-          and phone           = #{mainPhoneNumber}
-          and emailaddress__c = #{mainEmailAddress}
-        limit 1
+        where "name"                                        = #{name}
+            <if test="mainPhoneNumber != null and mainPhoneNumber !=''">
+                and a.phone = #{mainPhoneNumber}
+            </if>
+            <if test="mainEmailAddress != null and mainEmailAddress !=''">
+                and a.emailaddress__c = #{mainEmailAddress}
+            </if>
     </select>
 
     <select id="foundAccountId" parameterType="IFHMBSAPCDPP0005Dto" resultType="String">
-        select
+         select
             row_id as foundAccountId
         from
             process.account
-        where
-            lower(trim(name)) = lower(trim(#{name}))
-        limit 1
+        where  corporateregistrationnumber__c = #{cnpjNumber}
+          or (lower(trim(name))               = lower(trim(#{name}))
+            <if test="mainPhoneNumber != null and mainPhoneNumber != ''">
+                and phone = #{mainPhoneNumber}
+            </if>
+            <if test="mainEmailAddress != null and mainEmailAddress != ''">
+                and emailaddress__c = #{mainEmailAddress}
+            </if>
+            )
     </select>
     
     <insert id="insertObject" parameterType="IFHMBSAPCDPP0005Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
@@ -103,6 +111,10 @@
     
     <insert id="insertProcessAccount" statementType="CALLABLE" parameterType="hashMap">
         call process.if_account_ws_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN},#{PROC_ACC_ID,jdbcType=VARCHAR,mode=IN},#{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_account_ws_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
     </insert>
 
 

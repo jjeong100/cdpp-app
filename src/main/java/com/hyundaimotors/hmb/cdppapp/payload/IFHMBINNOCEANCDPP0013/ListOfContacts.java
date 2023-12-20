@@ -1,6 +1,9 @@
 package com.hyundaimotors.hmb.cdppapp.payload.IFHMBINNOCEANCDPP0013;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,10 +16,13 @@ public class ListOfContacts {
     @Schema(description = "Individual's document number (numbers only), HMBDealerContactCPF", example = "73522541960")
     private String cpf;
     @Schema(description = "Dealer Contact first name, HMBDealerContactFirstName", example = "MARQUITO")
+    @NotNull @NotBlank @NotEmpty
     private String firstName;
     @Schema(description = "Dealer Contact last name, HMBDealerContactLasttName", example = "DAS FLORES")
+    @NotNull @NotBlank @NotEmpty
     private String lastName;
     @Schema(description = "Dealer Contact email address. HMBDealerContactEmail", example = "MARQUITO.FLORES@ABRAOREZE.COM.BR")
+    @NotNull @NotBlank @NotEmpty
     private String emailAddress;
     @Schema(description = "Dealer Contact home phone. HMBDealerContactHomePhone", example = "+55(15)30349000")
     private String homePhone;

@@ -1,7 +1,6 @@
 package com.hyundaimotors.hmb.cdppapp.util;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -49,16 +48,6 @@ public class ApiLog {
             default:
                 break;
         }
-        try {
-        	
-            logService.writeStepLogging(step, dto);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd a HH:mm:ss");
-            System.out.println("■ "+simpleDateFormat.format(new Date())+" ["+step+"] : "+dto);
-        }catch(Exception ex) {
-        	System.out.println("err ■ ("+step+")"+dto.getSeqNo());
-            //테스트후 삭제 필요.
-            ex.printStackTrace();
-        }
-        
+        logService.writeStepLogging(step, dto);
     }
 }

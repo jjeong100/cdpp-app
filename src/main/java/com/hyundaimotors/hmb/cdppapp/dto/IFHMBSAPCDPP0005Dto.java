@@ -37,4 +37,5 @@ public class IFHMBSAPCDPP0005Dto {
     private String contactId;
     private String errorSpcCode;
     private String errorSpcMessage;
+    private String checkUpsert;
 }

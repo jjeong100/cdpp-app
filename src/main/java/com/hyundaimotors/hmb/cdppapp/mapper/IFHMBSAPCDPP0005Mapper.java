@@ -15,6 +15,8 @@ public interface IFHMBSAPCDPP0005Mapper {
     public int insertObject(IFHMBSAPCDPP0005Dto dto)throws Exception;  
 
     public void insertProcessAccount(HashMap<String, String> parMap)throws Exception;
+    
+    public void transferDPProcess(HashMap<String, String> parMap)throws Exception;
 
     public void insertReplicaAccount(HashMap<String, String> parMap)throws Exception;
 }

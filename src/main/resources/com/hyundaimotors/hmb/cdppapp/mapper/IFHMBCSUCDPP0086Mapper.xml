@@ -19,6 +19,8 @@
             case when char_length(#{phoneNumber}) <![CDATA[<]]> 14 then (pac.personhomephone = #{phoneNumber} or pac.companyphone__pc = #{phoneNumber} or pac.personmobilephone = #{phoneNumber})
                 when char_length(#{phoneNumber}) <![CDATA[>]]> 14 then pac.personmobilephone = #{phoneNumber}
             end
+        and
+            psr.status = 'In Progress BO'
         group by pac.firstname||pac.lastname, pac.cpf__c, pac.row_id, pac.personmobilephone, psr.protocol__c
         limit 1
     </select>

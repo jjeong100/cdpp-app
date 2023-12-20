@@ -6,17 +6,13 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${RESOURCESERVER_URL}
----
-spring.security.oauth2.resourceserver.jwt.jwk-set-uri=${RESOURCESERVER_URL}
----
 
-spring:
-  redis:
-    host: ${REDIS_URL}
-    port: ${REDIS_PORT}
-  cache:
-    type: redis
-
+  data:
+    redis:
+      host: ${REDIS_URL}
+      port: ${REDIS_PORT}
+    cache:
+      type: redis
 
 ---
 
@@ -32,7 +28,6 @@ spring:
       minimum-idle: 10
       max-lifetime: 240000
       maximum-pool-size: 200
-
 ---
 
 logging:
@@ -79,4 +74,3 @@ springdoc:
     packages-to-scan: 
       - com.hyundaimotors.hmb.cdppapp.controller.campaign
       - com.hyundaimotors.hmb.cdppapp.controller.accesstocken
-    

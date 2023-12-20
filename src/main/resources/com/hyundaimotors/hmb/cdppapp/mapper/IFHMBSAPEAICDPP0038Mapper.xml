@@ -114,4 +114,8 @@
         where
             external_id__c = #{rowId}::text
     </select>
+
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_update_lead_ws(#{param_id});
+    </insert>
 </mapper>

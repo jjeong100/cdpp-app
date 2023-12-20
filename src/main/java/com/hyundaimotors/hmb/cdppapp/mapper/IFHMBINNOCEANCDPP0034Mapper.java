@@ -23,5 +23,7 @@ public interface IFHMBINNOCEANCDPP0034Mapper {
     public String getProtocalCase(IFHMBINNOCEANCDPP0034Dto dto)throws Exception;
 
     public String getprotocolID(IFHMBINNOCEANCDPP0034Dto dto)throws Exception;
+
+    public void transferDPProcess(HashMap<String, String> parMap)throws Exception;
     
 }

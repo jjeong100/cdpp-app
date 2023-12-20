@@ -153,4 +153,8 @@
         where 
             row_id = #{procId}
     </select>
+    
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_auto_vehicle_rsa_claim_ws(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{checkcu,jdbcType=VARCHAR,mode=IN});
+    </insert>
 </mapper>

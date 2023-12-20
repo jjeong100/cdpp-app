@@ -53,6 +53,7 @@
             , psr.quote_price__c as quotePrice
             , psr.quote_replace_intention__c as quoteReplaceIntention
             , psr.contact_row_id__c as contactRowId
+            , psr.row_id as strId
         from
             process.service_request psr 
         left join
@@ -65,6 +66,8 @@
             psr.serialnumber = pas.serialnumber 
         where
             1=1
+        and
+        	psr.status != 'Canceled'
        <if test="lead != null and lead != ''"> and psr.protocol__c = #{lead}</if>
         <choose>
             <when test='voc == "TestDrive"'>
@@ -91,11 +94,19 @@
         <choose>
             <when test='created == "Y"'>
                 and
-                    psr.legacycreateddate__c::date = to_date(#{date}, 'YYYY-MM-DD')
+                    psr.legacycreateddate__c  = to_date(#{date},'YYYY-MM-DD')
+                and
+                    (psr.legacycreateddate__c::date + interval '90 days') >= to_date(#{date},'YYYY-MM-DD')
+                <!-- and    
+                    psr.legacycreateddate__c::date between to_date(#{date}, 'YYYY-MM-DD') and to_date(#{date}, 'YYYY-MM-DD')+ interval '90 days' -->
             </when>
             <when test='created == "N"'>
                 and
-                    psr.legacy_last_update__c::date = to_date(#{date}, 'YYYY-MM-DD')
+                    psr.legacy_last_update__c  = to_date(#{date},'YYYY-MM-DD')
+                and
+                    (psr.legacy_last_update__c::date + interval '90 days') >= to_date(#{date},'YYYY-MM-DD')
+                <!-- and
+                    psr.legacy_last_update__c::date between to_date(#{date}, 'YYYY-MM-DD') and to_date(#{date}, 'YYYY-MM-DD')+ interval '90 days' -->
             </when>
             <otherwise>
 
@@ -135,7 +146,7 @@
         from
             process.service_event_act psea
         where 
-            psea.protocol__c = #{protocol}
+            psea.sra_sr_id = #{strId}
         order by legacy_created desc
         limit 1
     </select>

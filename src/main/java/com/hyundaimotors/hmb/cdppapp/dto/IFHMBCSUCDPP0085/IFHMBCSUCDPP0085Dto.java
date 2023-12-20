@@ -17,5 +17,5 @@ public class IFHMBCSUCDPP0085Dto {
     private String objectSpcId;
     private String processSpcInstanceSpcId;
     private String connexSpcOperationSpcObjectSpcId;
-    private ChannelPartnerCSUDto channelPartner;
+    private List<ChannelPartnerCSUDto> channelPartner;
 }

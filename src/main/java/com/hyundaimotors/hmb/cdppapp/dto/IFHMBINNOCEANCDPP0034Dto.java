@@ -14,6 +14,7 @@ public class IFHMBINNOCEANCDPP0034Dto {
     private int rowId;
     private String protocalResult;
 
+    private String srvRowId;
     private String protocol;
     private String reason;
     private String level1;

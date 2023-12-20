@@ -61,7 +61,7 @@ public class IFHMBINNOCEANCDPP0037ServiceImpl implements IFHMBINNOCEANCDPP0037Se
             listParamId.add(String.valueOf(dto.getRowId()));
             listAccountId.add(dto.getContactId());
     
-            if( listOfAutoVehicle.size() > 0 ){
+            if( listOfAutoVehicle != null ){
                 for(int i = 0; i < listOfAutoVehicle.size(); i++){
                     ListOfAutoVehicleDto vehicle = new ListOfAutoVehicleDto();
                     vehicle = listOfAutoVehicle.get(i);
@@ -75,8 +75,8 @@ public class IFHMBINNOCEANCDPP0037ServiceImpl implements IFHMBINNOCEANCDPP0037Se
             String[] paramId = listParamId.toArray(new String[listParamId.size()]);
             String[] accountId = listAccountId.toArray(new String[listAccountId.size()]);
             String[] assetId = listAssetId.toArray(new String[listAssetId.size()]);
-    
-    
+            
+            
             // landing dummy rowId
             processMap.put("PARAM_ID", paramId);
             // landing dummy vehicle rowId list
@@ -85,38 +85,42 @@ public class IFHMBINNOCEANCDPP0037ServiceImpl implements IFHMBINNOCEANCDPP0037Se
             processMap.put("PROC_ACCOUNT_ID", accountId);
             // process asset rowId list
             processMap.put("ASSET_ID_LIST", assetId);
-    
+            
             mapper.transferProcess(processMap);    
             
             mapper.transferReplica(processMap);
-    
-    
+            
+            
             map.put("contactId", dto.getContactId());
             map.put("error_spcCode", "0");
             map.put("error_spcMessage", "OK");
-    
+            
             updateContactOutput = mapper.getUpdateContactOutput(dto);  
-            listVehicle = mapper.getListVehicle(processMap);
-            listSocialMedia = mapper.getListSocialMedia(dto);
-    
-    
-            if( listVehicle.size() > 0){
+            if ( listOfAutoVehicle != null ){
+                listVehicle = mapper.getListVehicle(processMap);
+            }
+            if (dto.getListOfContactSocialMedia() != null){
+                listSocialMedia = mapper.getListSocialMedia(dto);
+            }
+            
+            
+            if( listVehicle != null){
                 for( int i = 0; i < listVehicle.size(); i++){
                     autoVehicle.setAutoVehicle(listVehicle.get(i));
                     listOfAutoVehicleOut.add(autoVehicle);
                 }
-                if(updateContactOutput != null){
+                if(listOfAutoVehicleOut != null){
                     updateContactOutput.setListOfAutoVehicle(listOfAutoVehicleOut);
                 }
             }
     
     
-            if( listSocialMedia.size() > 0){
+            if( listSocialMedia != null){
                 for( int i = 0; i < listSocialMedia.size(); i++){
                     contactSocialMedia.setContactSocialMedia(listSocialMedia.get(i));
                     listOfContactSocialMediaOut.add(contactSocialMedia);
                 }
-                if(updateContactOutput != null){
+                if(listOfContactSocialMediaOut != null){
                     updateContactOutput.setListOfContactSocialMedia(listOfContactSocialMediaOut);
                 }
             }
@@ -130,6 +134,18 @@ public class IFHMBINNOCEANCDPP0037ServiceImpl implements IFHMBINNOCEANCDPP0037Se
 
 
         return map;
+    }
+
+    public void insertDPObject(HashMap<String, Object> resulMap)throws Exception{
+
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("PROC_CON_ID", String.valueOf(resulMap.get("contactId")));
+
+        System.out.println(":::::::::: PROC_CON_ID ::::::::::" + String.valueOf(resulMap.get("contactId")));
+
+        mapper.transferDPProcess(map);
+        
     }
     
 }

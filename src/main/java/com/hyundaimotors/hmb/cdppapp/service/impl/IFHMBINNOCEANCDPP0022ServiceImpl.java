@@ -45,7 +45,8 @@ public class IFHMBINNOCEANCDPP0022ServiceImpl implements IFHMBINNOCEANCDPP0022Se
                 mapper.transferProcess(map);
                 mapper.transferReplica(map);                
 
-                
+                resultDto.setHolyRowId(dto.getHolyRowId());
+                resultDto.setOperCheck("update");
                 resultDto.setErrorSpcCode("0");    
                 resultDto.setErrorSpcMessage("OK");                
                 
@@ -60,11 +61,11 @@ public class IFHMBINNOCEANCDPP0022ServiceImpl implements IFHMBINNOCEANCDPP0022Se
                 rowId = mapper.getCheckHoliDay(dto);
                 
                 map.put("PROC_ID", rowId.getHolyRowId());
-
-
+                
                 mapper.transferReplica(map);
 
-            
+                resultDto.setHolyRowId(rowId.getHolyRowId());
+                resultDto.setOperCheck("insert");
                 resultDto.setErrorSpcCode("0");    
                 resultDto.setErrorSpcMessage("OK");     
                 
@@ -82,7 +83,9 @@ public class IFHMBINNOCEANCDPP0022ServiceImpl implements IFHMBINNOCEANCDPP0022Se
                 mapper.transferReplica(map);
                 
                 mapper.insertObject(dto);
-            
+                
+                resultDto.setHolyRowId(rowId.getHolyRowId());
+                resultDto.setOperCheck("delete");
                 resultDto.setErrorSpcCode("0");    
                 resultDto.setErrorSpcMessage("OK");     
             }else {
@@ -99,5 +102,15 @@ public class IFHMBINNOCEANCDPP0022ServiceImpl implements IFHMBINNOCEANCDPP0022Se
         
 
         return resultDto;       
+    }
+
+    public void insertDPObject(IFHMBINNOCEANCDPP0022Dto dto)throws Exception{
+        
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("PARAM_ID", dto.getHolyRowId());
+        map.put("checkcu", dto.getOperCheck());
+        
+        mapper.transferDPProcess(map);
     }
 }

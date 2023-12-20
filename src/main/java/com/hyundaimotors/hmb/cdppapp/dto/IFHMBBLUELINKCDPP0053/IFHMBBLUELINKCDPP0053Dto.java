@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class IFHMBBLUELINKCDPP0053Dto {
     private String chassi;
-    // private String latestMileage;
+    private String latestMileage;
     List<BluelinkDto> listOfBluelink;
 
     private String errorSpcCode;

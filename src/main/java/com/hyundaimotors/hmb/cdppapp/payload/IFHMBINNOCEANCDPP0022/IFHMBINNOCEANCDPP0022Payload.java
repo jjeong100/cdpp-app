@@ -29,6 +29,7 @@ public class IFHMBINNOCEANCDPP0022Payload {
         @NotNull @NotBlank @NotEmpty
         @JsonProperty("dealer-code")
         private String dealerCode;
+        
         @Schema(description = "Requested operation. Possible values are: UPSERT for update or insert. DELETE for deletion.", example = "DELETE")
         @NotNull @NotBlank @NotEmpty
         private String operation;

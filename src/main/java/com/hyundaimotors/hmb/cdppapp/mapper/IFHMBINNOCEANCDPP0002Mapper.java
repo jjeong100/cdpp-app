@@ -6,7 +6,8 @@ import com.hyundaimotors.hmb.cdppapp.dto.IFHMBINNOCEANCDPP0002.IFHMBINNOCEANCDPP
 
 
 public interface IFHMBINNOCEANCDPP0002Mapper {
-    
+	public String foundAccountIdbyNameAndPhoneAndEmail(IFHMBINNOCEANCDPP0002Dto dto)throws Exception;
+	
     public String foundContactIdbyCpf(IFHMBINNOCEANCDPP0002Dto dto)throws Exception;
 
     public String foundContactId(IFHMBINNOCEANCDPP0002Dto dto)throws Exception;
@@ -24,6 +25,8 @@ public interface IFHMBINNOCEANCDPP0002Mapper {
     public int insertSoccerteam(IFHMBINNOCEANCDPP0002Dto dto) throws Exception;
 
     public void transferProcess(HashMap<String, String> parMap)throws Exception;
+    
+    public void transferDPProcess(HashMap<String, String> parMap)throws Exception;
 
     public void transferReplica(HashMap<String, String> parMap)throws Exception;
 

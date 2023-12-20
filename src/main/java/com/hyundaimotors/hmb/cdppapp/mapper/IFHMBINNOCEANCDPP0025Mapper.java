@@ -12,6 +12,8 @@ public interface IFHMBINNOCEANCDPP0025Mapper {
 
      public void transferProcess(HashMap<String, String> parMap)throws Exception;
 
+     public void transferDPProcess(HashMap<String, String> parMap)throws Exception;
+
      public void transferReplica(HashMap<String, String> parMap)throws Exception;
 
 }

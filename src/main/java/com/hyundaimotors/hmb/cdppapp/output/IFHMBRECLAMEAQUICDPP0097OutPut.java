@@ -30,7 +30,6 @@ public class IFHMBRECLAMEAQUICDPP0097OutPut {
     // 매 시간 실행 (크론 표현식)
     //@Scheduled(cron = "0 */5 * * * *")
     public void getAttachmentLink() throws ParseException {
-        System.out.println("GateWayAttach!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         ModelMapper modelMapper = new ModelMapper();
 
@@ -89,7 +88,6 @@ public class IFHMBRECLAMEAQUICDPP0097OutPut {
         
         BodyPublisher body = BodyPublishers.ofString(params);
 
-        System.out.println("Token params: " + params);
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(endPoint))
                 .setHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -105,8 +103,6 @@ public class IFHMBRECLAMEAQUICDPP0097OutPut {
 
         responseBody = response.body();
         
-        System.out.println("Token HTTP Status Code: " + statusCode);
-        System.out.println("Token Response Body: " + responseBody);
         JSONObject jsonObj = (JSONObject) new JSONParser().parse(responseBody);
 
         accessToken = String.valueOf(jsonObj.get("access_token"));

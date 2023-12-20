@@ -11,4 +11,6 @@ public interface IFHMBINNOCEANCDPP0023Mapper {
     public void insertDay(EmpAvailabInDto empAvailabIn)throws Exception;
 
     public void transferProcess(HashMap<String, String> parMap)throws Exception;
+    
+    public void transferDPProcess(HashMap<String, String> parMap)throws Exception;
 }

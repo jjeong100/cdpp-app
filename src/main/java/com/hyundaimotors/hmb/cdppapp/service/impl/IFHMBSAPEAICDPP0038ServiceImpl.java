@@ -38,8 +38,14 @@ public class IFHMBSAPEAICDPP0038ServiceImpl implements IFHMBSAPEAICDPP0038Servic
         mapper.transferReplica(map);
 
         List<String> actionId = new ArrayList<>();
-
         actionId = mapper.getActionId(dto);
+
+        System.out.println("actionId ===========================>" + actionId);
+
+        resultDto.setActionIdArray(actionId);
+
+        System.out.println("resultDto setActionIdArray ===========================>" + resultDto.getActionIdArray());
+        System.out.println("resultDto setActionIdArray Size ===========================>" + resultDto.getActionIdArray().size());
         if(0 < actionId.size()){
             String actionRowId = String.join("," , actionId);
             resultDto.setActionId(actionRowId);
@@ -53,6 +59,21 @@ public class IFHMBSAPEAICDPP0038ServiceImpl implements IFHMBSAPEAICDPP0038Servic
         resultDto.setErrorSpcMessage("OK");
 
         return resultDto;
+    }
+
+    public void insertDPObject(IFHMBSAPEAICDPP0038Dto dto)throws Exception{
+        List<String> actionIdArray = new ArrayList<>();
+        actionIdArray = dto.getActionIdArray();
+        HashMap<String, String[]>  map = new HashMap<>();
+
+        String[] param = actionIdArray.toArray(new String[actionIdArray.size()]);
+
+        System.out.println("actionIdArray ::::::::::::::::::::::::::::::>" + actionIdArray);
+        System.out.println("actionIdArray ::::::::::::::::::::::::::::::>" + actionIdArray.size());
+        System.out.println("param ::::::::::::::::::::::::::::::>" + param);
+        map.put("param_id", param);
+        
+        mapper.transferDPProcess(map);
     }
 
 }

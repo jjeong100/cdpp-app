@@ -34,9 +34,20 @@ public class IFHMBINNOCEANCDPP0023ServiceImpl implements IFHMBINNOCEANCDPP0023Se
 
         IFHMBINNOCEANCDPP0023Dto resulDto = new IFHMBINNOCEANCDPP0023Dto();
 
+        resulDto.setDayRowId(dto.getEmpAvailabIn().getRowId());
         resulDto.setErrorSpcCode("0");
         resulDto.setErrorSpcMessage("OK");
 
         return resulDto;
+    }
+
+    public void insertDPObject(IFHMBINNOCEANCDPP0023Dto dto)throws Exception{
+
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("PARAM_ID", String.valueOf(dto.getDayRowId()));
+
+        mapper.transferDPProcess(map);
+
     }
 }

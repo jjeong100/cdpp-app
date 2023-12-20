@@ -53,7 +53,7 @@ public class IFHMBSAPEAICDPP0015ServiceImpl implements IFHMBSAPEAICDPP0015Servic
             
             mapper.transferReplica(replicaMap);
             
-        
+            resultDto.setParamList(replicaParamList);
             resultDto.setErrorSpcCode("0");
             resultDto.setErrorSpcMessage("OK");
         }else{
@@ -64,5 +64,18 @@ public class IFHMBSAPEAICDPP0015ServiceImpl implements IFHMBSAPEAICDPP0015Servic
         
 
         return resultDto;
+    }
+
+    public void insertDPObject(IFHMBSAPEAICDPP0015Dto dto)throws Exception{
+        List<String> paramList = new ArrayList<>();
+
+        paramList = dto.getParamList();
+
+        String[] param = paramList.toArray(new String[paramList.size()]);
+        HashMap<String, String[]> map = new HashMap<>();
+
+        map.put("PARAM_ID", param);
+        
+        mapper.transferDPProcess(map);
     }
 }

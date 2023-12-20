@@ -3,7 +3,6 @@ package com.hyundaimotors.hmb.cdppapp.controller.foundation;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.jboss.logging.MDC;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,9 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-//@Slf4j
 @Tag(name = "HMB Update Contact IN WF", description = "Innocean, SAP EAI list Interface")
 @RestController
 @RequiredArgsConstructor
@@ -63,13 +60,15 @@ public class IFHMBINNOCEANCDPP0037Controller {
             response.setError_spcMessage("OK");
             
             ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response));
+
+
+            service.insertDPObject(result);
+            
         }catch(Exception e) {
             response.setError_spcCode("500");
             response.setError_spcMessage(e.getLocalizedMessage());
             ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response), e);
         }
-        
-//        log.info("REQUEST TRACING_ID -> {}", MDC.get("traceId"));
         
         return response;
     }

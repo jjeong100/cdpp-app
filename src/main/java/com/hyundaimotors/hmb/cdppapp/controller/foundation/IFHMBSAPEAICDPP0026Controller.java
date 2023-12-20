@@ -55,6 +55,9 @@ public class IFHMBSAPEAICDPP0026Controller {
 
         response = defaultMapper.map(result, IFHMBSAPEAICDPP0026Payload.Response.class);
         ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response));
+        
+        service.insertDPObject(result);
+
     	}catch(Exception e) {
             response.setError_spcCode("500");
             response.setError_spcMessage(e.getLocalizedMessage());

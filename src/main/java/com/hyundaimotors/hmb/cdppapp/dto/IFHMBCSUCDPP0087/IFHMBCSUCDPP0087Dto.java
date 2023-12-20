@@ -11,6 +11,7 @@ public class IFHMBCSUCDPP0087Dto {
     private String serialNumber;
     private String interfaces;
     private String contactId;
+    private String cpf;
     private String campaignName;
     private String errorSpcCode;
     private String errorSpcMessage;

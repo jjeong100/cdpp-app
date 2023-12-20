@@ -12,6 +12,7 @@ import com.hyundaimotors.hmb.cdppapp.dto.IFHMBINNOCEANCDPP0013.ListOfContactsDto
 import com.hyundaimotors.hmb.cdppapp.mapper.IFHMBINNOCEANCDPP0013Mapper;
 import com.hyundaimotors.hmb.cdppapp.service.IFHMBINNOCEANCDPP0013Service;
 
+import io.swagger.v3.core.util.Json;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -79,22 +80,21 @@ public class IFHMBINNOCEANCDPP0013ServiceImpl implements IFHMBINNOCEANCDPP0013Se
                 for(int i = 0; i < listOfcontacts.size(); i++){
                     ListOfContactsDto contact = new ListOfContactsDto();
                     contact = listOfcontacts.get(i);
-                    String getContactIdByCpf = mapper.getContactIdByCpf(contact);
-
-                    if(getContactIdByCpf != null){
-                        listProcConId.add(getContactIdByCpf); 
-                    }else{
-                        String getContactId = mapper.getContactId(contact);                        
-                        listProcConId.add(getContactId);                      
-                    }
+                    
+                    String getContactId = mapper.getContactId(contact);                        
+                    listProcConId.add(getContactId);                      
+                    
                 }
                 procConId = listProcConId.toArray(new String[listProcConId.size()]);
             }
+
 
             map.put("PROC_CON_ID",procConId);
 
             mapper.transferReplica(map);
 
+            resultDto.setProcRowId(getProcAccntRowId);
+            resultDto.setListOfProcContactRowId(listProcConId);
             resultDto.setErrorSpcCode("0");
             resultDto.setErrorSpcMessage("OK");
 
@@ -142,15 +142,11 @@ public class IFHMBINNOCEANCDPP0013ServiceImpl implements IFHMBINNOCEANCDPP0013Se
                     ListOfContactsDto contact = new ListOfContactsDto();
                     contact = listOfcontacts.get(i);
                     contact.setAccntRowId(getProcAccntRowId);
-                    String getContactIdByCpf = mapper.getContactIdByCpf(contact);
-
-                    if(getContactIdByCpf != null){
-                        listProcConId.add(getContactIdByCpf);
-                    }else{
-                        String getContactId = mapper.getContactId(contact);
-                        
-                        listProcConId.add(getContactId);                      
-                    }
+                    
+                    String getContactId = mapper.getContactId(contact);
+                    
+                    listProcConId.add(getContactId);                      
+                    
                 }
                 procConId = listProcConId.toArray(new String[listProcConId.size()]);
             }
@@ -159,10 +155,31 @@ public class IFHMBINNOCEANCDPP0013ServiceImpl implements IFHMBINNOCEANCDPP0013Se
 
             mapper.transferReplica(map);
 
+            resultDto.setProcRowId(getProcAccntRowId);
+            resultDto.setListOfProcContactRowId(listProcConId);
             resultDto.setErrorSpcCode("0");
             resultDto.setErrorSpcMessage("OK");
         }        
         
         return resultDto;
+    }
+
+    public void insertDPObject(IFHMBINNOCEANCDPP0013Dto dto)throws Exception{
+
+        HashMap<String, String[]> map = new HashMap<>();
+        List<String> listProcAccntId = new ArrayList<>();
+        List<String> listProcConId = new ArrayList<>();
+
+        listProcAccntId.add(dto.getProcRowId());
+        listProcConId = dto.getListOfProcContactRowId();
+
+        String[] procAccntId = listProcAccntId.toArray(new String[listProcAccntId.size()]);
+        String[] procContId = listProcConId.toArray(new String[listProcConId.size()]);
+
+        map.put("PROC_ACC_ID", procAccntId);
+        map.put("PROC_CON_ID_LIST", procContId);
+
+        mapper.transferDPProcess(map);
+
     }
 }

@@ -2,28 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hyundaimotors.hmb.cdppapp.mapper.IFHMBCSUCDPP0085Mapper">
     
-    <select id="getDealerId" parameterType="IFHMBCSUCDPP0085Dto" resultType="String">
-        select process.if_in_cl_dl_ws(#{param_id}, #{saleorservice})
-    </select>
-    
-    <select id="getChannelObject" parameterType="IFHMBCSUCDPP0085Dto" resultType="ChannelPartnerCSUDto">
-        select 
-            pac.integrationid as integrationId
-            , pac."name" as name
-            , pac.corporaterepresentativename__c as nickName
-            , pac.dealercode__c as dealerCode
-            , pac.phone as mainPhone
-            , pac.whatsappphone__c as whatsappPhoneNumber
-            , pac.billingstreet as streetAddress
-            , pac.billingstreet_2__c as streetAddress2
-            , pac.billingstreet_3__c as streetAddress3
-            , pac.billingcity as city
-            , pac.billingstate as state
-            , pac.billingcountry as neighborhood
-            , pac.billingpostalcode as zipCode
-        from 
-            process.account pac
-        where
-             pac.row_id = #{objectSpcId}
+     <select id="getChannelPartnerCtiIoList" parameterType="IFHMBCSUCDPP0085Dto" resultType="ChannelPartnerCSUDto">
+        select billingpostalcode
+             , s.integrationid as integrationId
+             , s."name" as name
+             , s.corporaterepresentativename__c as nickName
+             , s.dealercode__c as dealerCode
+             , s.phone as mainPhone
+             , s.whatsappphone__c as whatsappPhoneNumber
+             , s.billingstreet as streetAddress
+             , s.billingstreet_2__c as streetAddress2
+             , s.billingstreet_3__c as streetAddress3
+             , s.billingcity as city
+             , s.billingstate as state
+             --, s.billingcountry as neighborhood
+             , s.neighborhood
+             , s.billingpostalcode as zipCode 
+             , ST_DISTANCE(
+                   ST_TRANSFORM(
+                     ('SRID=4326;POINT(' || s.billinglatitude || ' ' || s.billinglongitude || ')')::geometry,
+                     4326
+                   )
+                 , ST_TRANSFORM(
+                     ('SRID=4326;POINT(' || (select latitude || ' ' || longitude from process.zipcode where zipcode  = #{vcep}) || ')')::geometry,
+                     4326
+                  )
+               ) AS distance
+        from process.account s
+        where type = 'Dealer'
+        <if test='vSales == "Y"'>and salesflag__c = true</if>
+        <if test='vService == "Y"'>and serviceflag__c = true</if>
+        order by distance
+        limit 3
     </select>
 </mapper>

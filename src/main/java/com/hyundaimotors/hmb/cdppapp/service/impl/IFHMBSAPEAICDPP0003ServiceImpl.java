@@ -32,15 +32,23 @@ public class IFHMBSAPEAICDPP0003ServiceImpl implements IFHMBSAPEAICDPP0003Servic
         
         String productRowId = mapper.getProductRowId(dto);
 
-        System.out.println("ProcessProductId ===== > " + productRowId);
         map.put("PRODUCT_ID", productRowId);
 
 
         mapper.transferReplica(map);
 
+        resulDto.setRowId(productRowId);
         resulDto.setErrorSpcCode("0");
         resulDto.setErrorSpcMessage("OK");
        
         return resulDto;
+    }
+
+    public void insertDPObject(IFHMBSAPEAICDPP0003Dto dto)throws Exception{
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("PARAM_ID", dto.getRowId());
+        
+        mapper.transferDPProcess(map);
     }
 }

@@ -11,4 +11,6 @@ public class IFHMBINNOCEANCDPP0025Dto {
     private String dtoSrnumber;
     private String ErrorSpcCode;
     private String ErrorSpcMessage;
+
+    private String rowId;
 }

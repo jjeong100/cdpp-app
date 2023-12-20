@@ -54,11 +54,24 @@ public class IFHMBSAPEAICDPP0026ServiceImpl implements IFHMBSAPEAICDPP0026Servic
         map.put("PROC_ID", procId);
 
         mapper.transferReplica(map);
-
+        resultDto.setListParamId(procIdList);
         resultDto.setError_spcCode("0");
         resultDto.setError_spcMessage("OK");
         
         return resultDto;
     }
     
+    public void insertDPObject(IFHMBSAPEAICDPP0026Dto dto)throws Exception{
+        List<String> listParamId = new ArrayList<>();
+        
+        listParamId = dto.getListParamId();
+
+        HashMap<String, String[]>  map = new HashMap<>();
+
+        String[] param = listParamId.toArray(new String[listParamId.size()]);
+
+        map.put("param_id", param);
+        
+        mapper.transferDPProcess(map);
+    }
 }

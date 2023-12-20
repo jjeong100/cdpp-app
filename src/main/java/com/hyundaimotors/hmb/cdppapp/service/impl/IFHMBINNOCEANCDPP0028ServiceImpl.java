@@ -23,7 +23,6 @@ public class IFHMBINNOCEANCDPP0028ServiceImpl implements IFHMBINNOCEANCDPP0028Se
 
         String getProcRowId = mapper.getProcRowId(dto);
 
-        System.out.println("PROC_ID ======= > " + getProcRowId);
 
         mapper.insertObject(dto);
 

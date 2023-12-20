@@ -23,12 +23,12 @@ public class IFHMBSAPCDPP0079ServiceImpl implements IFHMBSAPCDPP0079Service{
         if(2 == dto.getStatus()){
             mapper.insertRepair(dto);
             if(dto.getListOfService() == null || dto.getListOfService().isEmpty()){
-                
+            	dto.getListOfService();
             }else{
                 mapper.insertRepairService(dto);
             }
             if(dto.getListOfParts() == null || dto.getListOfParts().isEmpty()){
-                
+            	dto.getListOfParts();
             }else{
                 mapper.insertRepairPart(dto);
             }
@@ -39,11 +39,25 @@ public class IFHMBSAPCDPP0079ServiceImpl implements IFHMBSAPCDPP0079Service{
             map.put("PARAM_ID", String.valueOf(dto.getRowId()));
 
             mapper.transferProcess(map);
+            
+            Float mileage = dto.getMileage();
+
+            if(mileage != null){
+                // Update Asset Mileage
+                String roId = dto.getSoid()+dto.getDealercode()+dto.getVincode();
+                String assetRowId = mapper.getAssetRowId(roId);
+
+                HashMap<String, String> replicaMap = new HashMap<>();
+                replicaMap.put("PARAM_ID", assetRowId);
+
+                mapper.transferReplica(replicaMap);
+            }
+             
             resultDto.setErrorSpcCode("0");
             resultDto.setErrorSpcMessage("OK");
         }else{
             resultDto.setErrorSpcCode("1");
-            resultDto.setErrorSpcMessage("Status is not 2");
+            resultDto.setErrorSpcMessage("Status value is not 2");
         }
         return resultDto;
     }

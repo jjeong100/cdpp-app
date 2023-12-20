@@ -24,6 +24,7 @@ public class IFHMBRECLAMEAQUICDPP0096ServiceImpl implements IFHMBRECLAMEAQUICDPP
     public void insertAllTicketList(IFHMBRECLAMEAQUICDPP0096Dto dto)throws Exception{
 
         List<String> paramList = new ArrayList<>();
+        List<String> replicaAccountList = new ArrayList<>();
         List<String> replicaParamList = new ArrayList<>();
 
         List<RetrieveTicketIdDto> data = new ArrayList<>();
@@ -40,8 +41,23 @@ public class IFHMBRECLAMEAQUICDPP0096ServiceImpl implements IFHMBRECLAMEAQUICDPP
         HashMap<String, String[]> map = new HashMap<>();
         map.put("param_id", param);
 
+        //Account Upsert 
+        mapper.transferProcessAccount(map);
+
+        replicaAccountList = mapper.getProcessAccountRowIds(paramList);
+
+        String[] replicaAccountParam = replicaAccountList.toArray(new String[replicaAccountList.size()]);
+
+        HashMap<String, String[]> replicAccountaMap = new HashMap<>();
+
+        replicAccountaMap.put("param_id", replicaAccountParam);
+
+        mapper.transferReplicaAccount(replicAccountaMap);
+
+
+        //Case Upsert
         mapper.transferProcess(map);
-        
+
         replicaParamList = mapper.getProcessRowIds(paramList);
 
         String[] replicaParam = replicaParamList.toArray(new String[replicaParamList.size()]);
@@ -51,5 +67,6 @@ public class IFHMBRECLAMEAQUICDPP0096ServiceImpl implements IFHMBRECLAMEAQUICDPP
         replicaMap.put("param_id", replicaParam);
 
         mapper.transferReplica(replicaMap);
+
     }
 }

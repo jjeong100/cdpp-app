@@ -21,6 +21,8 @@
         and 
             person_account_id = #{contactId}
         </if>
+        and
+            lower(status) not in ('inactive')   
     </select>
 
     <select id="getProcCustVehicleId" parameterType="IFHMBSAPEAICDPP0010Dto" resultType="String">
@@ -34,22 +36,13 @@
             pv.asset_id = pa.row_id
         where  
             pa.serialnumber = #{serialNumber}
-            <if test="account != null">
-                and 
-                pv.account_id in 
-                <foreach collection="account" item="item" index="idx" open="(" close=")" separator=","> 
-                    #{item.connexAccountId}
-                </foreach>
-            </if>
             <if test="contact != null">
-                or 
+                and 
                 pv.account_id in 
                 <foreach collection="contact" item="item" index="idx" open="(" close=")" separator=","> 
                     #{item.connexContactId}
                 </foreach>
-            </if>      
-        
-            
+            </if>    
     </select>
 
     <insert id="insertAutoVehicle" parameterType="IFHMBSAPEAICDPP0010Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
@@ -190,6 +183,10 @@
 
     <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
         call process.if_auto_vehicle_ws_wf(#{PARAM_ID}, #{PROC_ASSET_ID}, #{PROC_INVOICE_ID}, #{account_rowid}, #{contact_rowid});
+    </insert>
+
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_auto_vehicle_ws_wf(#{PARAM_ID,jdbcType=VARCHAR,mode=IN}, #{PROC_ASSET_ID,jdbcType=VARCHAR,mode=IN});
     </insert>
 
     <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">

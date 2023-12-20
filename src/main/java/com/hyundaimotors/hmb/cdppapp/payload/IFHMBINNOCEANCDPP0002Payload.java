@@ -27,7 +27,7 @@ public class IFHMBINNOCEANCDPP0002Payload {
         @Schema(description = "Contact first name", example = "Jose")
         @JsonProperty("FirstName")
         private String firstName;
-        @NotNull @NotBlank @NotEmpty
+        // @NotNull @NotBlank @NotEmpty
         @Schema(description = "Contact last name", example = "Ciclano")
         @JsonProperty("LastName")
         private String lastName;

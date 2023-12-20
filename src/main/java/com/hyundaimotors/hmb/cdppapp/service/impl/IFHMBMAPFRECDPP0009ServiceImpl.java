@@ -38,6 +38,8 @@ public class IFHMBMAPFRECDPP0009ServiceImpl implements IFHMBMAPFRECDPP0009Servic
             
             String protocol = mapper.resGetProtocolId(procId);
             resultDto.setProtocol(protocol);
+            resultDto.setRowId(procId);
+            resultDto.setCheckCu("update");
             resultDto.setErrorSpcCode("0");
             resultDto.setErrorSpcMessage("OK");
             
@@ -56,12 +58,23 @@ public class IFHMBMAPFRECDPP0009ServiceImpl implements IFHMBMAPFRECDPP0009Servic
             mapper.transferReplica(map);
 
             String protocol = mapper.resGetProtocolId(procId);
+            resultDto.setRowId(procId);
             resultDto.setProtocol(protocol);
+            resultDto.setCheckCu("insert");
             resultDto.setErrorSpcCode("0");
             resultDto.setErrorSpcMessage("OK");
 
         }           
         
         return resultDto;
+    }
+
+    public void insertDPObject(IFHMBMAPFRECDPP0009Dto dto)throws Exception{
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("PARAM_ID", dto.getRowId());
+        map.put("checkcu", dto.getCheckCu());
+        
+        mapper.transferDPProcess(map);
     }
 }

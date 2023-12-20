@@ -193,6 +193,7 @@ public class RetrieveTicketId {
     public String detailDescription;
     public String attachName;
     public String attachCreationDate;
+    public String attachId;
 
     public String raModerationRequestMessage;
     public String raModerationResponseMessage;

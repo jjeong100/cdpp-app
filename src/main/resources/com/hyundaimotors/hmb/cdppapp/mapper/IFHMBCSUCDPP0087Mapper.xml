@@ -16,7 +16,7 @@
             , pac.personemail as emailAddress
             , pac.amount_friends as amountFriends
             , pac.amount_children as amountChildren
-            , pac.optinflag__c as loyaltyOPTINFla
+            , case when pac.optinflag__c = true then 'Y' else 'N' end as loyaltyOPTINFla
             , pac.loyaltyactivationdate__c as loyaltyActivationDate
             , pac.loyaltyexpirationtodate__c as loyaltyExpirationDate
             , pac.loyaltyengagementindex__c as loyaltyEngagementIndex
@@ -33,13 +33,26 @@
             , pac.billingstate as state
             , pac.billingpostalcode as postalCode
             , pac.numeric_row_id as numericRowId
-            , pac.emailoptyn__pc as suppressAllEmails
+            , case when pac.emailoptyn__pc = true then 'Y' else 'N' end suppressAllEmails
+            , case when pac.calloptyn__pc = true then 'Y' else 'N' end SuppressAllCalls
+            , case when pac.directmailoptyn__pc = true then 'Y' else 'N' end SuppressAllMailings
+            , case when pac.x_printed_card__c = true then 'Y' else 'N' end SuppressAllVideoCall
+            , case when pac.blockedwhatsapp__c = true then 'Y' else 'N' end SuppressAllWhatsapp
+            , case when pac.blockedmobile__c = true then 'Y' else 'N' end SuppressAllMobile
             , pac.blockedsms__c as suppressAllSMS
-            , pac.x_printed_card__c as printedCard
+            , case when pac.x_printed_card__c = true then 'Y' else 'N' end printedCard
         from
             process.account pac 
         where 
-            pac.row_id = #{contactId}
+            1=1
+        <if test="contactId != null and contactId != ''">   
+            and
+                pac.row_id = #{contactId}
+        </if>
+        <if test="cpf != null and cpf != ''">       
+            and
+                pac.cpf__c = #{cpf}
+        </if>
     </select>
 
     <select id="getVehicleList" parameterType="IFHMBCSUCDPP0087Dto" resultType="SearchAutoVehicleDto">
@@ -90,22 +103,42 @@
 
     <select id="getCSISurveyList" parameterType="IFHMBCSUCDPP0087Dto" resultType="SearchCSISurveyDto">
         select
-            pam.integration_id as integrationId
-            , pam.asset_id as assetId
-            , pas.serialnumber
-            , (select dealercode__c from process.account where row_id = pam.dealer_id) as dealerCustomerSap
-            , pam.research_date as date
-            , pam.status as status
-            , pam.research_name as description
-            , pam.sra_sr_id as spId
-            , pas.serialnumber as srNumber
+        pam.integration_id as integrationId
+        , pam.asset_id as assetId
+        , pas.serialnumber
+        , (select dealercode__c from process.account where row_id = pam.dealer_id) as dealerCustomerSap
+        , pam.research_date as date
+        , pam.status as status
+        , pam.research_name as description
+        , pam.sra_sr_id as spId
+        , psr.protocol__c as srNumber
         from 
             process.amaro pam
         left join
             process.asset pas
         on
             pam.asset_id = pas.row_id 
+        left join 
+            process.service_request psr 
+        on
+            pam.sra_sr_id = psr.row_id 
         where 
             pas.serialnumber = #{serialNumber}
+    </select>
+
+    <select id="getServiceRequestList" parameterType="IFHMBCSUCDPP0087Dto" resultType="SearchServiceRequestContactDto">
+        select 
+            legacycreateddate__c as srCreated
+            , protocol__c as srNumber
+            , dealercode__c as dealerCode
+            , relatedmodel__c as modelCar
+            , version__c as vehicleVersion
+            , quote_color__c as vehicleColor
+            , quotetransmission__c as engTrans
+            , voc_class as area
+        from
+            process.service_request psr
+        where
+            contact_row_id__c = #{contactId}
     </select>
 </mapper>

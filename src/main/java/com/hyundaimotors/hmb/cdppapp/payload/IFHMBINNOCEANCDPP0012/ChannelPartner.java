@@ -5,6 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +22,7 @@ public class ChannelPartner {
     @JsonProperty("CNPJ")
     private String cnpj;
     @Schema(description = "Company name", example = "Motonet Comercio de Veiculos M")
-    @NotNull
+    @NotNull @NotBlank @NotEmpty
     @JsonProperty("Name")
     private String name;
     @Schema(description = "Company nickname", example = "Abr 00E3o Reze - Sorocaba")
@@ -36,7 +38,7 @@ public class ChannelPartner {
     @JsonProperty("DealerType")
     private String dealerType;
     @Schema(description = "Dealer Code", example = "B05AM99999")
-    @NotNull
+    @NotNull @NotBlank @NotEmpty
     @JsonProperty("DealerCode")
     private String dealerCode;
     @Schema(description = "Main phone.", example = "2345678")

@@ -36,10 +36,9 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
     
     private ModelMapper defaultMapper;
 
-    // 매 시간 실행 (크론 표현식)
+    // 매 시간 실행 (크론 표현식) 
     //@Scheduled(cron = "0 */5 * * * *")
     public void getAllTicket() throws ParseException {
-        System.out.println("GateWayAllTicket!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         
         ModelMapper modelMapper = new ModelMapper();
 
@@ -48,7 +47,7 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
         // 현재 날짜 구하기(Paris)
         LocalDate brazilNow = LocalDate.now(ZoneId.of("America/Sao_Paulo"));
 
-        String brazilDate = "?date=\'"+String.valueOf(brazilNow)+"\'";
+        String brazilDate = "?date=\'"+brazilNow+"\'";
         
         // REST API 호출 및 데이터 처리 로직
         HttpClient client = HttpClient.newHttpClient();
@@ -69,15 +68,12 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             int statusCode = response.statusCode();
             String responseBody = response.body();
-
-            //String responseBody = "{\"data\": [{ \"id\": 0,\"source_external_id\": \"0\",\"can_like\": false,\"commentary\": false,\"creation_date\": \"2020-10-19T14:58:18.000Z\",\"insertion_date\": \"2020-10-19T14:58:34.000Z\",\"complaint_title\": \"string\",\"filed\": false,\"last_modification_date\": \"2020-10-27T17:40:41.000Z\",\"closed_date\": \"2020-10-27T17:40:41.000Z\",\"request_moderation\": true,\"request_evaluation\": false,\"frozen\": false,\"complaint_content\": \"string\",\"ra_reason\": \"string\",\"ra_feeling\": \"string\",\"complaint_response_content\": \"string\",\"complaint_response_date\": \"2020-10-26T12:45:15.000Z\",\"interactions_count\": 0,\"interactions_not_readed_count\": 0,\"resolved_issue\": false,\"back_doing_business\": true,\"consumer_consideration\": \"string\",\"consumer_consideration_date\": \"2020-10-26T13:24:42.000Z\",\"company_consideration\": \"string\",\"company_consideration_date\": \"2020-10-27T17:38:42.000Z\",\"private_treatment_time\": \"string\",\"public_treatment_time\": \"0\",\"rating_time\": \"0\",\"rating\": \"111\",\"rating_date\": \"2020-10-26T13:24:42.000Z\",\"comments_count\": 0,\"redistributions_count\": 0,\"redistributions_reason\": \"string\",\"ticket_moderations_count\": 0,\"ticket_messages_count\": 0,\"last_replica_date\": \"2020-10-27T17:38:42.000Z\",\"contact_us\": \"string\",\"rating_without_response\": false,\"hugme_ticket_type\": \"string\",\"customer_interactions_count\": 0,\"company_interactions_count\": 0,\"company\": \"H\"},{ \"id\": 0,\"source_external_id\": \"1\",\"can_like\": false,\"commentary\": false,\"creation_date\": \"2020-10-19T14:58:18.000Z\",\"insertion_date\": \"2020-10-19T14:58:34.000Z\",\"complaint_title\": \"string\",\"filed\": false,\"last_modification_date\": \"2020-10-27T17:40:41.000Z\",\"closed_date\": \"2020-10-27T17:40:41.000Z\",\"request_moderation\": true,\"request_evaluation\": false,\"frozen\": false,\"complaint_content\": \"string\",\"ra_reason\": \"string\",\"ra_feeling\": \"string\",\"complaint_response_content\": \"string\",\"complaint_response_date\": \"2020-10-26T12:45:15.000Z\",\"interactions_count\": 0,\"interactions_not_readed_count\": 0,\"resolved_issue\": false,\"back_doing_business\": true,\"consumer_consideration\": \"string\",\"consumer_consideration_date\": \"2020-10-26T13:24:42.000Z\",\"company_consideration\": \"string\",\"company_consideration_date\": \"2020-10-27T17:38:42.000Z\",\"private_treatment_time\": \"string\",\"public_treatment_time\": \"0\",\"rating_time\": \"0\",\"rating\": \"111\",\"rating_date\": \"2020-10-26T13:24:42.000Z\",\"comments_count\": 0,\"redistributions_count\": 0,\"redistributions_reason\": \"string\",\"ticket_moderations_count\": 0,\"ticket_messages_count\": 0,\"last_replica_date\": \"2020-10-27T17:38:42.000Z\",\"contact_us\": \"string\",\"rating_without_response\": false,\"hugme_ticket_type\": \"string\",\"customer_interactions_count\": 0,\"company_interactions_count\": 0,\"company\": \"H\"},{ \"id\": 0,\"source_external_id\": \"2\",\"can_like\": false,\"commentary\": false,\"creation_date\": \"2020-10-19T14:58:18.000Z\",\"insertion_date\": \"2020-10-19T14:58:34.000Z\",\"complaint_title\": \"string\",\"filed\": false,\"last_modification_date\": \"2020-10-27T17:40:41.000Z\",\"closed_date\": \"2020-10-27T17:40:41.000Z\",\"request_moderation\": true,\"request_evaluation\": false,\"frozen\": false,\"complaint_content\": \"string\",\"ra_reason\": \"string\",\"ra_feeling\": \"string\",\"complaint_response_content\": \"string\",\"complaint_response_date\": \"2020-10-26T12:45:15.000Z\",\"interactions_count\": 0,\"interactions_not_readed_count\": 0,\"resolved_issue\": false,\"back_doing_business\": true,\"consumer_consideration\": \"string\",\"consumer_consideration_date\": \"2020-10-26T13:24:42.000Z\",\"company_consideration\": \"string\",\"company_consideration_date\": \"2020-10-27T17:38:42.000Z\",\"private_treatment_time\": \"string\",\"public_treatment_time\": \"0\",\"rating_time\": \"0\",\"rating\": \"111\",\"rating_date\": \"2020-10-26T13:24:42.000Z\",\"comments_count\": 0,\"redistributions_count\": 0,\"redistributions_reason\": \"string\",\"ticket_moderations_count\": 0,\"ticket_messages_count\": 0,\"last_replica_date\": \"2020-10-27T17:38:42.000Z\",\"contact_us\": \"string\",\"rating_without_response\": false,\"hugme_ticket_type\": \"string\",\"customer_interactions_count\": 0,\"company_interactions_count\": 0,\"company\": \"H\"},{ \"id\": 0,\"source_external_id\": \"3\",\"can_like\": false,\"commentary\": false,\"creation_date\": \"2020-10-19T14:58:18.000Z\",\"insertion_date\": \"2020-10-19T14:58:34.000Z\",\"complaint_title\": \"string\",\"filed\": false,\"last_modification_date\": \"2020-10-27T17:40:41.000Z\",\"closed_date\": \"2020-10-27T17:40:41.000Z\",\"request_moderation\": true,\"request_evaluation\": false,\"frozen\": false,\"complaint_content\": \"string\",\"ra_reason\": \"string\",\"ra_feeling\": \"string\",\"complaint_response_content\": \"string\",\"complaint_response_date\": \"2020-10-26T12:45:15.000Z\",\"interactions_count\": 0,\"interactions_not_readed_count\": 0,\"resolved_issue\": false,\"back_doing_business\": true,\"consumer_consideration\": \"string\",\"consumer_consideration_date\": \"2020-10-26T13:24:42.000Z\",\"company_consideration\": \"string\",\"company_consideration_date\": \"2020-10-27T17:38:42.000Z\",\"private_treatment_time\": \"string\",\"public_treatment_time\": \"0\",\"rating_time\": \"0\",\"rating\": \"111\",\"rating_date\": \"2020-10-26T13:24:42.000Z\",\"comments_count\": 0,\"redistributions_count\": 0,\"redistributions_reason\": \"string\",\"ticket_moderations_count\": 0,\"ticket_messages_count\": 0,\"last_replica_date\": \"2020-10-27T17:38:42.000Z\",\"contact_us\": \"string\",\"rating_without_response\": false,\"hugme_ticket_type\": \"string\",\"customer_interactions_count\": 0,\"company_interactions_count\": 0,\"company\": \"H\"},{ \"id\": 0,\"source_external_id\": \"4\",\"can_like\": false,\"commentary\": false,\"creation_date\": \"2020-10-19T14:58:18.000Z\",\"insertion_date\": \"2020-10-19T14:58:34.000Z\",\"complaint_title\": \"string\",\"filed\": false,\"last_modification_date\": \"2020-10-27T17:40:41.000Z\",\"closed_date\": \"2020-10-27T17:40:41.000Z\",\"request_moderation\": true,\"request_evaluation\": false,\"frozen\": false,\"complaint_content\": \"string\",\"ra_reason\": \"string\",\"ra_feeling\": \"string\",\"complaint_response_content\": \"string\",\"complaint_response_date\": \"2020-10-26T12:45:15.000Z\",\"interactions_count\": 0,\"interactions_not_readed_count\": 0,\"resolved_issue\": false,\"back_doing_business\": true,\"consumer_consideration\": \"string\",\"consumer_consideration_date\": \"2020-10-26T13:24:42.000Z\",\"company_consideration\": \"string\",\"company_consideration_date\": \"2020-10-27T17:38:42.000Z\",\"private_treatment_time\": \"string\",\"public_treatment_time\": \"0\",\"rating_time\": \"0\",\"rating\": \"111\",\"rating_date\": \"2020-10-26T13:24:42.000Z\",\"comments_count\": 0,\"redistributions_count\": 0,\"redistributions_reason\": \"string\",\"ticket_moderations_count\": 0,\"ticket_messages_count\": 0,\"last_replica_date\": \"2020-10-27T17:38:42.000Z\",\"contact_us\": \"string\",\"rating_without_response\": false,\"hugme_ticket_type\": \"string\",\"customer_interactions_count\": 0,\"company_interactions_count\": 0,\"company\": \"H\"},{ \"id\": 0,\"source_external_id\": \"5\",\"can_like\": false,\"commentary\": false,\"creation_date\": \"2020-10-19T14:58:18.000Z\",\"insertion_date\": \"2020-10-19T14:58:34.000Z\",\"complaint_title\": \"string\",\"filed\": false,\"last_modification_date\": \"2020-10-27T17:40:41.000Z\",\"closed_date\": \"2020-10-27T17:40:41.000Z\",\"request_moderation\": true,\"request_evaluation\": false,\"frozen\": false,\"complaint_content\": \"string\",\"ra_reason\": \"string\",\"ra_feeling\": \"string\",\"complaint_response_content\": \"string\",\"complaint_response_date\": \"2020-10-26T12:45:15.000Z\",\"interactions_count\": 0,\"interactions_not_readed_count\": 0,\"resolved_issue\": false,\"back_doing_business\": true,\"consumer_consideration\": \"string\",\"consumer_consideration_date\": \"2020-10-26T13:24:42.000Z\",\"company_consideration\": \"string\",\"company_consideration_date\": \"2020-10-27T17:38:42.000Z\",\"private_treatment_time\": \"string\",\"public_treatment_time\": \"0\",\"rating_time\": \"0\",\"rating\": \"111\",\"rating_date\": \"2020-10-26T13:24:42.000Z\",\"comments_count\": 0,\"redistributions_count\": 0,\"redistributions_reason\": \"string\",\"ticket_moderations_count\": 0,\"ticket_messages_count\": 0,\"last_replica_date\": \"2020-10-27T17:38:42.000Z\",\"contact_us\": \"string\",\"rating_without_response\": false,\"hugme_ticket_type\": \"string\",\"customer_interactions_count\": 0,\"company_interactions_count\": 0,\"company\": \"H\"}] }";
             
             JSONObject jsonObj = (JSONObject) new JSONParser().parse(responseBody);
 
             JSONArray jsonArr = (JSONArray) jsonObj.get("data");
 
             List<RetrieveTicketId> ticketList = new ArrayList<RetrieveTicketId>();
-            System.out.println("jsonArr :::: " + jsonArr);
             for(Object arr : jsonArr) {
                 JSONObject obj = (JSONObject) arr;
 
@@ -142,10 +138,21 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
 
                 if(obj.containsKey("moderation")){
                     moderation = (JSONObject) obj.get("moderation");
-                    if(moderation.containsKey("status"))retrieveTicketId.setModerationStatus(String.valueOf(moderation.get("status")));
-                    if(moderation.containsKey("reason"))retrieveTicketId.setModerationReason(String.valueOf(moderation.get("reason")));
-                    if(moderation.containsKey("request_date")&& moderation.containsValue("request_date"))retrieveTicketId.setModerationRequestDate(String.valueOf(moderation.get("request_date")));
-                    if(moderation.containsKey("response_date")&& moderation.containsValue("response_date"))retrieveTicketId.setModerationResponseDate(String.valueOf(moderation.get("response_date")));
+                    if(moderation.get("status") != null){
+                        if(moderation.containsKey("status"))retrieveTicketId.setModerationStatus(String.valueOf(moderation.get("status")));
+                    }
+
+                    if(moderation.get("reason") != null){
+                        if(moderation.containsKey("reason"))retrieveTicketId.setModerationReason(String.valueOf(moderation.get("reason")));
+                    }
+
+                    if(moderation.get("request_date") != null){
+                        if(moderation.containsKey("request_date")&& moderation.containsValue("request_date"))retrieveTicketId.setModerationRequestDate(String.valueOf(moderation.get("request_date")));
+                    }
+                    
+                    if(moderation.get("response_date") != null){
+                        if(moderation.containsKey("response_date")&& moderation.containsValue("response_date"))retrieveTicketId.setModerationResponseDate(String.valueOf(moderation.get("response_date")));
+                    }
                 }
                 
                 if(obj.containsKey("ra")){
@@ -177,10 +184,11 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
                 }
                 JSONArray attached = (JSONArray) obj.get("attached");
                 if(0 < attached.size()){
-                    attach = (JSONObject)attached.get(attached.size()-1);
+                    attach = (JSONObject)attached.get(0);
                     if(attach.containsKey("detail_description"))retrieveTicketId.setDetailDescription(String.valueOf(attach.get("detail_description")));
                     if(attach.containsKey("creation_date"))retrieveTicketId.setAttachCreationDate(String.valueOf(attach.get("creation_date")));
                     if(attach.containsKey("name"))retrieveTicketId.setAttachName(String.valueOf(attach.get("name")));
+                    if(attach.containsKey("id"))retrieveTicketId.setAttachId(String.valueOf(attach.get("id")));
                 }
                 JSONArray jsonInteractions = (JSONArray) obj.get("interactions");
                 if(0 < jsonInteractions.size()){
@@ -192,16 +200,22 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
                             if(obj.containsKey("complaint_content"))retrieveTicketId.setComplaintContent(String.valueOf(obj.get("complaint_content")));
                             //retrieveTicketId.setMessage("Manifestation answer");
                         }else if(2 == retrieveTicketId.getTicketInteractionTypeId()){
+                        	int temp = retrieveTicketId.getTicketInteractionTypeId();
                             //retrieveTicketId.setMessage("Answer");
                         }else if(3 == retrieveTicketId.getTicketInteractionTypeId()){
+                        	int temp = retrieveTicketId.getTicketInteractionTypeId();
                             //retrieveTicketId.setMessage("Private Message - Company");
                         }else if(4 == retrieveTicketId.getTicketInteractionTypeId()){
+                        	int temp = retrieveTicketId.getTicketInteractionTypeId();
                             //retrieveTicketId.setMessage("Tweet");
                         }else if(5 == retrieveTicketId.getTicketInteractionTypeId()){
+                        	int temp = retrieveTicketId.getTicketInteractionTypeId();
                             //retrieveTicketId.setMessage("Facebook Post");
                         }else if(6 == retrieveTicketId.getTicketInteractionTypeId()){
+                        	int temp = retrieveTicketId.getTicketInteractionTypeId();
                             //retrieveTicketId.setMessage("Private Message - Consumer");
                         }else if(7 == retrieveTicketId.getTicketInteractionTypeId()){
+                        	int temp = retrieveTicketId.getTicketInteractionTypeId();
                             //retrieveTicketId.setMessage("Third Party Comment");
                         }else if(8 == retrieveTicketId.getTicketInteractionTypeId()){
                             retrieveTicketId.setRaModerationRequestMessage("Mediation Request");
@@ -212,8 +226,10 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
                             //if(interactions.containsKey("message"))retrieveTicketId.setRaModerationResponseMessage(String.valueOf(interactions.get("message")));
                             //retrieveTicketId.setMessage("Mediation Response");
                         }else if(10 == retrieveTicketId.getTicketInteractionTypeId()){
+                        	int temp = retrieveTicketId.getTicketInteractionTypeId();
                             //retrieveTicketId.setMessage("Redistribution");
                         }else if(11 == retrieveTicketId.getTicketInteractionTypeId()){
+                        	int temp = retrieveTicketId.getTicketInteractionTypeId();
                             //retrieveTicketId.setMessage("Evaluation");
                         }
                     }
@@ -245,7 +261,7 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
                     if(0 < rg.size()){
                         retrieveTicketId.setRg(String.valueOf(rg.get(0)));
                     }
-                    JSONArray gender = (JSONArray) customer.get("cpf");
+                    JSONArray gender = (JSONArray) customer.get("gender");
                     if(0 < gender.size()){
                         retrieveTicketId.setGender(String.valueOf(gender.get(0)));
                     }
@@ -303,8 +319,16 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
                 if(obj.containsKey("interactions_not_readed_count"))retrieveTicketId.setInteractionsNotReadedCount(Integer.parseInt(String.valueOf(obj.get("interactions_not_readed_count"))));
                 if(obj.containsKey("resolved_issue"))retrieveTicketId.setResolvedIssue(String.valueOf(obj.get("resolved_issue")));
                 if(obj.containsKey("back_doing_business"))retrieveTicketId.setBackDoingBusiness(String.valueOf(obj.get("back_doing_business")));
-                if(obj.containsKey("consumer_consideration"))retrieveTicketId.setConsumerConsideration(String.valueOf(obj.get("consumer_consideration")));
-                if(obj.containsKey("consumer_consideration_date") && obj.containsValue("consumer_consideration_date"))retrieveTicketId.setConsumerConsiderationDate(String.valueOf(obj.get("consumer_consideration_date")));
+                
+                if(obj.get("consumer_consideration") != null){
+                    if(obj.containsKey("consumer_consideration"))retrieveTicketId.setConsumerConsideration(String.valueOf(obj.get("consumer_consideration")));
+                }
+                
+                if(obj.get("consumer_consideration_date") != null){
+                    if(obj.containsKey("consumer_consideration_date"))retrieveTicketId.setConsumerConsiderationDate(String.valueOf(obj.get("consumer_consideration_date")));
+                }    
+                
+                //if(obj.containsKey("consumer_consideration_date") && obj.containsValue("consumer_consideration_date"))retrieveTicketId.setConsumerConsiderationDate(String.valueOf(obj.get("consumer_consideration_date")));
                 if(obj.containsKey("company_consideration"))retrieveTicketId.setCompanyConsideration(String.valueOf(obj.get("company_consideration")));
                 if(obj.containsKey("company_consideration_date") && obj.containsValue("company_consideration_date"))retrieveTicketId.setCompanyConsiderationDate(String.valueOf(obj.get("company_consideration_date")));
                 if(obj.containsKey("private_treatment_time"))retrieveTicketId.setPrivateTreatmentTime(String.valueOf(obj.get("private_treatment_time")));
@@ -340,10 +364,7 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
             }
             
             
-            System.out.println("HTTP Status Code: " + statusCode);
-            System.out.println("Response Body: " + responseBody);
-            System.out.println("jsonArr: " + jsonArr);
-            System.out.println("ticketList: " + ticketList);
+ 
 
             IFHMBRECLAMEAQUICDPP0096Payload.Response payload = new IFHMBRECLAMEAQUICDPP0096Payload.Response();
 
@@ -372,7 +393,6 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
         
         BodyPublisher body = BodyPublishers.ofString(params);
 
-        System.out.println("Token params: " + params);
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(endPoint))
                 .setHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -388,14 +408,12 @@ public class IFHMBRECLAMEAQUICDPP0096OutPut {
 
         responseBody = response.body();
         
-        System.out.println("Token HTTP Status Code: " + statusCode);
-        System.out.println("Token Response Body: " + responseBody);
+     
         JSONObject jsonObj = (JSONObject) new JSONParser().parse(responseBody);
 
         accessToken = String.valueOf(jsonObj.get("access_token"));
 
         } catch (IOException | InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         

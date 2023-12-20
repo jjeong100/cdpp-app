@@ -55,6 +55,7 @@ public class TotalLeadDto {
     private String quotePrice;
     private String quoteReplaceIntention;
     private String contactRowId;
+    private String strId;
    // List<TotalContactDto> contact;
 
     TotalContactDto contact;

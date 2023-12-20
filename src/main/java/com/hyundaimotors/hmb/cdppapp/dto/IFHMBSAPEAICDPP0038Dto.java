@@ -31,6 +31,7 @@ public class IFHMBSAPEAICDPP0038Dto {
     List<Temperature> listOfTemperature;
     List<Interaction> listOfInteraction;
     private String actionId;
+    List<String> actionIdArray;
     private String ErrorSpcCode;
     private String ErrorSpcMessage;
 }

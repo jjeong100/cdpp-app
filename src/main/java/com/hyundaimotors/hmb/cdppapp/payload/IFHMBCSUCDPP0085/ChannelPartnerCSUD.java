@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ChannelPartnerCSUD {
-    @JsonProperty("IntegrationId")
+    @JsonProperty("HMBIntegrationId")
     private String integrationId;
     @JsonProperty("Name")
     private String name;
@@ -16,23 +16,23 @@ public class ChannelPartnerCSUD {
     private String nickName;
     @JsonProperty("DealerCode")
     private String dealerCode;
-    @JsonProperty("MainPhone")
+    @JsonProperty("Telephone")
     private String mainPhone;
-    @JsonProperty("WhatsappPhoneNumber")
+    @JsonProperty("Whatsapp")
     private String whatsappPhoneNumber;
-    @JsonProperty("StreetAddress")
+    @JsonProperty("Address")
     private String streetAddress;
-    @JsonProperty("StreetAddress2")
+    @JsonProperty("Number")
     private String streetAddress2;
-    @JsonProperty("StreetAddress3")
+    @JsonProperty("Complement")
     private String streetAddress3;
     @JsonProperty("City")
     private String city;
     @JsonProperty("State")
     private String state;
-    @JsonProperty("Neighborhood")
+    @JsonProperty("County")
     private String neighborhood;
-    @JsonProperty("ZipCode")
+    @JsonProperty("Cep")
     private String zipCode;
     @JsonProperty("PartyId")
     private String partyId;

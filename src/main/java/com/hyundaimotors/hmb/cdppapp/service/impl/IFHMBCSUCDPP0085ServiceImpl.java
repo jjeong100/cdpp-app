@@ -1,7 +1,6 @@
 package com.hyundaimotors.hmb.cdppapp.service.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -21,39 +20,26 @@ public class IFHMBCSUCDPP0085ServiceImpl implements IFHMBCSUCDPP0085Service{
 
     private final IFHMBCSUCDPP0085Mapper mapper;
     
-    public IFHMBCSUCDPP0085Dto insertObject(IFHMBCSUCDPP0085Dto dto)throws Exception{
+    public IFHMBCSUCDPP0085Dto getObject(IFHMBCSUCDPP0085Dto dto)throws Exception{
+       IFHMBCSUCDPP0085Dto resultDto = new IFHMBCSUCDPP0085Dto();
 
-        IFHMBCSUCDPP0085Dto resulDto = new IFHMBCSUCDPP0085Dto();
+       List<ChannelPartnerCSUDto> channelPartnerDto = new ArrayList<ChannelPartnerCSUDto>();
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("param_id", String.valueOf(dto.getVcep()));
-        if("Y".equalsIgnoreCase(dto.getVService())){
-            map.put("saleorservice", "service");
-        }else{
-            map.put("saleorservice", "sales");
-        }
-        
+       channelPartnerDto = mapper.getChannelPartnerCtiIoList(dto);
+       resultDto.setChannelPartner(channelPartnerDto);
 
-        String dealerId = mapper.getDealerId(map);
-
-        dto.setObjectSpcId(dealerId);
-
-        ChannelPartnerCSUDto channelPartnerDto = new ChannelPartnerCSUDto();
-
-        channelPartnerDto = mapper.getChannelObject(dto);
-
-        if(channelPartnerDto != null){
-            resulDto.setChannelPartner(channelPartnerDto);
-
-            resulDto.setObjectSpcId(dto.getObjectSpcId());
-            resulDto.setProcessSpcInstanceSpcId(dto.getVcep());
-            resulDto.setErrorSpcCode("0");
-            resulDto.setErrorSpcMessage("OK");
-        }else{
-            resulDto.setErrorSpcCode("1");
-            resulDto.setErrorSpcMessage("Fail");
-        }
-        
-        return resulDto;
+       if(channelPartnerDto != null){
+           resultDto.setChannelPartner(channelPartnerDto);
+   
+           resultDto.setObjectSpcId(dto.getObjectSpcId());
+           resultDto.setProcessSpcInstanceSpcId(dto.getVcep());
+           resultDto.setErrorSpcCode("0");
+           resultDto.setErrorSpcMessage("OK");
+       }else{
+           resultDto.setErrorSpcCode("1");
+           resultDto.setErrorSpcMessage("Fail");
+       }
+       
+       return resultDto;
     }
 }

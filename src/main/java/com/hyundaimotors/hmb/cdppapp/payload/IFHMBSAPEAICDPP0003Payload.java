@@ -26,6 +26,7 @@ public class IFHMBSAPEAICDPP0003Payload {
         @Schema(description = "Connex product type. It must be a literal value for the purpose of this project: Vehicle.", example = "Vehicle")
         @NotNull @NotBlank @NotEmpty
         @JsonProperty("Type")
+        @NotNull @NotBlank @NotEmpty
         private String type;
         @Schema(description = "Vehicle description: E.g.:", example = "HB20 1.6L COMFORT PLUS MT")
         @JsonProperty("Part")

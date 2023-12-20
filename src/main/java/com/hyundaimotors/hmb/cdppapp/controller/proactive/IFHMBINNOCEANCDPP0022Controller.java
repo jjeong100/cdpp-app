@@ -56,6 +56,8 @@ public class IFHMBINNOCEANCDPP0022Controller {
     
             response = ObjectUtils.isNotEmpty(resultDto) ? defaultMapper.map(resultDto, IFHMBINNOCEANCDPP0022Payload.Response.class) : null;
             ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response));
+
+            service.insertDPObject(resultDto);
         }catch(Exception e) {
             response.setErrorSpcCode("500");
             response.setErrorSpcMessage(e.getLocalizedMessage());

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class IFHMBINNOCEANCDPP0022Dto {
     private String holyRowId;
+    private String OperCheck;
     private String accntRowId;
     private String rowId;
     private String name;

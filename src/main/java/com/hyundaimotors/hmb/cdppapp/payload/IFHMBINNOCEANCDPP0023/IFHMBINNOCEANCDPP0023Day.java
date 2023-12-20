@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 public class IFHMBINNOCEANCDPP0023Day {
     @Schema(description = "Day name. Possible values are: Sunday ~ Saturday ", example = "Friday")
+    @NotNull @NotBlank @NotEmpty
     @JsonProperty("day-name")
     @NotNull @NotBlank @NotEmpty
     private String dayName;

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBINNOCEANCDPP0037.UpdateContactInputDto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -114,7 +113,7 @@ public class IFHMBINNOCEANCDPP0037Payload {
         @JsonProperty("HMBPrintedCard")
         private String hmbPrintedCard;
 
-        @Valid @JsonProperty("ListOfAutoVehicle")
+        @JsonProperty("ListOfAutoVehicle")
         List<ListOfAutoVehicle> listOfAutoVehicle;
         @JsonProperty("ListOfContactSocialMedia")
         List<ListOfContactSocialMedia> listOfContactSocialMedia;

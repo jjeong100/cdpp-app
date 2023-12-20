@@ -4,43 +4,52 @@
 
     <select id="getRowId" parameterType="IFHMBINNOCEANCDPP0013Dto" resultType="String">
         select 
-            row_id as getRowId
-        from 
-            process.account 
-        where 
-            "name" = #{name} 
-        and 
-            dealercode__c = #{dealerCode}
+            a.row_id
+		from 
+            process.account a 
+		where 
+            1=1
+        <choose>
+            <when test="cnpj != null and cnpj != ''">
+                and corporateregistrationnumber__c = #{cnpj}
+            </when>
+            <otherwise>
+                and lower(trim(name)) = lower(trim(#{name}))
+                and phone = #{mainPhone}
+                and emailaddress__c = #{mainEmailAddress}
+            </otherwise>
+        </choose>
         limit 1
+        <!-- <if test="cnpj != null or cnpj != ''">and corporateregistrationnumber__c = #{cnpj}</if>
+        <if test="name != null or name != ''">and lower(trim(name)) = lower(trim(#{name}))</if>
+        <if test="mainPhone != null or  mainPhone != ''">and phone = #{mainPhone}</if>
+        <if test="mainEmailAddress != null or  mainEmailAddress != ''">and emailaddress__c = #{mainEmailAddress}</if> -->
     </select>
 
-    <select id="getContactIdByCpf" parameterType="ListOfContactsDto" resultType="String">
-        select
-            row_id as getContactIdByCpf
-        from
-            process.contact
-        where  
-            cpf__c = #{cpf}   
-        and
-            account_row_id = #{accntRowId}
-        limit 1                     
-    </select>
-
+    
     <select id="getContactId" parameterType="ListOfContactsDto" resultType="String">
-        select
-            row_id as getContactId
-        from
+        select 
+            row_id
+        from 
             process.contact
-            where 
-            firstname = #{firstName}
-        and
-            lastname = #{lastName}
-        and
-            email = #{emailAddress}  
-        and
-            account_row_id = #{accntRowId}   
-        limit 1                
-    </select>
+        where 
+            1=1
+        <choose>
+            <when test=" cpf !=null and cpf !='' ">
+                and cpf__c = #{cpf}
+            </when>
+            <otherwise>
+                and lower(trim(firstname)) = lower(trim(#{firstName}))
+                and lower(trim(lastname))  = lower(trim(#{lastName}))
+                and companyphone__c = #{workPhone}
+                and email      = #{emailAddress}
+            </otherwise>
+        </choose>   
+        <!-- <if test="workPhone != null or  workPhone != ''">and companyphone__c = #{workPhone}</if>
+            <if test="emailAddress != null or emailAddress != ''">and email      = #{emailAddress}</if> -->
+            limit 1               
+        </select>
+
 
     <insert id="insertBusinessAccount" parameterType="IFHMBINNOCEANCDPP0013Dto" useGeneratedKeys="true" keyProperty="rowId" keyColumn="row_id">
         insert into 
@@ -177,13 +186,15 @@
             )  
     </insert>
 
-
     <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
         call process.if_in_channel_partner_inf_wf(#{PARAM_ID}, #{PROC_ACC_ID}, #{CON_ROWID}, #{checkcu});
+    </insert>
+
+    <insert id="transferDPProcess" statementType="CALLABLE" parameterType="hashMap">
+        call process.if_dp_in_channel_partner_inf_wf(#{PROC_ACC_ID}, #{PROC_CON_ID_LIST});
     </insert>
 
     <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
         call replica.if_in_channel_partner_inf_wf(#{PROC_ACC_ID}, #{PROC_CON_ID}, #{checkcu});
     </insert>
-
 </mapper>

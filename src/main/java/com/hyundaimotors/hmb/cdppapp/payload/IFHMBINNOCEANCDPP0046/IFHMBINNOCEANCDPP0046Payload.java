@@ -19,6 +19,7 @@ public class IFHMBINNOCEANCDPP0046Payload {
     @Setter
     public static class Request{
         @Schema(description = "Dealer Code", example = "B05AM99999")
+        @NotNull @NotBlank @NotEmpty
         @JsonProperty("dealer-code")
         @NotNull @NotBlank @NotEmpty
         private String dealerCode;

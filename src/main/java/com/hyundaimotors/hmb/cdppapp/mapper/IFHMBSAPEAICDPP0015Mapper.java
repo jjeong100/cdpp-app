@@ -14,4 +14,6 @@ public interface IFHMBSAPEAICDPP0015Mapper {
     public List<String> getProcessRowIds(List<String> paramList)throws Exception;
 
     public void transferReplica(HashMap<String, String[]> parMap)throws Exception;
+
+    public void transferDPProcess(HashMap<String, String[]> parMap)throws Exception;
 }

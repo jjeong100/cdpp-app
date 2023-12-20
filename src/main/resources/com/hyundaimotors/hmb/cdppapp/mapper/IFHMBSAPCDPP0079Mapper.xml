@@ -69,10 +69,10 @@
                 , #{item.zdesc}
                 , #{item.zqty}
                 , #{item.value}
-                , #{item.erdat}::date
-                , #{item.erzet}::time
-                , #{item.aedat}::date
-                , #{item.aezet}::time
+                , nullif(#{item.erdat},'')::date
+                , nullif(#{item.erzet},'')::time
+                , nullif(#{item.aedat},'')::date
+                , nullif(#{item.aezet},'')::time
             )
         </foreach>
     </insert>
@@ -113,16 +113,29 @@
                 , #{item.zdesc}
                 , #{item.zqty}
                 , #{item.value}
-                , #{item.erdat}::date
-                , #{item.erzet}::time
-                , #{item.aedat}::date
-                , #{item.aezet}::time
+                , nullif(#{item.erdat},'')::date
+                , nullif(#{item.erzet},'')::time
+                , nullif(#{item.aedat},'')::date
+                , nullif(#{item.aezet},'')::time
             )
         </foreach>
     </insert>
 
     <insert id="transferProcess" statementType="CALLABLE" parameterType="hashMap">
         call process.if_in_repair_order(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
+    </insert>
+
+    <select id="getAssetRowId" parameterType="String" resultType="String">
+        select
+            asset_id as assetRowId
+        from
+            process.zhbrsdt1728 zs1728
+        where
+            zs1728.ro_id = #{assetRowId}
+    </select>
+
+    <insert id="transferReplica" statementType="CALLABLE" parameterType="hashMap">
+        call replica.if_in_repair_order(#{PARAM_ID,jdbcType=VARCHAR,mode=IN});
     </insert>
 
 </mapper>

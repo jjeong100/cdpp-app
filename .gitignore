@@ -29,3 +29,6 @@ target/**/*
 
 #launch.json
 launch.json
+/bin/
+/application_log/
+/target/

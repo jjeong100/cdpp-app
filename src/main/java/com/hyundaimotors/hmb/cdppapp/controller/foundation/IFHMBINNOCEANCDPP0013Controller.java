@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hyundaimotors.hmb.cdppapp.dto.IFHMBINNOCEANCDPP0013.IFHMBINNOCEANCDPP0013Dto;
-import com.hyundaimotors.hmb.cdppapp.payload.IFHMBINNOCEANCDPP0002Payload;
 import com.hyundaimotors.hmb.cdppapp.payload.IFHMBINNOCEANCDPP0013.IFHMBINNOCEANCDPP0013Payload;
 import com.hyundaimotors.hmb.cdppapp.service.ApiLogService;
 import com.hyundaimotors.hmb.cdppapp.service.IFHMBINNOCEANCDPP0013Service;
@@ -40,7 +39,7 @@ public class IFHMBINNOCEANCDPP0013Controller {
     private final ModelMapper defaultMapper;
 
     @Operation(summary = "delear Account Insert", description = "delear Account Insert")
-    @ApiResponse(content = @Content(schema = @Schema(implementation = IFHMBINNOCEANCDPP0002Payload.Request.class)))
+    @ApiResponse(content = @Content(schema = @Schema(implementation = IFHMBINNOCEANCDPP0013Payload.Request.class)))
     @PostMapping(value = "/api/v1/HMBInboundChannelPartnerInterfaceWorkflow")
     public Object upsertObject(@Valid @RequestBody IFHMBINNOCEANCDPP0013Payload.Request request) throws Exception {
        UUID IF_TR_ID = UUID.randomUUID();
@@ -56,6 +55,9 @@ public class IFHMBINNOCEANCDPP0013Controller {
        
            response = defaultMapper.map(resultDto, IFHMBINNOCEANCDPP0013Payload.Response.class);
            ApiLog.logApi(logService, IF_ID,ApiLogStep.FINISH, IF_TR_ID, JsonUtils.toJson(response));
+           
+           service.insertDPObject(resultDto);
+           
        }catch(Exception e) {
     	   response.setErrorSpcCode("500");
            response.setErrorSpcMessage(e.getLocalizedMessage());
